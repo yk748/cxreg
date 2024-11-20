@@ -708,7 +708,8 @@ classo.fit <- function(x, y,
 #' \item{nobs}{Number of observations.}
 #' \item{warm_fit}{If \code{save.fit=TRUE}, output of C++ routine, used for
 #' warm starts. For internal use only.}
-#' @useDynLib cglasso .registration = TRUE
+#'
+#' @useDynLib cglasso classocd_warm
 #' @export
 #'
 cl.fit <- function(x, y, weights, lambda,

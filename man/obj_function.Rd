@@ -2,7 +2,7 @@
 % Please edit documentation in R/classoFlex.R
 \name{obj_function}
 \alias{obj_function}
-\title{cglasso objective function value}
+\title{cxreg objective function value}
 \usage{
 obj_function(y, mu, weights, family, lambda, coefficients)
 }
@@ -25,5 +25,5 @@ used in the model. This is the result of a call to a family function.}
 \item{vp}{Penalty factors for each of the coefficients.}
 }
 \description{
-Returns the cglasso objective function value.
+Returns the cxreg objective function value.
 }

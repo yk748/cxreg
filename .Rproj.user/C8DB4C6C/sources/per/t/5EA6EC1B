@@ -1,0 +1,26 @@
+{
+    "id": "5EA6EC1B",
+    "path": "D:/High-dimensional time series/SSPM/cxreg/R/predict.classo.R",
+    "project_path": "R/predict.classo.R",
+    "type": "r_source",
+    "hash": "2631947112",
+    "contents": "",
+    "dirty": false,
+    "created": 1733075824851.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "114,20",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1733096412,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1733096412566,
+    "read_only": false,
+    "read_only_alternatives": []
+}

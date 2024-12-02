@@ -1,19 +1,18 @@
-Package: cglasso
-Title: Exact coordinate descent algorithm for complex-valued Lasso
-Version: 0.0.0.9000
+Package: cxreg
+Title: complex-valued penalized regression (Lasso)
+Version: 0.1.0
 Authors@R: c(
     person("Younghoon", "Kim", , "yk748@cornell.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-0117-5530")),
-    person("Navonil", "Deb", , "nd329@cornell.edu", role = "aut"),
-    person("Sumanta", "Basu", , "sumbose@cornell.edu", role = "aut")
+    person("Navonil", "Deb", role = "aut"),
+    person("Sumanta", "Basu", role = "aut")
   )
+Maintainer: Younghoon Kim <yk748@cornell.edu>
 Description: This package contains glmnet-style complex-valued lasso
     formulation via complex update coordinate descent algorithm and its
     supporting functions. Codes for solving complex graphical Lasso and
     computing entrywise confidence interval will be added soon.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Language: es
-NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

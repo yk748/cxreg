@@ -39,7 +39,7 @@ Default value is \code{1e-7}.}
 (If a warm start object is provided, the number of passes the warm start object
 performed is included.)}
 
-\item{warm}{Either a \code{glmnetfit} object or a list (with names \code{beta}
+\item{warm}{Either a \code{classofit} object or a list (with names \code{beta}
 and \code{a0} containing coefficients and intercept respectively) which can
 be used as a warm start. Default is \code{NULL}, indicating no warm start.
 For internal use only.}
@@ -49,7 +49,7 @@ For internal use only.}
 \item{intercept}{Should intercept set to zero (default=FALSE) or be fitted (TRUE)?}
 }
 \value{
-An object with class "glmnetfit" and "glmnet". The list returned has
+An object with class "classofit" and "classo". The list returned has
 the same keys as that of a \code{glmnet} object, except that it might have an
 additional \code{warm_fit} key.
 \item{a0}{Intercept value.}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/classoFlex.R
 \name{pen_function}
 \alias{pen_function}
-\title{cglasso penalty value}
+\title{classo penalty value}
 \usage{
 pen_function(coefficients)
 }
@@ -10,7 +10,7 @@ pen_function(coefficients)
 \item{coefficients}{The model's coefficients (excluding intercept).}
 }
 \description{
-Returns the cglasso penalty value.
+Returns the classo penalty value.
 }
 \details{
 The penalty is defined as

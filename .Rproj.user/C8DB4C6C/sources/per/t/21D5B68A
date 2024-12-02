@@ -1,0 +1,27 @@
+{
+    "id": "21D5B68A",
+    "path": "D:/High-dimensional time series/SSPM/cxreg/R/lambda.interp.R",
+    "project_path": "R/lambda.interp.R",
+    "type": "r_source",
+    "hash": "1760763865",
+    "contents": "",
+    "dirty": false,
+    "created": 1733081132766.0,
+    "source_on_save": false,
+    "relative_order": 7,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "3,21",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1733081174,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1733081174536,
+    "read_only": false,
+    "read_only_alternatives": []
+}

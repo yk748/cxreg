@@ -2,7 +2,7 @@
 % Please edit documentation in R/classoFlex.R
 \name{dev_function}
 \alias{dev_function}
-\title{cglasso deviance value}
+\title{classo deviance value}
 \usage{
 dev_function(y, mu, weights, family)
 }

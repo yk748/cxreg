@@ -4,7 +4,13 @@
 \alias{predict.classofit}
 \title{Get predictions from a \code{classofit} fit object}
 \usage{
-\method{predict}{classo}(object, newx, s = NULL, type = "link", exact = FALSE)
+\method{predict}{classo}(
+  object,
+  newx,
+  s = NULL,
+  type = c("link", "response", "coefficients", "nonzero"),
+  exact = FALSE
+)
 }
 \arguments{
 \item{object}{Fitted "classofit" object.}
@@ -28,7 +34,7 @@ often a good approximation, it can sometimes be a bit coarse. With
 \code{exact=TRUE}, these different values of \code{s} are merged (and sorted)
 with \code{object$lambda}, and the model is refit before predictions are made.
 In this case, it is required to supply the original data x= and y= as additional
-named arguments to predict() or coef(). The workhorse \code{predict.glmnet()}
+named arguments to predict() or coef(). The workhorse \code{predict.classo()}
 needs to update the model, and so needs the data used to create it. The same
 is true of weights, offset, penalty.factor, lower.limits, upper.limits if
 these were used in the original call. Failure to do so will result in an error.}

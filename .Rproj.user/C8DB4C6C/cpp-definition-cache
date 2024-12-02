@@ -1,14 +1,14 @@
 [
     {
-        "file": "D:/High-dimensional time series/SSPM/cglasso/src/classo_init.cpp",
-        "file_last_write": 1732072451.0,
+        "file": "D:/High-dimensional time series/SSPM/cxreg/src/classo_init.cpp",
+        "file_last_write": 1733154226.0,
         "definitions": [
             {
-                "usr": "c:@F@R_init_cglasso#*$@S@_DllInfo#",
+                "usr": "c:@F@R_init_cxreg#*$@S@_DllInfo#",
                 "kind": 6,
                 "parent_name": "",
-                "name": "R_init_cglasso(DllInfo *)",
-                "file": "D:/High-dimensional time series/SSPM/cglasso/src/classo_init.cpp",
+                "name": "R_init_cxreg(DllInfo *)",
+                "file": "D:/High-dimensional time series/SSPM/cxreg/src/classo_init.cpp",
                 "line": 7,
                 "column": 6,
                 "hidden": false

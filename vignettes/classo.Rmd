@@ -66,9 +66,9 @@ which is a group Lasso with $p$ groups, each of size 2.
 
 ## Installation
 
-Like other R packages on Github, it can be downloaded by the command: \textcolor{red}{YK2SSR: The following chunk is not working since the repo in Github is still in private. This will be open accessible by next week. Please ask me if you need an access the repo.}
+Like other R packages on Github, it can be downloaded by the command:
 
-```{r eval=FALSE}
+```{r, message=FALSE}
 library(devtools)
 devtools::install_github("yk748/cxreg")
 ```

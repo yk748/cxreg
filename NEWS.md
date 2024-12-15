@@ -1,6 +1,6 @@
 # cxreg 0.1.1
 
-*\code{Plot}: changed to display real and imaginary parts separately.
+*\code{plot}: changed to display real and imaginary parts separately.
 
 # cxreg 0.1.0
 

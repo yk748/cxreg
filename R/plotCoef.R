@@ -45,6 +45,7 @@ plotCoef <- function(beta,norm,lambda,df,dev,label=FALSE,
     matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Imaginary)",...)
   }
   par()
+  
   atdf <- pretty(index)
 
   # ------------------------------------------------ #

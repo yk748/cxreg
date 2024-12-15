@@ -1,6 +1,6 @@
 Package: cxreg
 Title: complex-valued penalized regression (Lasso)
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Younghoon", "Kim", , "yk748@cornell.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-0117-5530")),

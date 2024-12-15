@@ -106,7 +106,7 @@ We can visualize the coefficients by executing the 'plot' method:
 plot(fit)
 ```
 
-Each curve corresponds to a variable in complex modulus (i.e., absolute scale). It shows the path of its coefficients in absolute scale against the $\ell$-norm of the whole coefficient vector as $\lambda$ varies. Users may also wish to annotate the curves: this can be done by setting 'label = TRUE' in the plot command.
+Unlike 'glmnet', the real (Re) and imaginary (Im) parts of the coefficients are displayed separately. It shows the path of its coefficients in the two parts separately against the $\ell$-norm of the whole coefficient vector as $\lambda$ varies. Users may also wish to annotate the curves: this can be done by setting 'label = TRUE' in the plot command.
 
 We can obtain the model coefficients at one or more $\lambda$'s within the range of the sequence:
 

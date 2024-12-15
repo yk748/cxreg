@@ -36,13 +36,13 @@ plotCoef <- function(beta,norm,lambda,df,dev,label=FALSE,
   dotlist <- list(...)
   type <- dotlist$type
   if(is.null(type)){
-    par(mfrow=c(2,1))
-    matplot(index,t(Re(beta)),lty=1,xlab=xlab,ylab="Coefficients (Real)",type="l",...)
-    matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Imaginary)",type="l",...)
+    par(mfrow=c(2,1),mar=c(3,4,1,2))
+    matplot(index,t(Re(beta)),lty=1,xlab=xlab,ylab="Coefficients (Re)",type="l",...)
+    matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Im)",type="l",...)
   } else {
-    par(mfrow=c(2,1))
-    matplot(index,t(Re(beta)),lty=1,xlab=xlab,ylab="Coefficients (Real)",...)
-    matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Imaginary)",...)
+    par(mfrow=c(2,1),mar=c(3,4,1,2))
+    matplot(index,t(Re(beta)),lty=1,xlab=xlab,ylab="Coefficients (Re)",...)
+    matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Im)",...)
   }
   par()
   

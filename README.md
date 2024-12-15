@@ -7,7 +7,7 @@ exact coordinate descent algorithm ([2010](#ref-glmnet)) into complex
 analog, by introducing a unique isomorphism. Details may be found in
 Deb, Kuceyeski, and Basu ([2013](#ref-classo)).
 
-Currently, the beta version (0.1.0) is released, and the version
+Currently, the beta version (0.1.1) is released, and the version
 provides the basic functions, including fit, cross-validation, and other
 functions for illustration. We will update the error control and other
 functions for users’ convenience accordingly. Please email Younghoon Kim

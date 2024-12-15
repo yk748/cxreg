@@ -1,5 +1,5 @@
 plotCoef <- function(beta,norm,lambda,df,dev,label=FALSE,
-                     xvar=c("norm","lambda"),xlab=iname,ylab="Coefficients",...){
+                     xvar=c("norm","lambda"),xlab=iname,...){
 
   ##beta should be in "dgCMatrix" format
   which <- nonzeroCoef(beta)
@@ -36,10 +36,15 @@ plotCoef <- function(beta,norm,lambda,df,dev,label=FALSE,
   dotlist <- list(...)
   type <- dotlist$type
   if(is.null(type)){
-    matplot(index,t(abs(beta)),lty=1,xlab=xlab,ylab=ylab,type="l",...)
+    par(mfrow=c(2,1))
+    matplot(index,t(Re(beta)),lty=1,xlab=xlab,ylab="Coefficients (Real)",type="l",...)
+    matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Imaginary)",type="l",...)
   } else {
-    matplot(index,t(abs(beta)),lty=1,xlab=xlab,ylab=ylab,...)
+    par(mfrow=c(2,1))
+    matplot(index,t(Re(beta)),lty=1,xlab=xlab,ylab="Coefficients (Real)",...)
+    matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Imaginary)",...)
   }
+  par()
   atdf <- pretty(index)
 
   # ------------------------------------------------ #

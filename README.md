@@ -19,13 +19,13 @@ bugs/errors have been discovered.
 
 ## References
 
-<div id="refs-classo" class="references">
+<div id="ref-classo" class="references">
 
 Navonil Deb, Amy Kuceyeski, and Sumanta Basu. 2024. “Regularized
 Estimation of Sparse Spectral Precision Matrices.” *arXiv preprint
 arXiv:2401.11128.*. <https://arxiv.org/abs/2401.11128>.
 
-</div>
+<div id="ref-pathwise" class="references">
 
 Jerome Friedman, Trevor Hastie, Holger Hofling, and Robert Tibshirani.
 2007. “Pathwise Coordinate Optimization.” *The Annals of Applied
@@ -46,6 +46,3 @@ Jerome Friedman, Trevor Hastie, and Robert Tibshirani. 2010.
 Descent.” *Journal of Statistical Software, Articles* 33 (1): 1–22.
 <https://doi.org/10.18637/jss.v033.i01>.
 
-</div>
-
-</div>

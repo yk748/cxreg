@@ -23,7 +23,7 @@ bugs/errors have been discovered.
 
 Navonil Deb, Amy Kuceyeski, and Sumanta Basu. 2024. “Regularized
 Estimation of Sparse Spectral Precision Matrices.” *arXiv preprint
-arXiv:2401.11128.*. <https://arxiv.org/abs/2401.11128>.
+arXiv:2401.11128.* <https://arxiv.org/abs/2401.11128>.
 
 <div id="ref-pathwise" class="references">
 

@@ -90,7 +90,7 @@ x <- QuickStartExample$x
 y <- QuickStartExample$y
 ```
 
-Note that 'x' is already standardized, which makes the columns in $X$ orthogonal. The advantage of the standardization is described in the original paper [-@deb2024regularized].
+Note that 'x' is already standardized, which makes the columns in $X$ orthogonal. The \texttt{classo} provides the orthogonalization, and \texttt{standardization=TRUE} is the default. The necessity of the standardization is described in the original paper [-@deb2024regularized].
 
 We fit the model using the most basic call to 'classo'.
 
@@ -119,7 +119,9 @@ Users can also make predictions at specific $\lambda$'s with new input data: Not
 ```{r}
 set.seed(29)
 nx <- array(rnorm(5*20), c(5,20)) + (1+1i) * array(rnorm(5*20), c(5,20))
-for (j in 1:20) nx[,j] <- nx[,j] / sqrt(mean(Mod(nx[,j])^2))
+for (j in 1:20) {
+  nx[,j] <- nx[,j] / sqrt(mean(Mod(nx[,j])^2))
+}
 predict(fit, newx = nx, s = c(0.1, 0.05))
 ```
 
@@ -129,7 +131,7 @@ The function 'classo' returns a sequence of models for the users to choose from.
 cvfit <- cv.classo(x, y)
 ```
 
-'cv.classo} returns a 'cv.classo' object, a list with all the ingredients of the cross-validated fit.
+'cv.classo' returns a 'cv.classo' object, a list with all the ingredients of the cross-validated fit.
 
 ```{r}
 plot(cvfit)

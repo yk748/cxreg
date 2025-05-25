@@ -1,20 +1,15 @@
 cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
                             alignment,keep,parallel,trace.it,classo.call,cv.call) {
 
-    # YK: Need to design prediction function for classo!
-
     # ------------------------------------------------ #
-    if (trace.it) {
+    if (trace.it == 1) {
       cat("Training\n")
     }
 
     classo.object <- classo(x, y,
                             weights=weights,
-                            family=gaussian(),
-                            nlambda=100,
-                            lambda.min.ratio=ifelse(nobs<nvars,1e-2,1e-4),
-                            lambda=NULL,
-                            standardized=FALSE,
+                            lambda=lambda,
+                            standardized=TRUE,
                             intercept=FALSE,
                             maxit=100000,
                             trace.it=0)
@@ -78,13 +73,10 @@ cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
       }
       x_sub <- x[!which, , drop = FALSE]
       weights_sub <- weights[!which]
-      outlist[[i]] <- classo(x_sub, y_sub,
+      outlist[[i]] <- classo(x = x_sub, y = y_sub,
                              weights=weights_sub,
-                             family=gaussian(),
                              lambda = lambda,
-                             nlambda=100,
-                             lambda.min.ratio=ifelse(nobs<nvars,1e-2,1e-4),
-                             standardized=FALSE,
+                             standardized=TRUE,
                              intercept=FALSE,
                              maxit=100000,
                              trace.it=0)
@@ -97,7 +89,6 @@ cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
 
     # ------------------------------------------------ #
     ### Next we compute the measures
-    #    if(subclass=="glmnetfit") attr(predmat,"family")=glmnet.object$family
     fun <- paste("cv", subclass, sep = ".")
     cvstuff <- do.call(fun, list(predmat,y,type.measure,weights,foldid))
 

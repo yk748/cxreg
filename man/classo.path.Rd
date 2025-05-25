@@ -7,9 +7,8 @@
 classo.path(
   x,
   y,
-  family = gaussian(),
   weights = NULL,
-  standardized = FALSE,
+  standardize = FALSE,
   lambda = NULL,
   nlambda = 100,
   lambda.min.ratio = ifelse(nobs < nvars, 0.01, 1e-04),
@@ -26,11 +25,9 @@ each row is an observation vector.}
 
 \item{y}{Complex-valued response variable, nobs dimensional vector.}
 
-\item{family}{To match the conventional functions used in \code{glmnet}, "gaussian" is assumed. This has to be eliminated.}
-
 \item{weights}{Observation weights. Default is 1 for each observation.}
 
-\item{standardized}{Logical flag for x variable standardized beforehand; i.e. for n and p by nobs and nvar,
+\item{standardize}{Logical flag for x variable standardize beforehand; i.e. for n and p by nobs and nvar,
 \deqn{\|X_j\|=\sqrt{n} \textrm{for all }j=1,\ldots,p}
 is satisfied for the input x. Default is \code{FALSE}.}
 
@@ -62,11 +59,11 @@ sparse matrix format.}
 largest lambda reported does not quite give the zero coefficients reported
 (lambda=inf would in principle). Instead, the largest lambda for alpha=0.001
 is used, and the sequence of lambda values is derived from this.}
-\item{dev.ratio}{The fraction of (null) deviance explained. The deviance
+\item{dev}{The fraction of (null) deviance explained. The deviance
 calculations incorporate weights if present in the model. The deviance is
 defined to be 2*(loglike_sat - loglike), where loglike_sat is the log-likelihood
 for the saturated model (a model with a free parameter per observation).
-Hence dev.ratio=1-dev/nulldev.}
+Hence dev=1-dev/nulldev.}
 \item{nulldev}{Null deviance (per observation). This is defined to be
 2*(loglike_sat -loglike(Null)). The null model refers to the intercept model.}
 \item{npasses}{Total passes over the data summed over all lambda values.}
@@ -78,5 +75,5 @@ debugging).}
 }
 \description{
 Fit a complex-valued lasso formulation for a path of lambda values.
-\code{classo.path} solves the elastic net problem for a path of lambda values.
+\code{classo.path} solves the Lasso problem for a path of lambda values.
 }

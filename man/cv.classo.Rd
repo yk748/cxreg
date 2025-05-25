@@ -9,9 +9,9 @@ cv.classo(
   y,
   weights = NULL,
   lambda = NULL,
-  type.measure = "mse",
   nfolds = 10,
   foldid = NULL,
+  type.measure = "mse",
   alignment = c("lambda", "fraction"),
   keep = FALSE,
   parallel = FALSE,
@@ -27,20 +27,15 @@ cv.classo(
 \item{weights}{Observation weights; defaults to 1 per observation}
 
 \item{lambda}{Optional user-supplied lambda sequence; default is \code{NULL},
-and \code{classo} chooses its own sequence.
-Note that this is done for the full model (master sequence), and separately for each fold.
-The fits are then alligned using the master sequence (see the \code{allignment}
+and \code{classo} chooses its own sequence. Note that this is done for the full model (master sequence), and separately for each fold.
+The fits are then aligned using the master sequence (see the \code{alignment}
 argument for additional details). Adapting \code{lambda} for each fold
 leads to better convergence. When \code{lambda} is supplied, the same sequence
-is used everywhere, but in some GLMs can lead to convergence issues.}
-
-\item{type.measure}{loss to use for cross-validation. Currently five options,
-not all available for all models. The default is \code{type.measure="deviance"},
-which uses squared-error for gaussian models (i.e. \code{type.measure="mse"}).}
+is used everywhere.}
 
 \item{nfolds}{number of folds - default is 10. Although \code{nfolds} can be
 as large as the sample size (leave-one-out CV), it is not recommended for
-large datasets. Smallest value allowable is \code{nfolds=3}}
+large dataset. Smallest value allowable is \code{nfolds=3}}
 
 \item{foldid}{an optional vector of values between 1 and \code{nfolds}
 identifying what fold each observation is in. If supplied, \code{nfolds} can
@@ -106,14 +101,6 @@ are selected at random. Users can reduce this randomness by running
 }
 \examples{
 
-set.seed(1010)
-n = 1000
-p = 200
-x = array(rnorm(n*p), c(n,p)) + (1+1i) * array(rnorm(n*p), c(n,p))
-for (j in 1:p) x[,j] = x[,j] / sqrt(mean(Mod(x[,j])^2))
-e = rnorm(n) + (1+1i) * rnorm(n)
-b = c(1, -1, rep(0, p-2)) + (1+1i) * c(-0.5, 2, rep(0, p-2))
-y = x \%*\% b + e
 cv.test = cv.classo(x,y)
 
 }

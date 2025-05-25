@@ -9,7 +9,7 @@ A variety of predictions can be made from the fitted models.
 }
 \details{
 \tabular{ll}{ Package: \tab cxreg \cr Type: \tab Package\cr Version: \tab
-1.0\cr Date: \tab 2024-12-01 \cr License: \tab What license is it under?\cr }
+1.0\cr Date: \tab 2025-04-11 \cr License: \tab What license is it under?\cr }
 Very simple to use. Accepts \code{x,y} data for regression models, and
 produces the regularization path over a grid of values for the tuning
 parameter \code{lambda}. Only 5 functions: \code{classo}\cr

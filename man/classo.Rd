@@ -8,13 +8,13 @@ classo(
   x,
   y,
   weights = NULL,
-  family = gaussian(),
   lambda = NULL,
   nlambda = 100,
   lambda.min.ratio = ifelse(nobs < nvars, 0.01, 1e-04),
-  standardized = FALSE,
+  standardize = TRUE,
   intercept = FALSE,
-  maxit = 1e+05,
+  maxit = 10000,
+  thresh = 1e-07,
   trace.it = 0,
   ...
 )
@@ -26,8 +26,6 @@ Requirement: \code{nvars >1}; in other words, \code{x} should have 2 or more col
 \item{y}{response variable.}
 
 \item{weights}{observation weights. Default is 1 for each observation.}
-
-\item{family}{To match the conventional functions used in \code{glmnet}, "gaussian" is assumed. This has to be eliminated.}
 
 \item{lambda}{A user supplied \code{lambda} sequence.
 Typical usage is to have the program compute its own \code{lambda} sequence based on
@@ -49,19 +47,46 @@ If \code{nobs < nvars}, the default is \code{0.01}.
 A very small value of \code{lambda.min.ratio} will lead to a saturated fit
 in the \code{nobs < nvars} case.}
 
-\item{intercept}{Should intercept(s) set to zero (default=FALSE) or be fitted (TRUE).}
-
-\item{trace.it}{If \code{trace.it=1}, then a progress bar is displayed;
-useful for big models that take a long time to fit.}
-
 \item{standardize}{Logical flag for x variable standardization, prior to
 fitting the model sequence. The coefficients are always returned on the
-original scale. Default is \code{standardize=FALSE}.}
+original scale. Default is \code{standardize=TRUE}.}
+
+\item{intercept}{Should intercept(s) set to zero (default=FALSE) or be fitted (TRUE).}
+
+\item{maxit}{Maximum number of iterations of outer loop. Default 10,000.}
 
 \item{thresh}{Convergence threshold for coordinate descent.
 Each inner coordinate-descent loop continues until the maximum change in the objective
 after any coefficient update is less than \code{thresh} times the null
-deviance. Defaults value is \code{1E-7}.}
+deviance. Defaults value is \code{1e-7}.}
+
+\item{trace.it}{If \code{trace.it=1}, then a progress bar is displayed;
+useful for big models that take a long time to fit.}
+}
+\value{
+An object with class "classofit" and "classo".
+\item{a0}{Intercept sequence of length \code{length(lambda)}.}
+\item{beta}{A \code{nvars x length(lambda)} matrix of coefficients, stored in
+sparse matrix format.}
+\item{df}{The number of nonzero coefficients for each value of lambda.}
+\item{dim}{Dimension of coefficient matrix.}
+\item{lambda}{The actual sequence of lambda values used. When alpha=0, the
+largest lambda reported does not quite give the zero coefficients reported
+(lambda=inf would in principle). Instead, the largest lambda for alpha=0.001
+is used, and the sequence of lambda values is derived from this.}
+\item{dev}{The fraction of (null) deviance explained. The deviance
+calculations incorporate weights if present in the model. The deviance is
+defined to be 2*(loglike_sat - loglike), where loglike_sat is the log-likelihood
+for the saturated model (a model with a free parameter per observation).
+Hence dev=1-dev/nulldev.}
+\item{nulldev}{Null deviance (per observation). This is defined to be
+2*(loglike_sat -loglike(Null)). The null model refers to the intercept model.}
+\item{npasses}{Total passes over the data summed over all lambda values.}
+\item{jerr}{Error flag, for warnings and errors (largely for internal
+debugging).}
+\item{call}{The call that produced this object.}
+\item{family}{Family used for the model.}
+\item{nobs}{Number of observations.}
 }
 \description{
 Fit a complex-valued lasso formulation via complex update coordinate descent algorithm.
@@ -70,7 +95,6 @@ it enables to update each coordinate of the solution as a regular coordinate des
 }
 \details{
 The sequence of models implied by \code{lambda} is fit by coordinate descent.
-For \code{family="gaussian"} this is the lasso sequence.
 }
 \examples{
 set.seed(1010)

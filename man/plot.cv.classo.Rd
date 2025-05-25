@@ -36,14 +36,9 @@ plot.cv.classo(cv.test)
 
 }
 \seealso{
-\code{classo} and \code{cv.classo}.
-
 \code{classo} and \code{plot} methods for \code{"cv.classo"}.
 }
 \author{
-Jerome Friedman, Trevor Hastie and Rob Tibshirani\cr Maintainer:
-Trevor Hastie \href{mailto:hastie@stanford.edu}{hastie@stanford.edu}
-
 Navonil Deb, Younghoon Kim, Sumanta Basu \cr Maintainer: Younghoon Kim
 \email{yk748@cornell.edu}
 }

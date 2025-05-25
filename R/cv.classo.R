@@ -16,18 +16,14 @@
 #' @param y response \code{y} as in \code{classo}.
 #' @param weights Observation weights; defaults to 1 per observation
 #' @param lambda Optional user-supplied lambda sequence; default is \code{NULL},
-#' and \code{classo} chooses its own sequence.
-#' Note that this is done for the full model (master sequence), and separately for each fold.
-#' The fits are then alligned using the master sequence (see the \code{allignment}
+#' and \code{classo} chooses its own sequence. Note that this is done for the full model (master sequence), and separately for each fold.
+#' The fits are then aligned using the master sequence (see the \code{alignment}
 #' argument for additional details). Adapting \code{lambda} for each fold
 #' leads to better convergence. When \code{lambda} is supplied, the same sequence
-#' is used everywhere, but in some GLMs can lead to convergence issues.
-#' @param type.measure loss to use for cross-validation. Currently five options,
-#' not all available for all models. The default is \code{type.measure="deviance"},
-#' which uses squared-error for gaussian models (i.e. \code{type.measure="mse"}).
+#' is used everywhere.
 #' @param nfolds number of folds - default is 10. Although \code{nfolds} can be
 #' as large as the sample size (leave-one-out CV), it is not recommended for
-#' large datasets. Smallest value allowable is \code{nfolds=3}
+#' large dataset. Smallest value allowable is \code{nfolds=3}
 #' @param foldid an optional vector of values between 1 and \code{nfolds}
 #' identifying what fold each observation is in. If supplied, \code{nfolds} can
 #' be missing.
@@ -74,43 +70,27 @@
 #' @seealso \code{classo} and \code{plot} and \code{coef} methods for \code{"cv.classo"}.
 #' @examples
 #'
-#' set.seed(1010)
-#' n = 1000
-#' p = 200
-#' x = array(rnorm(n*p), c(n,p)) + (1+1i) * array(rnorm(n*p), c(n,p))
-#' for (j in 1:p) x[,j] = x[,j] / sqrt(mean(Mod(x[,j])^2))
-#' e = rnorm(n) + (1+1i) * rnorm(n)
-#' b = c(1, -1, rep(0, p-2)) + (1+1i) * c(-0.5, 2, rep(0, p-2))
-#' y = x %*% b + e
+# set.seed(1010)
+# n = 1000
+# p = 200
+# x = array(rnorm(n*p), c(n,p)) + (1+1i) * array(rnorm(n*p), c(n,p))
+# for (j in 1:p) x[,j] = x[,j] / sqrt(mean(Mod(x[,j])^2))
+# e = rnorm(n) + (1+1i) * rnorm(n)
+# b = c(1, -1, rep(0, p-2)) + (1+1i) * c(-0.5, 2, rep(0, p-2))
+# y = x %*% b + e
 #' cv.test = cv.classo(x,y)
 #'
 #' @export cv.classo
 cv.classo <- function (x, y,
                        weights=NULL,
                        lambda = NULL,
-                       type.measure = "mse",
                        nfolds = 10,
                        foldid=NULL,
+                       type.measure="mse",
                        alignment=c("lambda","fraction"),
                        keep = FALSE,
                        parallel = FALSE,
                        trace.it=0, ...){
-
-  # x, # included
-  # y, # included
-  # weights=NULL, # included
-  # offset = NULL, # deleted
-  # lambda = NULL, # included
-  # type.measure = c("mse","deviance", "class", "auc", "mae","C"), # included "mse"
-  # nfolds = 10, # included
-  # foldid=NULL, # included
-  # alignment=c("lambda","fraction"), # included
-  # grouped = TRUE, # deleted
-  # keep = FALSE, # included
-  # parallel = FALSE, # included
-  # gamma=c(0,.25,.5,.75,1), # deleted
-  # relax=FALSE, # deleted
-  # trace.it=0 # included
 
   # ------------------------------------------------ #
   type.measure <- match.arg(type.measure)
@@ -127,10 +107,8 @@ cv.classo <- function (x, y,
   N <- nrow(x)
   if (is.null(weights)){
     weights <- rep(1, N)
-
   } else {
     weights <- as.double(weights)
-
   }
 
   # ------------------------------------------------ #
@@ -145,31 +123,27 @@ cv.classo <- function (x, y,
   classo.call[[1]] <- as.name("classo")
   if(classo.control()$itrace){
     trace.it <- 1
-
   }else{
     if(trace.it){
       classo.control(itrace=1)
       on.exit(classo.control(itrace=0))
     }
-
   }
 
   # ------------------------------------------------ #
   if (is.null(foldid)){
     foldid <- sample(rep(seq(nfolds), length = N))
-
   }else {
     nfolds <- max(foldid)
-
   }
 
   if (nfolds < 3){
-    stop("nfolds must be bigger than 3; nfolds=10 recommended")
+    stop("nfolds must be bigger than 2; nfolds=10 recommended")
   }
 
   # ------------------------------------------------ #
   # Call cv.classo.raw
-  cv.classo.raw(x,y,weights,lambda,type.measure,nfolds,foldid,
+  cv.classo.raw(x,y,weights,lambda,nfolds,foldid,
                 alignment,keep,parallel,trace.it,classo.call,cv.call)
 
 }

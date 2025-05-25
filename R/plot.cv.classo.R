@@ -10,9 +10,6 @@
 #' @param sign.lambda Either plot against \code{log(lambda)} (default) or its
 #' negative if \code{sign.lambda=-1}.
 #' @param \dots Other graphical parameters to plot
-#' @author Jerome Friedman, Trevor Hastie and Rob Tibshirani\cr Maintainer:
-#' Trevor Hastie <hastie@@stanford.edu>
-#' @seealso \code{classo} and \code{cv.classo}.
 #' @author Navonil Deb, Younghoon Kim, Sumanta Basu \cr Maintainer: Younghoon Kim
 #' \email{yk748@cornell.edu}
 #' @seealso \code{classo} and \code{plot} methods for \code{"cv.classo"}.

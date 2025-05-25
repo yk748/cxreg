@@ -1,18 +1,14 @@
 Package: cxreg
 Title: complex-valued penalized regression (Lasso)
-Version: 0.1.1
-Authors@R: c(
-    person("Younghoon", "Kim", , "yk748@cornell.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "0009-0007-0117-5530")),
-    person("Navonil", "Deb", role = "aut"),
-    person("Sumanta", "Basu", role = "aut")
-  )
-Maintainer: Younghoon Kim <yk748@cornell.edu>
-Description: This package contains glmnet-style complex-valued lasso
-    formulation via complex update coordinate descent algorithm and its
-    supporting functions. Codes for solving complex graphical Lasso and
-    computing entrywise confidence interval will be added soon.
+Version: 0.8.0
+Authors@R: 
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
+Description: This package contains glmnet-style complex-valued lasso and
+    graphical lasso formulation via complex update coordinate descent
+    algorithm and its supporting functions.
 License: MIT + file LICENSE
+Depends: 
+    R (>= 3.5.0)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

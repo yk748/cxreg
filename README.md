@@ -10,24 +10,24 @@ complex analog, by introducing a unique isomorphism. Such transformation
 enables leveraging the existing algorithm in complex settings. Details
 can be found in Deb, Kuceyeski, and Basu ([2024](#ref-classo)).
 
-Currently, the beta version (0.9.0) is released, and the version
-provides the basic fitting functions of classo and cglasso, along with
-their auxiliary functions such as printing paths of coefficients,
-cross-validation, and generating plots (regularization paths and
-heatmap). We will keep updating and maintaining the package to
-eventually incorporate a systematic error control for users’ convenience
-accordingly. Please email Younghoon Kim <yk748@cornell.edu> if any
-bugs/errors have been discovered. All remaining errors are our own.
+The first stable version (1.0.0) is released, which provides the fitting
+functions of classo and cglasso, along with their auxiliary functions
+such as printing paths of coefficients, cross-validation, and generating
+plots (regularization paths and heatmap). We will keep updating and
+maintaining the package to eventually incorporate a systematic error
+control for users’ convenience accordingly. Please email Younghoon Kim
+<yk748@cornell.edu> if any bugs/errors have been discovered. All
+remaining errors are our own.
 
 ## References
 
-<div id="ref-classo" class="references">
+<div id="refs-classo" class="references">
 
 Navonil Deb, Amy Kuceyeski, and Sumanta Basu. 2024. “Regularized
 Estimation of Sparse Spectral Precision Matrices.” *arXiv preprint
-arXiv:2401.11128.* <https://arxiv.org/abs/2401.11128>.
+arXiv:2401.11128.*. <https://arxiv.org/abs/2401.11128>.
 
-<div id="ref-pathwise" class="references">
+</div>
 
 Jerome Friedman, Trevor Hastie, Holger Hofling, and Robert Tibshirani.
 2007. “Pathwise Coordinate Optimization.” *The Annals of Applied
@@ -48,3 +48,6 @@ Jerome Friedman, Trevor Hastie, and Robert Tibshirani. 2010.
 Descent.” *Journal of Statistical Software, Articles* 33 (1): 1–22.
 <https://doi.org/10.18637/jss.v033.i01>.
 
+</div>
+
+</div>

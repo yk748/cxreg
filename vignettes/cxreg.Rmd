@@ -129,8 +129,8 @@ where the scaling matrix $D_{11}$ is similar to $D$ is CGLASSO-sc1, except that 
 Like other R packages on Github, it can be downloaded by the command:
 
 ```{r, message=FALSE}
-# library(devtools)
-# devtools::install_github("yk748/cxreg")
+library(devtools)
+devtools::install_github("yk748/cxreg")
 ```
 
 

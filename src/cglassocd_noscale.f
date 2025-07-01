@@ -1,5 +1,5 @@
 c     cglasso without covariate scaling/with covariance adapted penalty
-      subroutine cglassocd_noscale_(s,p,lambda,theta,
+      subroutine cglassocd_noscale(s,p,lambda,theta,
      + w,w0,w_init,maxiter,tol,h,final_cycle)
       
       integer p,maxiter,h
@@ -77,7 +77,7 @@ c     Set a dummy lambda0 since active set screening is off
                b_init(j) = b_mat(j,k)
                b(j) = cmplx(0,0)
  93         continue
-            call classocd_cov_noscale_(w11,s12,p-1,lambda,lambda0,
+            call classocd_cov_noscale(w11,s12,p-1,lambda,lambda0,
      +       b_init,b,maxiter,tol,screen)
 
             do 101 j=1,(p-1)

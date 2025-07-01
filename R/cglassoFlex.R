@@ -4,8 +4,7 @@
 #' \code{cglasso.path} solves the penalized Gaussian maximum likelihood problem for a path of lambda values.
 #'
 #' @param S p x p-dimensional symmetric spectral density (or spectral coherence) matrix. S is considered as being computed by average smoothed periodogram (the bandwidth is computed by using the given nobs).
-#' @param scale The provided S is spectral density (covariance) or spectral coherence (coherence). Default is \code{covariance}.
-#' @param D The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. Do not provide this input if scale is \code{covariance} and type is \code{I}; the algorithm will stop. If not provided when scale is \code{TRUE}, identity matrix is chosen.
+#' @param D The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. If D is not provided, diagonals of S are chosen.
 #' @param type Logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference, 
 #' \deqn{D^{-1/2}(\arg\min_{\Theta}Tr[\hat{R}\hat{\Theta}]-\log\det\Theta + \sum_{i\neq j}|\Theta_{ij}|)D^{-1/2}} for the given $D$. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the scale matrix D is multiplied. Please see the reference for the details of the iterative updates.
 #' @param nobs Number of observations used in computation of the spectral density matrix S. This quantity is need to compute the Fourier frequency, extended BIC, and bandwidth for the average smoothed periodogram. 
@@ -18,7 +17,7 @@
 #' @param lambda.min.ratio Smallest value for \code{lambda}, as a fraction of
 #' \code{lambda.max}, the (data derived) entry value (i.e. the smallest value
 #' for which all coefficients are zero). The default depends on the sample size
-#' \code{nobs} relative to the number of variables \code{nvars}.
+#' \code{nobs} relative to the number of variables \code{nvar}.
 #' If \code{nobs > p}, the default is \code{0.0001}, close to zero.
 #' If \code{nobs < p}, the default is \code{0.01}.
 #' @param W.init Logical flag whether the initially estimated spectral density matrix is given. Default is \code{NULL}.
@@ -31,7 +30,7 @@
 #' 
 #' @return An object with class "cglassofit" and "cglasso".
 #' \item{a0}{Intercept sequence of length \code{length(lambda)}.}
-#' \item{beta}{A \code{nvars x length(lambda)} matrix of coefficients, stored in
+#' \item{beta}{A \code{nvar x length(lambda)} matrix of coefficients, stored in
 #' sparse matrix format.}
 #' \item{df}{The number of nonzero coefficients for each value of lambda.}
 #' \item{dim}{Dimension of coefficient matrix.}
@@ -63,10 +62,8 @@
 #' \item{scale}{Whether the spectral density matrix (covariance) or spectral coherence (coherence) is given.}
 #' \item{D}{Used scale diagonal matrix.}
 #'
-#' @useDynLib cxreg cglassocd_noscale_
-#' @useDynLib cxreg cglassocd_scaled_
+#' @useDynLib cxreg cglassocd_noscale cglassocd_scaled
 cglasso.path <- function(S,
-                         scale,
                          D,
                          type,
                          nobs,
@@ -85,9 +82,13 @@ cglasso.path <- function(S,
   this.call <- match.call()
   
   ####################################################################
-  nvar <- dim(S)[1]
+  p <- dim(S)[1]
   m <- floor(nobs)
   bandwidth <- 2*m+1
+  
+  if (is.null(D)){
+    D <- diag(diag(S),p)
+  }
 
   ####################################################################
   # work out lambda values
@@ -97,7 +98,7 @@ cglasso.path <- function(S,
     if (lambda.min.ratio >= 1) {
       stop("lambda.min.ratio should be less than 1")
     }
-    lambda_max <- max(max(Mod(S)),sqrt(log(nvar)/bandwidth))
+    lambda_max <- max(max(Mod(S)),sqrt(log(p)/bandwidth))
 
     # compute lambda sequence
     ulam <- exp(seq(log(lambda_max), log(lambda_max*lambda.min.ratio),
@@ -129,7 +130,7 @@ cglasso.path <- function(S,
   # get feature variable names
   vnames <- colnames(S)
   if(is.null(vnames)){
-    vnames <- paste("V",seq(nvars),sep="") 
+    vnames <- paste("V",seq(p),sep="") 
   }
   
   ####################################################################
@@ -185,7 +186,7 @@ cglasso.path <- function(S,
       
     } else {
       # For other lambda, there is a warm start
-      if (scale==FALSE) {
+      if (type=="I") {
         out <- .Fortran("cglassocd_noscale",
                         s = as.complex(S_sc),
                         p = as.integer(p),
@@ -225,7 +226,6 @@ cglasso.path <- function(S,
       }else{
         W_list[[i]] <- NULL
       }
-  
     }
     ####################################################################
     if (trace.it == 1) {
@@ -237,7 +237,7 @@ cglasso.path <- function(S,
     colnames(Theta_hat) <- vnames
     Theta_list[[i]] <- Theta_hat
     if (stop_criterion == "EBIC"){
-      stop_arr[i] <- EBIC_G_trimmed(S, Theta_hat, m, g = g)
+      stop_arr[i] <- EBIC_G_trimmed(S, Theta_hat, m, g = 0.5)
     }else if(stop_criterion == "AIC"){
       stop_arr[i] <- AIC(S, Theta_hat, m)
     }else if (stop_criterion == "RMSE"){
@@ -278,7 +278,7 @@ cglasso.path <- function(S,
       }
       
       if(max(count_ex, count_na) > 5){
-        names(Theta_list) <- stepnames
+        names(Theta_list) <- stepnames[1:i]
         lambda_grid <- ulam[1:i]
         stop_arr <- stop_arr[1:i]
         print(paste("The algorithm was terminated at",i,"th lambda"))
@@ -306,9 +306,8 @@ cglasso.path <- function(S,
                  stop_criterion = stop_criterion,
                  min_index = i_best,
                  lambda_grid = ulam,
-                 Theta_hat = Theta_list,
+                 Theta_list = Theta_list,
                  type = type,
-                 scale = scale,
                  D = D)
   class(output) <- c("cglassofit","cglasso")
   
@@ -355,8 +354,9 @@ EBIC_G_trimmed <- function(S, Theta_hat, m, g = 0.5){
   k <- sum(!!upperTriangle(Theta_hat, diag = FALSE))
   eigen_Theta_hat <- eigen(Theta_hat)
   v <- Re(eigen_Theta_hat$values)
+  v[v<=0] <- 1e-6
   P <- eigen_Theta_hat$vectors
-  v[v<=0] = min(v[v>0])
+  # v[v<=0] = min(v[v>0])
   Theta_hat_corrected <- P %*% diag(v) %*% Conj(t(P))
   log_det_Theta <- sum(log(v)) 
   trace_s_theta <- sum(diag(Theta_hat_corrected %*% S))

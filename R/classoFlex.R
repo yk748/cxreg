@@ -46,8 +46,7 @@
 #' \item{family}{Family used for the model.}
 #' \item{nobs}{Number of observations.}
 #'
-#' @useDynLib cxreg classocd_warm_
-#' @useDynLib cxreg classocd_warm_screen_
+#' @useDynLib cxreg classocd_warm classocd_warm_screen
 classo.path <- function(x,y,
                         weights=NULL,
                         standardize=FALSE,

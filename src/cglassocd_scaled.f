@@ -1,5 +1,5 @@
 c     cglasso with covariate scaling/covariance adapted penalty
-      subroutine cglassocd_scaled_(s,p,lambda,theta,
+      subroutine cglassocd_scaled(s,p,lambda,theta,
      + w,w0,w_init,maxiter,tol,h,final_cycle)
       
       integer p,maxiter,h
@@ -85,7 +85,7 @@ c     cglasso with covariate scaling/covariance adapted penalty
                b_init(j) = b_mat(j,k)
                b(j) = cmplx(0,0)
  93         continue
-            call classocd_cov_(w11_sc,s12_sc,p-1,lambda,lambda0,
+            call classocd_cov(w11_sc,s12_sc,p-1,lambda,lambda0,
      +       b_init,b,maxiter,tol,screen)
 
             do 101 j=1,(p-1)

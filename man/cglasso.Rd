@@ -6,9 +6,8 @@
 \usage{
 cglasso(
   S,
-  scale = "covariance",
   D = NULL,
-  type = "I",
+  type = c("I", "II"),
   nobs,
   lambda = NULL,
   nlambda = 50,
@@ -25,12 +24,10 @@ cglasso(
 \arguments{
 \item{S}{p x p-dimensional symmetric spectral density (or spectral coherence) matrix. S is considered as being computed by average smoothed periodogram (the bandwidth is computed by using the given nobs).}
 
-\item{scale}{The provided S is spectral density (covariance) or spectral coherence (coherence). Default is \code{covariance}.}
+\item{D}{The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. If D is not provided, diagonals of S are chosen.}
 
-\item{D}{The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. Do not provide this input if scale is \code{covariance} and type is \code{I}; the algorithm will stop. If not provided when scale is \code{TRUE}, identity matrix is chosen.}
-
-\item{type}{Logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference,
-\deqn{D^{-1/2}(\arg\min_{\Theta}Tr[\hat{R}\hat{\Theta}]-\log\det\Theta + \sum_{i\neq j}|\Theta_{ij}|)D^{-1/2}} for the given $D$. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the scale matrix D is multiplied. Please see the reference for the details of the iterative updates.}
+\item{type}{A logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference,
+\deqn{D^{-1/2}(\arg\min_{\Theta}\textrm{Tr}[\hat{R}\hat{\Theta}]-\log\det\Theta + \sum_{i\neq j}|\Theta_{ij}|)D^{-1/2}} for the given D. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the squared-root of scale matrix D^{-1/2} is multiplied. Please refer to the equation (5.2) in the reference for the details.}
 
 \item{nobs}{Number of observations used in computation of the spectral density matrix S. This quantity is need to compute the Fourier frequency, extended BIC, and bandwidth for the average smoothed periodogram.}
 
@@ -68,7 +65,7 @@ An object with class "cglassofit" and "cglasso".
 \item{stop_criterion}{Stopping criterion used.}
 \item{min_index}{The index for lambda that minimizes the value of the information criterion.}
 \item{lambda_grid}{Sequence of lambdas used.}
-\item{Theta_hat}{Estimated inverse spectral matrix for each fixed lambda. It is provided in the list.}
+\item{Theta_list}{Estimated inverse spectral matrix for each fixed lambda. It is provided in the list.}
 \item{type}{Type of the formulation used, either CGALSSO-I or CGLASSO-II.}
 \item{scale}{Whether the spectral density matrix (covariance) or spectral coherence (coherence) is given.}
 \item{D}{Used scale diagonal matrix.}
@@ -82,17 +79,17 @@ The sequence of models implied by \code{lambda} is fit by coordinate descent.
 \examples{
 p <- 30
 n <- 500
-C <- diag(0.7, n)
+C <- diag(0.7, p)
 C[row(C) == col(C) + 1] <- 0.3  
 C[row(C) == col(C) - 1] <- 0.3  
 Sigma <- solve(C)
 set.seed(1010)
+m <- floor(sqrt(n)); j <- 1
 X_t <- rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
 d_j <- dft.X(X_t,j,m)
 f_j_hat <- t(d_j) \%*\% Conj(d_j) / (2*m+1)
-fit <- cglasso(S=f_j_hat, scale="covariance", nobs=n)
+fit <- cglasso(S=f_j_hat, nobs=n)
 
-#' @export cglasso
 }
 \references{
 Deb, N., Kuceyeski, A., Basu, S. (2024)

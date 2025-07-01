@@ -1,3 +1,0 @@
-FC = gfortran
-F77FLAGS = -O2 -fPIC
-FLIBS = -L"C:/Rtools/mingw_64/lib" -lR

@@ -17,9 +17,16 @@ features of cxreg.
 }
 \examples{
 
-data(QuickStartExample)
-x <- QuickStartExample$x; y <- QuickStartExample$y
-classo(x, y)
+data(classo_example)
+x <- classo_example$x
+y <- classo_example$y
+classo(x,y)
+
+data(cglasso_example)
+f_hat <- cglasso_example$f_hat
+n <- cglasso_example$n
+cglasso(S=f_hat,type="I",nobs=n)
+cglasso(S=f_hat,type="II",nobs=n)
 
 }
 \keyword{datasets}

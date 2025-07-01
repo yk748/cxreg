@@ -2,20 +2,22 @@
 # Complex-valued Lasso and graphical Lasso
 
 We provide an efficient estimation procedure for fitting a penalized
-complex-valued Lasso fitting (classo) and a complex-valued graphical
-Lasso (cglasso) models. The idea is to bring the pathwise coordinate
-descent algorithm
-([2007](#ref-pathwise),[2008](#ref-glasso),[2010](#ref-glmnet)) into
-complex analog, by introducing a unique isomorphism. Details can be
-found in Deb, Kuceyeski, and Basu ([2024](#ref-classo)).
+complex-valued Lasso (classo) and a complex-valued graphical Lasso
+(cglasso). The key idea is to bring the pathwise coordinate descent
+algorithm
+([2007](#ref-pathwise),[2008](#ref-glasso),[2010](#ref-glmnet)) into a
+complex analog, by introducing a unique isomorphism. Such transformation
+enables leveraging the existing algorithm in complex settings. Details
+can be found in Deb, Kuceyeski, and Basu ([2024](#ref-classo)).
 
-Currently, the beta version (0.8.0) is released, and the version
-provides the basic fitting functions and their auxiliary functions,
-including printing paths of coefficients, cross-validation, and
-generating plots. We will keep updating and maintaining the package to
+Currently, the beta version (0.9.0) is released, and the version
+provides the basic fitting functions of classo and cglasso, along with
+their auxiliary functions such as printing paths of coefficients,
+cross-validation, and generating plots (regularization paths and
+heatmap). We will keep updating and maintaining the package to
 eventually incorporate a systematic error control for users’ convenience
 accordingly. Please email Younghoon Kim <yk748@cornell.edu> if any
-bugs/errors have been discovered.
+bugs/errors have been discovered. All remaining errors are our own.
 
 ## References
 

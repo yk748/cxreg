@@ -2,22 +2,30 @@
 % Please edit documentation in R/cxreg-package.R
 \name{cxreg-package}
 \alias{cxreg-package}
-\title{Complex-valued Lasso model paths}
+\title{Complex-valued Lasso and graphical Lasso paths}
 \description{
-This package fits complex-valued Lassofor regression using coordinate descent. The algorithm is extremely fast, and exploits sparsity in the input x matrix where it exists.
+This package fits complex-valued Lasso for regression using coordinate descent. The algorithm is extremely fast, and exploits sparsity in the input x matrix where it exists.
 A variety of predictions can be made from the fitted models.
 }
 \details{
-\tabular{ll}{ Package: \tab cxreg \cr Type: \tab Package\cr Version: \tab
-1.0\cr Date: \tab 2025-04-11 \cr License: \tab What license is it under?\cr }
-Very simple to use. Accepts \code{x,y} data for regression models, and
-produces the regularization path over a grid of values for the tuning
-parameter \code{lambda}. Only 5 functions: \code{classo}\cr
-\code{predict.classo}\cr \code{plot.classo}\cr
-\code{coef.classo}
+This package also provides fitting for complex-valued graphical Lasso using coordinate descent.
+The function is built upon classo with covariate updates, just as the regular real-valued coordinate descent algorithm for graphical Lasso.
+
+\tabular{ll}{
+Package: \tab cxreg \cr
+Type: \tab Package \cr
+Version: \tab 1.0 \cr
+Date: \tab 2025-07-01 \cr
+License: \tab MIT + file LICENSE \cr
+}
+
+Very simple to use. Accepts \code{x,y} data for penalized regression models, and
+produces the regularization paths over a grid of values for the tuning
+parameters \code{lambda}. Similarly, accepts \code{S,n} data for penalized Gaussian likelihood,
+and produce the regularization paths over a grid of values for the tuning parameter \code{lambda}.
 }
 \examples{
-
+set.seed(1234)
 x <- array(rnorm(100*20), c(100,20)) + (1+1i) * array(rnorm(100*20), c(100,20))
 for (j in 1:20) x[,j] <- x[,j] / sqrt(mean(Mod(x[,j])^2))
 e <- rnorm(100) + (1+1i) * rnorm(100)
@@ -27,6 +35,20 @@ fit <- glmnet(x, y)
 predict(fit, newx = x[1:5, ], s = c(0.01, 0.005))
 predict(fit, type = "coef")
 plot(fit, xvar = "lambda")
+
+p <- 30
+n <- 500
+C <- diag(0.7, p)
+C[row(C) == col(C) + 1] <- 0.3  
+C[row(C) == col(C) - 1] <- 0.3  
+Sigma <- solve(C)
+set.seed(1010)
+m <- floor(sqrt(n)); j <- 1
+X_t <- rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
+d_j <- dft.X(X_t,j,m)
+f_j_hat <- t(d_j) \%*\% Conj(d_j) / (2*m+1)
+fit <- cglasso(S=f_j_hat, nobs=n,type="I")
+plot.cglasso(fit$Theta_list,index=fit$min_index,type="mod",label=FALSE)
 
 }
 \references{

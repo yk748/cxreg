@@ -6,7 +6,6 @@
 \usage{
 cglasso.path(
   S,
-  scale,
   D,
   type,
   nobs,
@@ -24,9 +23,7 @@ cglasso.path(
 \arguments{
 \item{S}{p x p-dimensional symmetric spectral density (or spectral coherence) matrix. S is considered as being computed by average smoothed periodogram (the bandwidth is computed by using the given nobs).}
 
-\item{scale}{The provided S is spectral density (covariance) or spectral coherence (coherence). Default is \code{covariance}.}
-
-\item{D}{The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. Do not provide this input if scale is \code{covariance} and type is \code{I}; the algorithm will stop. If not provided when scale is \code{TRUE}, identity matrix is chosen.}
+\item{D}{The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. If D is not provided, diagonals of S are chosen.}
 
 \item{type}{Logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference,
 \deqn{D^{-1/2}(\arg\min_{\Theta}Tr[\hat{R}\hat{\Theta}]-\log\det\Theta + \sum_{i\neq j}|\Theta_{ij}|)D^{-1/2}} for the given $D$. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the scale matrix D is multiplied. Please see the reference for the details of the iterative updates.}
@@ -44,7 +41,7 @@ WARNING: use with care. Avoid supplying a single value for \code{lambda}}
 \item{lambda.min.ratio}{Smallest value for \code{lambda}, as a fraction of
 \code{lambda.max}, the (data derived) entry value (i.e. the smallest value
 for which all coefficients are zero). The default depends on the sample size
-\code{nobs} relative to the number of variables \code{nvars}.
+\code{nobs} relative to the number of variables \code{nvar}.
 If \code{nobs > p}, the default is \code{0.0001}, close to zero.
 If \code{nobs < p}, the default is \code{0.01}.}
 
@@ -64,7 +61,7 @@ useful for big models that take a long time to fit.}
 \value{
 An object with class "cglassofit" and "cglasso".
 \item{a0}{Intercept sequence of length \code{length(lambda)}.}
-\item{beta}{A \code{nvars x length(lambda)} matrix of coefficients, stored in
+\item{beta}{A \code{nvar x length(lambda)} matrix of coefficients, stored in
 sparse matrix format.}
 \item{df}{The number of nonzero coefficients for each value of lambda.}
 \item{dim}{Dimension of coefficient matrix.}

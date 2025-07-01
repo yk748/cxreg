@@ -1,7 +1,7 @@
 
 c     Complex Lasso with warm start
       
-      subroutine classocd_warm_(x,y,n,p,lambda,b0,b)
+      subroutine classocd_warm(x,y,n,p,lambda,b0,b)
       integer n,p
       integer i,j,k,it
       double complex x(1:n, 1:p),xj(1:n),y(1:n),b0(1:p),b(1:p),bo(1:p)
@@ -42,7 +42,7 @@ c     Complex Lasso with warm start
                   rj(i) = r(i) + xj(i) * b(j)
  68            continue
                sxr = 0
-               call soft_threshold_(rj, xj, n, lambda, sxr)
+               call soft_threshold(rj, xj, n, lambda, sxr)
                b(j) = sxr
                do 74 i = 1,n
                   r(i) = rj(i) - xj(i) * b(j)

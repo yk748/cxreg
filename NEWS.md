@@ -9,3 +9,7 @@
 # cxreg 0.8.0 
 
 *pathwise estimation function for complex-valued graphical Lasso has been updated.
+
+# cxreg 1.0.0 
+
+*The first stable version is released

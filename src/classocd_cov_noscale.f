@@ -1,5 +1,5 @@
 c     Complex Lasso (Unscaled) with Cov Update
-      subroutine classocd_cov_noscale_(xx,xy,p,lambda,lambda0,
+      subroutine classocd_cov_noscale(xx,xy,p,lambda,lambda0,
      + b0,b,maxiter,tol,screen)
       
       integer p
@@ -11,7 +11,7 @@ c     Complex Lasso (Unscaled) with Cov Update
       logical screen
 
       if(screen) then
-         call screen_cov_(xx,xy,p,lambda,lambda0,b0,act,nact)
+         call screen_cov(xx,xy,p,lambda,lambda0,b0,act,nact)
       else
          nact = p
          do 57 j=1,p
@@ -60,7 +60,7 @@ c     Complex Lasso (Unscaled) with Cov Update
                   v(i) = xr(i) + xx(i,j) * b(j)
  99            continue
                tmp = v(j)
-               call soft_threshold_cov_(tmp, lambda)
+               call soft_threshold_cov(tmp, lambda)
                b(j) = tmp / xx(j,j)
                do 105 i = 1,p
                   xr(i) = v(i) - xx(i,j) * b(j)

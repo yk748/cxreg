@@ -16,10 +16,10 @@
 #' @seealso \code{cglasso}
 #'
 #' @method plot cglasso
-#' @export
+#' @export 
 plot.cglasso <- function(X, index, type=c("real","imaginary","mod","both"),label=FALSE) {
   
-
+  type <- match.arg(type, choices = c("real","imaginary","mod","both"))
   ####################################################################
   # check for index for X
   if(!is.integer(index)){
@@ -40,6 +40,8 @@ plot.cglasso <- function(X, index, type=c("real","imaginary","mod","both"),label
   # variable labels
   if (label == TRUE){
     vnames <- colnames(S)
+  }else{
+    vnames <- NULL
   }
   
   if (type != "both"){
@@ -54,14 +56,8 @@ plot.cglasso <- function(X, index, type=c("real","imaginary","mod","both"),label
       S <- Mod(S)
     }
     
-    # check type of X
-    if (scale == "covariance"){
-      z_scale <- c(min(S),max(S))
-    }else{
-      z_scale <- c(0,1)
-    }
-    
-    S <- S[, nrow(S):1]
+    z_scale <- c(min(S),max(S))
+    S <- S[,nrow(S):1]
     image.plot(x = x_coords, y = y_coords,
                z = S,
                col = palette(100),
@@ -72,21 +68,18 @@ plot.cglasso <- function(X, index, type=c("real","imaginary","mod","both"),label
                ylab = "",
                legend.shrink = 0.6,
                cex.main = 2)
-    axis(1, at=1:p, labels=vars)
-    axis(x, at=1:p, labels=vars)
+    if (!is.null(vnames)) {
+      axis(side = 2, at = rev((y_coords[-length(y_coords)] + y_coords[-1]) / 2), labels = vnames, las = 1)
+      axis(side = 1, at = (x_coords[-length(x_coords)] + x_coords[-1]) / 2, labels = vnames, las = 1)
+    }
     
   }else{
     palette_re <- colorRampPalette(c("white", "blue"))
     palette_im <- colorRampPalette(c("white", "red"))
     S_re <- Re(S); S_im <- Im(S)
     
-    # check type of X
-    if (scale == "covariance"){
-      z_re <- c(min(S_re),max(S_re))
-      z_im <- c(min(S_im),max(S_im))
-    }else{
-      z_re <- z_im <- c(0,1)
-    }
+    z_re <- c(min(S_re),max(S_re))
+    z_im <- c(min(S_im),max(S_im))
     
     S_re <- S_re[, nrow(S_re):1]
     S_im <- S_im[, nrow(S_im):1]
@@ -102,8 +95,11 @@ plot.cglasso <- function(X, index, type=c("real","imaginary","mod","both"),label
                ylab = "",
                legend.shrink = 0.6,
                cex.main = 2)
-    axis(1, at=1:p, labels=vars)
-    axis(x, at=1:p, labels=vars)
+    if (!is.null(vnames)) {
+      axis(side = 2, at = rev((y_coords[-length(y_coords)] + y_coords[-1]) / 2), labels = vnames, las = 1)
+      axis(side = 1, at = (x_coords[-length(x_coords)] + x_coords[-1]) / 2, labels = vnames, las = 1)
+    }
+    
     image.plot(x = x_coords, y = y_coords,
                z = S_im,
                col = palette_im(100),
@@ -114,8 +110,10 @@ plot.cglasso <- function(X, index, type=c("real","imaginary","mod","both"),label
                ylab = "",
                legend.shrink = 0.6,
                cex.main = 2)
-    axis(1, at=1:p, labels=vars)
-    axis(x, at=1:p, labels=vars)
+    if (!is.null(vnames)) {
+      axis(side = 2, at = rev((y_coords[-length(y_coords)] + y_coords[-1]) / 2), labels = vnames, las = 1)
+      axis(side = 1, at = (x_coords[-length(x_coords)] + x_coords[-1]) / 2, labels = vnames, las = 1)
+    }
     par(old_par)
   }
 

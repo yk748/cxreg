@@ -2,7 +2,7 @@ cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
                             alignment,keep,parallel,trace.it,classo.call,cv.call) {
 
     # ------------------------------------------------ #
-    if (trace.it == 1) {
+    if (isTRUE(trace.it == 1)) {
       cat("Training\n")
     }
 
@@ -21,12 +21,10 @@ cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
     type.measure <- cvtype(type.measure,subclass)
 
     # # ------------------------------------------------ #
-    # YK: This has some errors.
-    # ###Next line is commented out so each call generates its own lambda sequence
-    # # lambda <- classo.object$lambda
-    # # nz <- sapply(predict(classo.object, type = "nonzero"), length)
-    # outlist <- as.list(seq(nfolds))
-    # N <- nrow(x)
+    lambda <- classo.object$lambda
+    nz <- sapply(predict(classo.object, type = "nonzero"), length)
+    outlist <- as.list(seq(nfolds))
+    N <- nrow(x)
     # if (parallel) {
     #   #  if (parallel && require(foreach)) {
     #   outlist = foreach(i = seq(nfolds), .packages = c("classo")) %dopar% {
@@ -61,7 +59,7 @@ cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
     outlist <- as.list(seq(nfolds))
     lambda <- classo.object$lambda
     for (i in seq(nfolds)) {
-      if (trace.it) {
+      if (isTRUE(trace.it == 1)) {
         cat(sprintf("Fold: %d/%d\n", i, nfolds))
       }
 
@@ -98,7 +96,12 @@ cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
     out <- cvstats(cvstuff,foldid,nfolds,lambda)
     cvname <- names(cvstuff$type.measure)
     names(cvname) <- cvstuff$type.measure
-    out <- c(out,list(call=cv.call,name = cvname, classo.fit = classo.object))
+    out <- c(out, list(
+      call = cv.call,
+      name = cvname,
+      classo.fit = classo.object,
+      nzero = nz
+    ))
     if (keep){
       out <- c(out, list(fit.preval = predmat, foldid = foldid))
     }

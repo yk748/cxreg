@@ -124,7 +124,7 @@ cv.classo <- function (x, y,
   if(classo.control()$itrace){
     trace.it <- 1
   }else{
-    if(trace.it){
+    if(isTRUE(trace.it == 1)){
       classo.control(itrace=1)
       on.exit(classo.control(itrace=0))
     }
@@ -143,7 +143,6 @@ cv.classo <- function (x, y,
 
   # ------------------------------------------------ #
   # Call cv.classo.raw
-  cv.classo.raw(x,y,weights,lambda,nfolds,foldid,
+  cv.classo.raw(x,y,weights,lambda,type.measure,nfolds,foldid,
                 alignment,keep,parallel,trace.it,classo.call,cv.call)
-
 }

@@ -5,10 +5,9 @@
 #' The sequence of models implied by \code{lambda} is fit by coordinate descent.
 #'
 #' @param S p x p-dimensional symmetric spectral density (or spectral coherence) matrix. S is considered as being computed by average smoothed periodogram (the bandwidth is computed by using the given nobs).
-#' @param scale The provided S is spectral density (covariance) or spectral coherence (coherence). Default is \code{covariance}.
-#' @param D The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. Do not provide this input if scale is \code{covariance} and type is \code{I}; the algorithm will stop. If not provided when scale is \code{TRUE}, identity matrix is chosen.
-#' @param type Logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference, 
-#' \deqn{D^{-1/2}(\arg\min_{\Theta}Tr[\hat{R}\hat{\Theta}]-\log\det\Theta + \sum_{i\neq j}|\Theta_{ij}|)D^{-1/2}} for the given $D$. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the scale matrix D is multiplied. Please see the reference for the details of the iterative updates.
+#' @param D The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. If D is not provided, diagonals of S are chosen.
+#' @param type A logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference, 
+#' \deqn{D^{-1/2}(\arg\min_{\Theta}\textrm{Tr}[\hat{R}\hat{\Theta}]-\log\det\Theta + \sum_{i\neq j}|\Theta_{ij}|)D^{-1/2}} for the given D. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the squared-root of scale matrix D^{-1/2} is multiplied. Please refer to the equation (5.2) in the reference for the details.
 #' @param nobs Number of observations used in computation of the spectral density matrix S. This quantity is need to compute the Fourier frequency, extended BIC, and bandwidth for the average smoothed periodogram. 
 #' @param lambda A user supplied \code{lambda} sequence.
 #' Typical usage is to have the program compute its own \code{lambda} sequence based on
@@ -35,7 +34,7 @@
 #' \item{stop_criterion}{Stopping criterion used.}
 #' \item{min_index}{The index for lambda that minimizes the value of the information criterion.}
 #' \item{lambda_grid}{Sequence of lambdas used.}
-#' \item{Theta_hat}{Estimated inverse spectral matrix for each fixed lambda. It is provided in the list.}
+#' \item{Theta_list}{Estimated inverse spectral matrix for each fixed lambda. It is provided in the list.}
 #' \item{type}{Type of the formulation used, either CGALSSO-I or CGLASSO-II.}
 #' \item{scale}{Whether the spectral density matrix (covariance) or spectral coherence (coherence) is given.}
 #' \item{D}{Used scale diagonal matrix.}
@@ -49,21 +48,21 @@
 #' @examples
 #' p <- 30
 #' n <- 500
-#' C <- diag(0.7, n)
+#' C <- diag(0.7, p)
 #' C[row(C) == col(C) + 1] <- 0.3  
 #' C[row(C) == col(C) - 1] <- 0.3  
 #' Sigma <- solve(C)
 #' set.seed(1010)
+#' m <- floor(sqrt(n)); j <- 1
 #' X_t <- rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
 #' d_j <- dft.X(X_t,j,m)
 #' f_j_hat <- t(d_j) %*% Conj(d_j) / (2*m+1)
-#' fit <- cglasso(S=f_j_hat, scale="covariance", nobs=n)
+#' fit <- cglasso(S=f_j_hat, nobs=n)
 #' 
-#' #' @export cglasso
+#' @export cglasso
 cglasso <- function(S,
-                    scale = "covariance",
                     D = NULL,
-                    type = "I",
+                    type = c("I","II"),
                     nobs,
                     lambda = NULL,
                     nlambda = 50,
@@ -76,6 +75,8 @@ cglasso <- function(S,
                     trace.it = 0,...){
   
   this.call <- match.call()
+  type <- match.arg(type, choices = c("I","II"))
+  stop_criterion <- match.arg(stop_criterion, choices = c("EBIC", "AIC", "RMSE"))
   ####################################################################
   # check for NAs in x
   if(any(is.na(S))){
@@ -85,35 +86,42 @@ cglasso <- function(S,
     if (p1 != p2){
       stop("S must be square")
     }else{
-      p <- p1
+      if (!isSymmetric(S)){
+        stop("S must be symmetric")
+      }else{
+        p <- p1 
+      }
     }
   }
   # check for NAs in nobs
   if(is.null(nobs)){
     stop("nobs is missing; the number of observations needs to be provided")
   }
-  # check if the D is not given when scale is covariance & type is I 
-  # or if D is properly given under the different settings.
-  if (scale=="covariance" & type=="I" & !is.null(D)){
-    stop("D should not be provided if type I formulation is considered with covariance scale.")
-  }else if (!any(is.null(D))){
-    if ( (dim(D)[1] != p) | (dim(D)[2] != p) ){
-      stop("D must be p by p matrix")
-    }else if (!all(D[!diag(nrow(p))] == 0)){
-      stop("D must be diagonal")
+  # check if D is properly given under the different settings.
+  if (!is.null(D)){
+    if (is.vector(D)){
+      if (length(D)!=p){
+        stop ("D must have the same dimension as S")
+      }else{
+        D <- diag(D,p)
+      }
+    }else if (is.matrix(D)){
+      if ( (dim(D)[1] != p) | (dim(D)[2] != p) ){
+        stop("D must be p by p matrix")
+      }else if (!all(D[!diag(nrow(p))] == 0)){
+        stop("D must be diagonal")
+      }
+    }else{
+      stop ("D must be either p length of vector or p by p diagonal matrix")
     }
-  }else{
-    D <- diag(1,p)
   }
   # Check stopping rule & stopping criterion
   if (is.null(stop_criterion)){
     stop_criterion <- "EBIC"
   }
   
-  
   ####################################################################
   fit_cglasso <- cglasso.path(S,
-                              scale,
                               D,
                               type,
                               nobs,
@@ -121,7 +129,6 @@ cglasso <- function(S,
                              nlambda,
                              lambda.min.ratio,
                              W.init,
-                             scale,
                              stopping_rule,
                              stop_criterion,
                              maxit = maxit,
@@ -130,5 +137,6 @@ cglasso <- function(S,
   
   fit_cglasso$call <- this.call
   class(fit_cglasso) <- "cglasso"
+  class(fit_cglasso$Theta_list) <- "cglasso"
   fit_cglasso
 }

@@ -1,6 +1,6 @@
 c     Sequential strong screening
 
-      subroutine seq_str_screen_(x,y,n,p,lambda,lambda0,b0,act,nact)
+      subroutine seq_str_screen(x,y,n,p,lambda,lambda0,b0,act,nact)
       integer n,p
       integer nact,act(1:p)
       integer i,j
@@ -40,7 +40,7 @@ c     Sequential strong screening
 
 c     Complex Lasso with warm start and active set screening
 
-      subroutine classocd_warm_screen_(x,y,n,p,lambda,lambda0,b0,b)
+      subroutine classocd_warm_screen(x,y,n,p,lambda,lambda0,b0,b)
       integer n,p
       integer i,j,k,it,nact,act(1:p)
       double complex x(1:n, 1:p),xj(1:n),y(1:n),b0(1:p),b(1:p),bo(1:p)
@@ -50,7 +50,7 @@ c     Complex Lasso with warm start and active set screening
       double precision eo,en,ed
       double complex sxr
 
-      call seq_str_screen_(x,y,n,p,lambda,lambda0,b0,act,nact)
+      call seq_str_screen(x,y,n,p,lambda,lambda0,b0,act,nact)
 
       do 81 j=1,p
          bo(j) = 0
@@ -92,7 +92,7 @@ c     Complex Lasso with warm start and active set screening
  116           continue
                
                sxr = 0
-               call soft_threshold_(rj, xj, n, lambda, sxr)
+               call soft_threshold(rj, xj, n, lambda, sxr)
                b(j) = sxr
                do 123 i = 1,n
                   r(i) = rj(i) - xj(i) * b(j)

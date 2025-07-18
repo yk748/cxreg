@@ -1,17 +1,77 @@
 
-# Complex-valued Lasso and graphical Lasso
+# Complex lasso (CLASSO) and complex graphical lasso (CGLASSO)
 
 We provide an efficient estimation procedure for fitting a penalized
-complex-valued Lasso (classo) and a complex-valued graphical Lasso
-(cglasso). The key idea is to bring the pathwise coordinate descent
-algorithm
+complex-valued lasso (CLASSO) and a complex-valued graphical lasso
+(CGLASSO) problem. We implement a pathwise coordinate descent algorithm
 ([2007](#ref-pathwise),[2008](#ref-glasso),[2010](#ref-glmnet)) into a
-complex analog, by introducing a unique isomorphism. Such transformation
-enables leveraging the existing algorithm in complex settings. Details
-can be found in Deb, Kuceyeski, and Basu ([2024](#ref-classo)).
+complex analog, by introducing an isomorphism between complex numbers
+and set of $2\times 2$ orthogonal matrices. Such isomporphism enables
+leveraging the existing algorithms in into complex settings. Details can
+be found in Deb, Kuceyeski, and Basu ([2024](#ref-classo)).
+
+## `cxreg` installation for macOS
+
+Following are the instructions to install the GCC compiler that includes
+`gfortran` for using in `R`.
+
+### GCC and `gfortran` installation steps for `R`
+
+Open terminal and run:
+
+``` bash
+brew install gcc
+```
+
+Check if the `/.R` directory already exists by running:
+
+``` bash
+ls -ld ~/.R
+```
+
+If the `/.R` does not exist run the first line. Open the `/.R/Makevars`
+file by running the second line.
+
+``` bash
+mkdir ~/.R
+vim ~/.R/Makevars
+```
+
+Add the following lines in `/.R/Makevars` and save the file.
+
+``` bash
+FC = /opt/homebrew/Cellar/gcc/15.0.1/bin/gfortran
+F77 = /opt/homebrew/Cellar/gcc/15.0.1/bin/gfortran
+FLIBS = -L/opt/homebrew/Cellar/gcc/15.0.1/lib/gcc/15
+```
+
+One needs to change the GCC version `15.0.1` to the according version
+obtained by `gfortran --version`.
+
+### Package installation steps
+
+Install the package from GitHub using `devtools` as follows:
+
+``` r
+library(devtools)
+devtools::install_github("yk748/cxreg")
+```
+
+A short example is presented to demonstrate the working of the package.
+Details can be found in `cxreg/vignettes/cxreg.Rmd`.
+
+``` r
+library(cxreg)
+data(classo_example)
+x <- classo_example$x
+y <- classo_example$y
+cvfit <- cv.classo(x,y,trace.it = 1)
+print(coef(cvfit, s = "lambda.min"))
+predict(cvfit, newx = x[1:5,], s = "lambda.min")
+```
 
 The first stable version (1.0.0) is released, which provides the fitting
-functions of classo and cglasso, along with their auxiliary functions
+functions of CLASSO and CGLASSO along with their auxiliary functions
 such as printing paths of coefficients, cross-validation, and generating
 plots (regularization paths and heatmap). We will keep updating and
 maintaining the package to eventually incorporate a systematic error

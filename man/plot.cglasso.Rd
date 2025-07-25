@@ -4,7 +4,13 @@
 \alias{plot.cglasso}
 \title{plot heatmap from a "cglasso" object}
 \usage{
-\method{plot}{cglasso}(x, index, type = c("real", "imaginary", "mod", "both"), label = FALSE)
+\method{plot}{cglasso}(
+  x,
+  index,
+  type = c("real", "imaginary", "mod", "both"),
+  label = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{fitted \code{"cglasso"} model}
@@ -15,6 +21,8 @@ The index must be provided within the length of the sequence of lambdas.}
 \item{type}{Whether the plot is for real or imaginary part, or both, or in modulus (mod; absolute scale). Default is \code{mod}.}
 
 \item{label}{If \code{TRUE}, label the axes with variable names.}
+
+\item{\dots}{Other graphical parameters to plot}
 }
 \description{
 Produces plot of the estimated inverse spectral matrix for a fitted

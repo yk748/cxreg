@@ -43,10 +43,14 @@ is satisfied for the input x. Default is \code{FALSE}.}
 coordinate-descent loop continues until the maximum change in the objective after any
 coefficient update is less than thresh times the null deviance. Default value is \code{1e-10}.}
 
+\item{maxit}{Maximum number of iterations of outer loop. Default 10,000.}
+
 \item{trace.it}{Controls how much information is printed to screen. Default is
 \code{trace.it=0} (no information printed). If \code{trace.it=1}, a progress
 bar is displayed. If \code{trace.it=2}, some information about the fitting
 procedure is printed to the console as the model is being fitted.}
+
+\item{\dots}{Other arguments that can be passed to \code{classo}}
 }
 \value{
 An object with class "classofit" and "classo".

@@ -6,6 +6,16 @@
 \usage{
 dft.X(X, j, m)
 }
+\arguments{
+\item{X}{A numeric matrix of size \eqn{nobs \times nvar}, where DFT is applied across the rows (time points).}
+
+\item{j}{An integer index in \eqn{1,\ldots,nobs} around which the frequency window is centered.}
+
+\item{m}{A non-negative integer specifying the window half-width. The function returns \code{2m + 1} DFT components centered around \code{j}.}
+}
+\value{
+A complex-valued matrix of dimension \code{(2m + 1) × nvar} representing selected DFT components of the original matrix.
+}
 \description{
-Discrete Fourier Transform of matrix X
+Computes the (normalized) discrete Fourier transform (DFT) of a matrix \code{X} row-wise using \code{mvfft}, and extracts a window of frequencies centered at a target index.
 }

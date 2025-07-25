@@ -17,7 +17,8 @@ cglasso.path(
   stop_criterion,
   maxit = maxit,
   thresh = thresh,
-  trace.it = trace.it
+  trace.it = trace.it,
+  ...
 )
 }
 \arguments{
@@ -57,6 +58,8 @@ If \code{nobs < p}, the default is \code{0.01}.}
 
 \item{trace.it}{If \code{trace.it=1}, then a progress bar is displayed;
 useful for big models that take a long time to fit.}
+
+\item{\dots}{Other arguments that can be passed to \code{cglasso}}
 }
 \value{
 An object with class "cglassofit" and "cglasso".

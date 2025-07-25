@@ -27,6 +27,7 @@
 #' @param maxit Maximum number of iterations of both outer and inner loops. Default 500.
 #' @param thresh Convergence threshold for coordinate descent. Default is 1e-4.
 #' @param trace.it If \code{trace.it=1}, then a progress bar is displayed;
+#' @param \dots Other arguments that can be passed to \code{cglasso}
 #' useful for big models that take a long time to fit.
 #' 
 #' @return An object with class "cglassofit" and "cglasso".

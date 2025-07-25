@@ -1,7 +1,15 @@
-#' Build Prediction Matrix
+#' Build Prediction Matrix (Default Method)
 #'
+#' These are not intended for use by users. Constructs a prediction matrix for cross-validation folds, using the coefficient paths in \code{outlist}.
+#' Inspired by internal functions in the \code{glmnet} package.
+#' @param outlist A list of fitted models.
+#' @param lambda A vector of penalty values.
+#' @param x A predictor matrix.
+#' @param foldid Fold identifiers.
+#' @param alignment Alignment method (not used).
+#' @param \dots Other arguments
 #' @export
-buildPredmat.default <- function(outlist, lambda, x, foldid, alignment){
+buildPredmat.default <- function(outlist, lambda, x, foldid, alignment, ...){
 
 
   predmat <- matrix(NA, nrow(x), length(lambda))
@@ -30,8 +38,16 @@ buildPredmat.default <- function(outlist, lambda, x, foldid, alignment){
 
 #' Build Prediction Matrix
 #'
+#' These are not intended for use by users. Constructs a prediction matrix for cross-validation folds, using the coefficient paths in \code{outlist}.
+#' Inspired by internal functions in the \code{glmnet} package.
+#' @param outlist A list of fitted models.
+#' @param lambda A vector of penalty values.
+#' @param x A predictor matrix.
+#' @param foldid Fold identifiers.
+#' @param alignment Alignment method (not used).
+#' @param \dots Other arguments
 #' @export
-buildPredmat <- function(outlist, lambda, x, foldid, alignment){
+buildPredmat <- function(outlist, lambda, x, foldid, alignment, ...){
   UseMethod("buildPredmat")
 }
 

@@ -86,14 +86,14 @@ cv.classo <- function (x, y,
                        lambda = NULL,
                        nfolds = 10,
                        foldid=NULL,
-                       type.measure="mse",
                        alignment=c("lambda","fraction"),
                        keep = FALSE,
                        parallel = FALSE,
                        trace.it=0, ...){
 
   # ------------------------------------------------ #
-  type.measure <- match.arg(type.measure)
+  # type.measure <- match.arg(type.measure)
+  type.measure <- "mse"
   alignment <- match.arg(alignment)
   if (!is.null(lambda) && length(lambda) < 2){
     stop("Need more than one value of lambda for cv.glasso")

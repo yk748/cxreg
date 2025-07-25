@@ -1,23 +1,17 @@
 ---
 title: "An Introduction to `cxreg`"
 author:
-- Younghoon Kim
-- Navonil Deb
-- Sumanta Basu
+  - Younghoon Kim
+  - Navonil Deb
+  - Sumanta Basu
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-output:
-  pdf_document:
-    fig_caption: true
-    toc: true
-    toc_depth: 3
-  html_document:
-    toc: true
-    toc_depth: '3'
-    df_print: paged
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{An Introduction to cxreg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 link-citations: true
 bibliography: cxreg_refs.bib
-vignette: |
-  %\VignetteIndexEntry{An Introduction to cxreg} %\VignetteEngine{knitr::rmarkdown} \usepackage[utf8]{inputenc}
 ---
 
 ```{r include=FALSE}

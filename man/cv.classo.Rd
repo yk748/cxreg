@@ -11,7 +11,6 @@ cv.classo(
   lambda = NULL,
   nfolds = 10,
   foldid = NULL,
-  type.measure = "mse",
   alignment = c("lambda", "fraction"),
   keep = FALSE,
   parallel = FALSE,

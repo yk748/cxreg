@@ -11,13 +11,16 @@
 #' The index must be provided within the length of the sequence of lambdas.
 #' @param type Whether the plot is for real or imaginary part, or both, or in modulus (mod; absolute scale). Default is \code{mod}.
 #' @param label If \code{TRUE}, label the axes with variable names.
+#' @param \dots Other graphical parameters to plot
 #' @author Navonil Deb, Younghoon Kim, Sumanta Basu \cr Maintainer: Younghoon Kim
 #' \email{yk748@cornell.edu}
 #' @seealso \code{cglasso}
 #'
+#'
+#' @importFrom grDevices colorRampPalette
 #' @method plot cglasso
 #' @export 
-plot.cglasso <- function(x, index, type=c("real","imaginary","mod","both"),label=FALSE) {
+plot.cglasso <- function(x, index, type=c("real","imaginary","mod","both"),label=FALSE,...) {
   
   call <- match.call()
   type <- match.arg(type, choices = c("real","imaginary","mod","both"))

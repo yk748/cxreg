@@ -17,10 +17,12 @@
 #' @param thresh Convergence threshold for coordinate descent. Each inner
 #' coordinate-descent loop continues until the maximum change in the objective after any
 #' coefficient update is less than thresh times the null deviance. Default value is \code{1e-10}.
+#' @param maxit Maximum number of iterations of outer loop. Default 10,000.
 #' @param trace.it Controls how much information is printed to screen. Default is
 #' \code{trace.it=0} (no information printed). If \code{trace.it=1}, a progress
 #' bar is displayed. If \code{trace.it=2}, some information about the fitting
 #' procedure is printed to the console as the model is being fitted.
+#' @param \dots Other arguments that can be passed to \code{classo}
 #'
 #' @return An object with class "classofit" and "classo".
 #' \item{a0}{Intercept sequence of length \code{length(lambda)}.}

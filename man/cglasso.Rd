@@ -56,7 +56,9 @@ If \code{nobs < p}, the default is \code{0.01}.}
 
 \item{thresh}{Convergence threshold for coordinate descent. Default is 1e-4.}
 
-\item{trace.it}{If \code{trace.it=1}, then a progress bar is displayed;
+\item{trace.it}{If \code{trace.it=1}, then a progress bar is displayed;}
+
+\item{\dots}{Other arguments that can be passed to \code{cglasso}
 useful for big models that take a long time to fit.}
 }
 \value{

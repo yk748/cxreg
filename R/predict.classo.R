@@ -69,7 +69,6 @@ predict.classo <- function(object,newx,s=NULL,
 
     if(!all(which>0)){
       lambda <- unique(rev(sort(c(s,lambda))))
-      check_dots(object,...) # This fails if you don't supply the crucial arguments
       object <- update(object,lambda=lambda,...)
     }
   }

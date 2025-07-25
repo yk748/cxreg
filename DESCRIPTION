@@ -16,14 +16,17 @@ Imports:
     fields,
     foreach,
     gdata,
+    grDevices,
     Matrix,
     methods,
     mvtnorm,
     Rcpp,
     stats
 Suggests: 
+    devtools,
     knitr,
-    rmarkdown
+    rmarkdown,
+    xfun
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

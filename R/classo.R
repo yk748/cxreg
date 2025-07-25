@@ -38,6 +38,7 @@
 #' deviance. Defaults value is \code{1e-7}.
 #' @param trace.it If \code{trace.it=1}, then a progress bar is displayed;
 #' useful for big models that take a long time to fit.
+#' @param \dots Other arguments that can be passed to \code{classo}
 #'
 #' @return An object with class "classofit" and "classo".
 #' \item{a0}{Intercept sequence of length \code{length(lambda)}.}

@@ -2,10 +2,18 @@
 % Please edit documentation in R/cglassoFlex.R
 \name{fixm}
 \alias{fixm}
-\title{Fixing m for dft.X}
+\title{Fixes indices that fall outside the valid range \code{1:n} using circular (modulo) wrapping.}
 \usage{
 fixm(v, n)
 }
+\arguments{
+\item{v}{An integer vector of indices.}
+
+\item{n}{A positive integer giving the length of the domain; valid indices are \code{1} to \code{nobs}.}
+}
+\value{
+An integer vector of the same length as \code{v}, with all values wrapped into the range \code{1} to \code{n}.
+}
 \description{
-Fixing m for dft.X
+Fixes indices that fall outside the valid range \code{1:n} using circular (modulo) wrapping.
 }

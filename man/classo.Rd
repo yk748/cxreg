@@ -62,6 +62,8 @@ deviance. Defaults value is \code{1e-7}.}
 
 \item{trace.it}{If \code{trace.it=1}, then a progress bar is displayed;
 useful for big models that take a long time to fit.}
+
+\item{\dots}{Other arguments that can be passed to \code{classo}}
 }
 \value{
 An object with class "classofit" and "classo".

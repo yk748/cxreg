@@ -4,8 +4,22 @@
 \alias{buildPredmat}
 \title{Build Prediction Matrix}
 \usage{
-buildPredmat(outlist, lambda, x, foldid, alignment)
+buildPredmat(outlist, lambda, x, foldid, alignment, ...)
+}
+\arguments{
+\item{outlist}{A list of fitted models.}
+
+\item{lambda}{A vector of penalty values.}
+
+\item{x}{A predictor matrix.}
+
+\item{foldid}{Fold identifiers.}
+
+\item{alignment}{Alignment method (not used).}
+
+\item{\dots}{Other arguments}
 }
 \description{
-Build Prediction Matrix
+These are not intended for use by users. Constructs a prediction matrix for cross-validation folds, using the coefficient paths in \code{outlist}.
+Inspired by internal functions in the \code{glmnet} package.
 }

@@ -27,6 +27,7 @@
 #' @param thresh Convergence threshold for coordinate descent. Default is 1e-4.
 #' @param trace.it If \code{trace.it=1}, then a progress bar is displayed;
 #' useful for big models that take a long time to fit.
+#' @param \dots Other arguments that can be passed to \code{cglasso}
 #' 
 #' @return An object with class "cglassofit" and "cglasso".
 #' \item{a0}{Intercept sequence of length \code{length(lambda)}.}
@@ -62,6 +63,7 @@
 #' \item{scale}{Whether the spectral density matrix (covariance) or spectral coherence (coherence) is given.}
 #' \item{D}{Used scale diagonal matrix.}
 #'
+#' @importFrom stats mvfft
 #' @useDynLib cxreg cglassocd_noscale cglassocd_scaled
 cglasso.path <- function(S,
                          D,
@@ -75,7 +77,7 @@ cglasso.path <- function(S,
                          stop_criterion,
                          maxit = maxit,
                          thresh = thresh,
-                         trace.it = trace.it){
+                         trace.it = trace.it,...){
   
   ####################################################################
   # Prepare all the generic arguments
@@ -316,6 +318,14 @@ cglasso.path <- function(S,
 
 ####################################################################
 #' Discrete Fourier Transform of matrix X
+#' 
+#' Computes the (normalized) discrete Fourier transform (DFT) of a matrix \code{X} row-wise using \code{mvfft}, and extracts a window of frequencies centered at a target index.
+#'
+#' @param X A numeric matrix of size \eqn{nobs \times nvar}, where DFT is applied across the rows (time points).
+#' @param j An integer index in \eqn{1,\ldots,nobs} around which the frequency window is centered.
+#' @param m A non-negative integer specifying the window half-width. The function returns \code{2m + 1} DFT components centered around \code{j}.
+#'
+#' @return A complex-valued matrix of dimension \code{(2m + 1) × nvar} representing selected DFT components of the original matrix.
 #'
 #' @export
 dft.X <- function(X, j, m){
@@ -329,7 +339,12 @@ dft.X <- function(X, j, m){
 }
 
 ####################################################################
-#' Fixing m for dft.X
+#' Fixes indices that fall outside the valid range \code{1:n} using circular (modulo) wrapping.
+#'
+#' @param v An integer vector of indices.
+#' @param n A positive integer giving the length of the domain; valid indices are \code{1} to \code{nobs}.
+#'
+#' @return An integer vector of the same length as \code{v}, with all values wrapped into the range \code{1} to \code{n}.
 #'
 #' @export
 fixm <- function(v, n){

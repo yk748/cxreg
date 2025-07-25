@@ -6,12 +6,20 @@ Authors@R: c(
     person("Navonil", "Deb", role = "aut"),
     person("Sumanta", "Basu", role = "ctb")
   )
-Description: This package contains glmnet-style complex-valued lasso and
-    graphical lasso formulation via complex update pathwise coordinate
-    descent algorithm and its supporting functions.
+Description: Implements glmnet-style complex-valued lasso and graphical
+    lasso using a pathwise coordinate descent algorithm for complex-valued
+    parameters, with supporting tools for estimation and prediction.
 License: MIT + file LICENSE
 Depends: 
     R (>= 3.5.0)
+Imports: 
+    fields,
+    foreach,
+    gdata,
+    Matrix,
+    methods,
+    mvtnorm,
+    Rcpp
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

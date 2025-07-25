@@ -4,10 +4,10 @@
 \alias{plot.cglasso}
 \title{plot heatmap from a "cglasso" object}
 \usage{
-\method{plot}{cglasso}(X, index, type = c("real", "imaginary", "mod", "both"), label = FALSE)
+\method{plot}{cglasso}(x, index, type = c("real", "imaginary", "mod", "both"), label = FALSE)
 }
 \arguments{
-\item{X}{fitted \code{"cglasso"} model}
+\item{x}{fitted \code{"cglasso"} model}
 
 \item{index}{For which inverse spectral matrix profile is the plot to be drawn? Default is 1.
 The index must be provided within the length of the sequence of lambdas.}

@@ -1,3 +1,5 @@
+#' Build Prediction Matrix
+#'
 #' @export
 buildPredmat.default <- function(outlist, lambda, x, foldid, alignment){
 
@@ -26,7 +28,8 @@ buildPredmat.default <- function(outlist, lambda, x, foldid, alignment){
   predmat
 }
 
-
+#' Build Prediction Matrix
+#'
 #' @export
 buildPredmat <- function(outlist, lambda, x, foldid, alignment){
   UseMethod("buildPredmat")

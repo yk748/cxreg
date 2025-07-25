@@ -89,7 +89,7 @@ NULL
 #' e <- rnorm(100) + (1+1i) * rnorm(100)
 #' b <- c(1, -1, rep(0, 18)) + (1+1i) * c(-0.5, 2, rep(0, 18))
 #' y <- x %*% b + e
-#' fit <- glmnet(x, y)
+#' fit <- classo(x, y)
 #' predict(fit, newx = x[1:5, ], s = c(0.01, 0.005))
 #' predict(fit, type = "coef")
 #' plot(fit, xvar = "lambda")
@@ -102,11 +102,11 @@ NULL
 #' Sigma <- solve(C)
 #' set.seed(1010)
 #' m <- floor(sqrt(n)); j <- 1
-#' X_t <- rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
+#' X_t <- mvtnorm::rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
 #' d_j <- dft.X(X_t,j,m)
 #' f_j_hat <- t(d_j) %*% Conj(d_j) / (2*m+1)
 #' fit <- cglasso(S=f_j_hat, nobs=n,type="I")
-#' plot.cglasso(fit$Theta_list,index=fit$min_index,type="mod",label=FALSE)
+#' plot(fit$Theta_list,index=fit$min_index,type="mod",label=FALSE)
 #'
 NULL
 

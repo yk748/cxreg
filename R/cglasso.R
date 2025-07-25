@@ -39,6 +39,7 @@
 #' \item{scale}{Whether the spectral density matrix (covariance) or spectral coherence (coherence) is given.}
 #' \item{D}{Used scale diagonal matrix.}
 #' 
+#' @importFrom mvtnorm rmvnorm
 #' @author Navonil Deb, Younghoon Kim, Sumanta Basu \cr Maintainer: Younghoon Kim
 #' \email{yk748@cornell.edu}
 #' @references Deb, N., Kuceyeski, A., Basu, S. (2024)
@@ -54,11 +55,10 @@
 #' Sigma <- solve(C)
 #' set.seed(1010)
 #' m <- floor(sqrt(n)); j <- 1
-#' X_t <- rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
+#' X_t <- mvtnorm::rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
 #' d_j <- dft.X(X_t,j,m)
 #' f_j_hat <- t(d_j) %*% Conj(d_j) / (2*m+1)
 #' fit <- cglasso(S=f_j_hat, nobs=n)
-#' 
 #' @export cglasso
 cglasso <- function(S,
                     D = NULL,
@@ -136,7 +136,7 @@ cglasso <- function(S,
                              trace.it = trace.it)
   
   fit_cglasso$call <- this.call
-  class(fit_cglasso) <- "cglasso"
+  # class(fit_cglasso) <- "cglasso"
   class(fit_cglasso$Theta_list) <- "cglasso"
   fit_cglasso
 }

@@ -315,6 +315,9 @@ cglasso.path <- function(S,
 }
 
 ####################################################################
+#' Discrete Fourier Transform of matrix X
+#'
+#' @export
 dft.X <- function(X, j, m){
   n = nrow(X); p = ncol(X)
   dft <- mvfft(X)/sqrt(2*pi*n)
@@ -326,6 +329,9 @@ dft.X <- function(X, j, m){
 }
 
 ####################################################################
+#' Fixing m for dft.X
+#'
+#' @export
 fixm <- function(v, n){
   v[v<1] = v[v<1]+n
   v[v>n] = v[v>n]-n

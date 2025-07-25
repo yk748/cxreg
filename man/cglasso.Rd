@@ -85,11 +85,10 @@ C[row(C) == col(C) - 1] <- 0.3
 Sigma <- solve(C)
 set.seed(1010)
 m <- floor(sqrt(n)); j <- 1
-X_t <- rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
+X_t <- mvtnorm::rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
 d_j <- dft.X(X_t,j,m)
 f_j_hat <- t(d_j) \%*\% Conj(d_j) / (2*m+1)
 fit <- cglasso(S=f_j_hat, nobs=n)
-
 }
 \references{
 Deb, N., Kuceyeski, A., Basu, S. (2024)

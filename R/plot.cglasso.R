@@ -6,7 +6,7 @@
 #' A inverse spectral matrix profile plot is produced.
 #'
 #' @aliases plot.cglasso
-#' @param X fitted \code{"cglasso"} model
+#' @param x fitted \code{"cglasso"} model
 #' @param index For which inverse spectral matrix profile is the plot to be drawn? Default is 1. 
 #' The index must be provided within the length of the sequence of lambdas.
 #' @param type Whether the plot is for real or imaginary part, or both, or in modulus (mod; absolute scale). Default is \code{mod}.
@@ -17,14 +17,15 @@
 #'
 #' @method plot cglasso
 #' @export 
-plot.cglasso <- function(X, index, type=c("real","imaginary","mod","both"),label=FALSE) {
+plot.cglasso <- function(x, index, type=c("real","imaginary","mod","both"),label=FALSE) {
   
+  call <- match.call()
   type <- match.arg(type, choices = c("real","imaginary","mod","both"))
   ####################################################################
-  # check for index for X
+  # check for index for x
   if(!is.integer(index)){
     stop("The index must be integer.")
-  }else if(1 > index | index > length(X)){
+  }else if(1 > index | index > length(x)){
     stop("The index must be within the length of lambdas.")
   }
   
@@ -32,7 +33,7 @@ plot.cglasso <- function(X, index, type=c("real","imaginary","mod","both"),label
     type <- "mod"
   }
   
-  S <- X[[index]]
+  S <- x[[index]]
   p <- nrow(S)
   x_coords <- seq(0, 1, length.out = p + 1)  # breaks between columns
   y_coords <- seq(0, 1, length.out = p + 1)  # breaks between rows

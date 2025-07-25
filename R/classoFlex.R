@@ -350,8 +350,14 @@ get_start <- function(x,y,weights,intercept) {
 }
   
 
-  
-  
+####################################################################
+weighted_mean_sd <- function(x, weights=rep(1,nrow(x))){
+  weights <- weights/sum(weights)
+  xm <- drop(t(weights)%*%x)
+  xv <- drop(t(weights)%*%scale(x,xm,FALSE)^2)
+  xv[xv < 10*.Machine$double.eps] <- 0
+  list(mean = xm, sd = sqrt(xv))
+}
   
   
   

@@ -24,7 +24,7 @@
 #' b = c(1, -1, rep(0, p-2)) + (1+1i) * c(-0.5, 2, rep(0, p-2))
 #' y = x %*% b + e
 #' cv.test = cv.classo(x,y)
-#' plot.cv.classo(cv.test)
+#' plot(cv.test)
 #'
 #' @method plot cv.classo
 #' @export

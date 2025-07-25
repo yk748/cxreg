@@ -101,6 +101,14 @@ are selected at random. Users can reduce this randomness by running
 }
 \examples{
 
+set.seed(1010)
+n = 1000
+p = 200
+x = array(rnorm(n*p), c(n,p)) + (1+1i) * array(rnorm(n*p), c(n,p))
+for (j in 1:p) x[,j] = x[,j] / sqrt(mean(Mod(x[,j])^2))
+e = rnorm(n) + (1+1i) * rnorm(n)
+b = c(1, -1, rep(0, p-2)) + (1+1i) * c(-0.5, 2, rep(0, p-2))
+y = x \%*\% b + e
 cv.test = cv.classo(x,y)
 
 }

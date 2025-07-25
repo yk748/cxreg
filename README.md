@@ -1,5 +1,5 @@
 
-# Complex lasso (CLASSO) and complex graphical lasso (CGLASSO)
+# Complex-valued lasso (CLASSO) and complex-valued graphical lasso (CGLASSO)
 
 We provide an efficient estimation procedure for fitting a penalized
 complex-valued lasso (CLASSO) and a complex-valued graphical lasso

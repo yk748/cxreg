@@ -6,7 +6,7 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Complex lasso (CLASSO) and complex graphical lasso (CGLASSO)
+# Complex-valued lasso (CLASSO) and complex-valued graphical lasso (CGLASSO)
 
 We provide an efficient estimation procedure for fitting a penalized complex-valued lasso (CLASSO) and a complex-valued graphical lasso (CGLASSO) problem. We implement a pathwise coordinate descent algorithm ([2007](#ref-pathwise),[2008](#ref-glasso),[2010](#ref-glmnet)) into a complex analog, by introducing an isomorphism between complex numbers and set of $2\times 2$ orthogonal matrices. Such isomporphism enables leveraging the existing algorithms in \texttt{glmnet} into complex settings. Details can be found in Deb, Kuceyeski, and Basu ([2024](#ref-classo)).
 

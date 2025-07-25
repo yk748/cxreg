@@ -1,5 +1,5 @@
 Package: cxreg
-Title: complex-valued penalized regressions
+Title: Complex-valued lasso and complex-valued graphical lasso
 Version: 1.0.0
 Authors@R: c(
     person("Younghoon", "Kim", , "yk748@cornell.edu", role = c("aut", "cre")),

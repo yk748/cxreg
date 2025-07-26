@@ -44,7 +44,7 @@
 #' \code{cv.classo}.
 #' @references Deb, N., Kuceyeski, A. and Basu, S. (2024)
 #' \emph{Regularized estimation of sparse spectral precision matrices (2024), Preprint},
-#' \doi{arXiv:2401.11128}.
+#' \url{https://arxiv.org/abs/2401.11128}.
 #' @keywords models regression
 #' @method predict classo
 #' @export

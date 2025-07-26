@@ -14,7 +14,7 @@
 #' \email{yk748@cornell.edu}
 #' @seealso \code{classo} and \code{plot} methods for \code{"cv.classo"}.
 #' @examples
-#'
+#' \dontrun{ 
 #' set.seed(1010)
 #' n = 1000
 #' p = 200
@@ -25,7 +25,7 @@
 #' y = x %*% b + e
 #' cv.test = cv.classo(x,y)
 #' plot(cv.test)
-#'
+#' }
 #' @method plot cv.classo
 #' @export
 #'

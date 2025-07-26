@@ -70,7 +70,7 @@ This function actually calls \code{NextMethod()}.
 \references{
 Deb, N., Kuceyeski, A. and Basu, S. (2024)
 \emph{Regularized estimation of sparse spectral precision matrices (2024), Preprint},
-\doi{arXiv:2401.11128}.
+\url{https://arxiv.org/abs/2401.11128}.
 }
 \seealso{
 \code{classo}, and \code{print}, and \code{coef} methods, and

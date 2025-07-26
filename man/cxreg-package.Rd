@@ -54,7 +54,7 @@ plot(fit$Theta_list,index=fit$min_index,type="mod",label=FALSE)
 \references{
 Deb, N., Kuceyeski, A., Basu, S. (2024)
 \emph{Regularized Estimation of Sparse Spectral Precision Matrices},
-\url{https://arxiv.org/abs/2401}
+\url{https://arxiv.org/abs/2401.11128}.
 }
 \author{
 Younghoon Kim, Navonil Deb, Sumanta Basu \cr Maintainer:

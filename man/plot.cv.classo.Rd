@@ -22,7 +22,7 @@ curves, as a function of the \code{lambda} values used.
 A plot is produced, and nothing is returned.
 }
 \examples{
-
+\dontrun{ 
 set.seed(1010)
 n = 1000
 p = 200
@@ -33,7 +33,7 @@ b = c(1, -1, rep(0, p-2)) + (1+1i) * c(-0.5, 2, rep(0, p-2))
 y = x \%*\% b + e
 cv.test = cv.classo(x,y)
 plot(cv.test)
-
+}
 }
 \seealso{
 \code{classo} and \code{plot} methods for \code{"cv.classo"}.

@@ -69,7 +69,7 @@
 #' \email{yk748@cornell.edu}
 #' @seealso \code{classo} and \code{plot} and \code{coef} methods for \code{"cv.classo"}.
 #' @examples
-#'
+#' \dontrun{
 #' set.seed(1010)
 #' n = 1000
 #' p = 200
@@ -79,7 +79,7 @@
 #' b = c(1, -1, rep(0, p-2)) + (1+1i) * c(-0.5, 2, rep(0, p-2))
 #' y = x %*% b + e
 #' cv.test = cv.classo(x,y)
-#'
+#' }
 #' @export cv.classo
 cv.classo <- function (x, y,
                        weights=NULL,

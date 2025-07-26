@@ -6,9 +6,10 @@ Authors@R: c(
     person("Navonil", "Deb", role = "aut"),
     person("Sumanta", "Basu", role = "ctb")
   )
-Description: Implements glmnet-style complex-valued lasso and graphical
-    lasso using a pathwise coordinate descent algorithm for complex-valued
-    parameters, with supporting tools for estimation and prediction.
+Description: Implements 'glmnet'-style complex-valued lasso and graphical
+    lasso using a 'pathwise' coordinate descent algorithm for
+    complex-valued parameters, with supporting tools for estimation and
+    prediction.
 License: MIT + file LICENSE
 Depends: 
     R (>= 3.5.0)

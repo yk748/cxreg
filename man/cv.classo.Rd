@@ -99,7 +99,7 @@ are selected at random. Users can reduce this randomness by running
 \code{cv.classo} many times, and averaging the error curves.
 }
 \examples{
-
+\dontrun{
 set.seed(1010)
 n = 1000
 p = 200
@@ -109,7 +109,7 @@ e = rnorm(n) + (1+1i) * rnorm(n)
 b = c(1, -1, rep(0, p-2)) + (1+1i) * c(-0.5, 2, rep(0, p-2))
 y = x \%*\% b + e
 cv.test = cv.classo(x,y)
-
+}
 }
 \seealso{
 \code{classo} and \code{plot} and \code{coef} methods for \code{"cv.classo"}.

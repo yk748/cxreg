@@ -80,7 +80,7 @@ NULL
 #' Younghoon Kim <yk748@cornell.edu>
 #' @references Deb, N., Kuceyeski, A., Basu, S. (2024)
 #' \emph{Regularized Estimation of Sparse Spectral Precision Matrices},
-#' \url{https://arxiv.org/abs/2401}
+#' \url{https://arxiv.org/abs/2401.11128}.
 #' @keywords models regression package
 #' @examples
 #' set.seed(1234)

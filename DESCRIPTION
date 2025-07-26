@@ -1,5 +1,5 @@
 Package: cxreg
-Title: Complex-valued lasso and complex-valued graphical lasso
+Title: Complex-Valued Lasso and Complex-Valued Graphical Lasso
 Version: 1.0.0
 Authors@R: c(
     person("Younghoon", "Kim", , "yk748@cornell.edu", role = c("aut", "cre")),

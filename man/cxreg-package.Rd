@@ -14,7 +14,7 @@ The function is built upon classo with covariate updates, just as the regular re
 \tabular{ll}{
 Package: \tab cxreg \cr
 Type: \tab Package \cr
-Version: \tab 1.0 \cr
+Version: \tab 1.0.0 \cr
 Date: \tab 2025-07-01 \cr
 License: \tab MIT + file LICENSE \cr
 }
@@ -25,6 +25,7 @@ parameters \code{lambda}. Similarly, accepts \code{S,n} data for penalized Gauss
 and produce the regularization paths over a grid of values for the tuning parameter \code{lambda}.
 }
 \examples{
+\dontrun{ 
 set.seed(1234)
 x <- array(rnorm(100*20), c(100,20)) + (1+1i) * array(rnorm(100*20), c(100,20))
 for (j in 1:20) x[,j] <- x[,j] / sqrt(mean(Mod(x[,j])^2))
@@ -35,7 +36,9 @@ fit <- classo(x, y)
 predict(fit, newx = x[1:5, ], s = c(0.01, 0.005))
 predict(fit, type = "coef")
 plot(fit, xvar = "lambda")
+}
 
+\dontrun{ 
 p <- 30
 n <- 500
 C <- diag(0.7, p)
@@ -49,7 +52,7 @@ d_j <- dft.X(X_t,j,m)
 f_j_hat <- t(d_j) \%*\% Conj(d_j) / (2*m+1)
 fit <- cglasso(S=f_j_hat, nobs=n,type="I")
 plot(fit$Theta_list,index=fit$min_index,type="mod",label=FALSE)
-
+}
 }
 \references{
 Deb, N., Kuceyeski, A., Basu, S. (2024)

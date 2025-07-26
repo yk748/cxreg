@@ -27,7 +27,10 @@ cglasso(
 \item{D}{The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. If D is not provided, diagonals of S are chosen.}
 
 \item{type}{A logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference,
-\deqn{D^{-1/2} \left( \arg\min_{\Theta} \operatorname{Tr}[\hat{R} \hat{\Theta}] - \log \det \Theta + \sum_{i \ne j} |\Theta_{ij}| \right) D^{-1/2}} for the given D. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the squared-root of scale matrix D^{-1/2} is multiplied. Please refer to the equation (5.2) in the reference for the details.}
+\deqn{
+D^{-1/2} \left( \arg\min_{\Theta} \operatorname{Tr} \left[ \hat{R} \hat{\Theta} \right] - \log \det \Theta + #' \sum_{i \ne j} \left| \Theta_{ij} \right| \right) D^{-1/2}
+}
+for the given D. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the squared-root of scale matrix D^{-1/2} is multiplied. Please refer to the equation (5.2) in the reference for the details.}
 
 \item{nobs}{Number of observations used in computation of the spectral density matrix S. This quantity is need to compute the Fourier frequency, extended BIC, and bandwidth for the average smoothed periodogram.}
 

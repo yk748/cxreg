@@ -4,8 +4,8 @@
 #'
 #' These datasets are artificial, and are used to test out some of the
 #' features of cxreg.
-#' @name beta_CVX
-#' @aliases x y beta_CVX
+#' @name cxreg
+#' @aliases x y cxreg
 #' @format Data objects used to demonstrate features in the cxreg vignette
 #' @keywords datasets
 #' @useDynLib cxreg
@@ -21,7 +21,7 @@
 #' @importFrom mvtnorm rmvnorm
 #' @importFrom gdata upperTriangle
 #' @examples
-#'
+#' \dontrun{ 
 #' data(classo_example)
 #' x <- classo_example$x
 #' y <- classo_example$y
@@ -32,7 +32,7 @@
 #' n <- cglasso_example$n
 #' cglasso(S=f_hat,type="I",nobs=n)
 #' cglasso(S=f_hat,type="II",nobs=n)
-#' 
+#' }
 NULL
 
 #' Internal classo functions
@@ -65,7 +65,7 @@ NULL
 #' \tabular{ll}{
 #' Package: \tab cxreg \cr
 #' Type: \tab Package \cr
-#' Version: \tab 1.0 \cr
+#' Version: \tab 1.0.0 \cr
 #' Date: \tab 2025-07-01 \cr
 #' License: \tab MIT + file LICENSE \cr
 #' }
@@ -83,6 +83,7 @@ NULL
 #' \url{https://arxiv.org/abs/2401.11128}.
 #' @keywords models regression package
 #' @examples
+#' \dontrun{ 
 #' set.seed(1234)
 #' x <- array(rnorm(100*20), c(100,20)) + (1+1i) * array(rnorm(100*20), c(100,20))
 #' for (j in 1:20) x[,j] <- x[,j] / sqrt(mean(Mod(x[,j])^2))
@@ -93,7 +94,9 @@ NULL
 #' predict(fit, newx = x[1:5, ], s = c(0.01, 0.005))
 #' predict(fit, type = "coef")
 #' plot(fit, xvar = "lambda")
+#' }
 #'
+#' \dontrun{ 
 #' p <- 30
 #' n <- 500
 #' C <- diag(0.7, p)
@@ -107,6 +110,6 @@ NULL
 #' f_j_hat <- t(d_j) %*% Conj(d_j) / (2*m+1)
 #' fit <- cglasso(S=f_j_hat, nobs=n,type="I")
 #' plot(fit$Theta_list,index=fit$min_index,type="mod",label=FALSE)
-#'
+#' }
 NULL
 

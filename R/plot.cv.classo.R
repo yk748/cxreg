@@ -9,7 +9,10 @@
 #' @param x fitted \code{"cv.classo"} object
 #' @param sign.lambda Either plot against \code{log(lambda)} (default) or its
 #' negative if \code{sign.lambda=-1}.
-#' @param \dots Other graphical parameters to plot
+#' @param \dots Other graphical parameters to plot.
+#' 
+#' @return No return value, called for side effects (produces a plot).
+#' 
 #' @author Navonil Deb, Younghoon Kim, Sumanta Basu \cr Maintainer: Younghoon Kim
 #' \email{yk748@cornell.edu}
 #' @seealso \code{classo} and \code{plot} methods for \code{"cv.classo"}.

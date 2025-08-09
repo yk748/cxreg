@@ -22,14 +22,14 @@ The index must be provided within the length of the sequence of lambdas.}
 
 \item{label}{If \code{TRUE}, label the axes with variable names.}
 
-\item{\dots}{Other graphical parameters to plot}
+\item{\dots}{Other graphical parameters to plot.}
+}
+\value{
+No return value, called for side effects (produces a plot).
 }
 \description{
 Produces plot of the estimated inverse spectral matrix for a fitted
-\code{"cglasso"} object.
-}
-\details{
-A inverse spectral matrix profile plot is produced.
+\code{"cglasso"} object. A inverse spectral matrix profile plot is produced.
 }
 \seealso{
 \code{cglasso}

@@ -21,7 +21,7 @@
 #' @importFrom mvtnorm rmvnorm
 #' @importFrom gdata upperTriangle
 #' @examples
-#' \dontrun{ 
+#' \donttest{ 
 #' data(classo_example)
 #' x <- classo_example$x
 #' y <- classo_example$y
@@ -83,7 +83,7 @@ NULL
 #' \url{https://arxiv.org/abs/2401.11128}.
 #' @keywords models regression package
 #' @examples
-#' \dontrun{ 
+#' \donttest{ 
 #' set.seed(1234)
 #' x <- array(rnorm(100*20), c(100,20)) + (1+1i) * array(rnorm(100*20), c(100,20))
 #' for (j in 1:20) x[,j] <- x[,j] / sqrt(mean(Mod(x[,j])^2))
@@ -96,7 +96,7 @@ NULL
 #' plot(fit, xvar = "lambda")
 #' }
 #'
-#' \dontrun{ 
+#' \donttest{ 
 #' p <- 30
 #' n <- 500
 #' C <- diag(0.7, p)

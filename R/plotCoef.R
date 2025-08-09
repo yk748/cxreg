@@ -35,16 +35,18 @@ plotCoef <- function(beta,norm,lambda,df,dev,label=FALSE,
   # ------------------------------------------------ #
   dotlist <- list(...)
   type <- dotlist$type
-  if(is.null(type)){
-    par(mfrow=c(2,1),mar=c(3,4,1,2))
-    matplot(index,t(Re(beta)),lty=1,xlab=xlab,ylab="Coefficients (Re)",type="l",...)
-    matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Im)",type="l",...)
+  
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar), add = TRUE)
+  
+  par(mfrow = c(2, 1), mar = c(3, 4, 1, 2))
+  if (is.null(type)) {
+    matplot(index, t(Re(beta)), lty = 1, xlab = xlab, ylab = "Coefficients (Re)", type = "l", ...)
+    matplot(index, t(Im(beta)), lty = 1, xlab = xlab, ylab = "Coefficients (Im)", type = "l", ...)
   } else {
-    par(mfrow=c(2,1),mar=c(3,4,1,2))
-    matplot(index,t(Re(beta)),lty=1,xlab=xlab,ylab="Coefficients (Re)",...)
-    matplot(index,t(Im(beta)),lty=1,xlab=xlab,ylab="Coefficients (Im)",...)
+    matplot(index, t(Re(beta)), lty = 1, xlab = xlab, ylab = "Coefficients (Re)", ...)
+    matplot(index, t(Im(beta)), lty = 1, xlab = xlab, ylab = "Coefficients (Im)", ...)
   }
-  par()
   
   atdf <- pretty(index)
 

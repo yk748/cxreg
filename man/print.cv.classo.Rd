@@ -13,6 +13,9 @@
 
 \item{\dots}{additional print arguments}
 }
+\value{
+The matrix above is silently returned
+}
 \description{
 Print a summary of the results of cross-validation for a classo model.
 }

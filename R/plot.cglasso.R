@@ -1,9 +1,7 @@
 #' plot heatmap from a "cglasso" object
 #'
 #' Produces plot of the estimated inverse spectral matrix for a fitted
-#' \code{"cglasso"} object.
-#'
-#' A inverse spectral matrix profile plot is produced.
+#' \code{"cglasso"} object. A inverse spectral matrix profile plot is produced.
 #'
 #' @aliases plot.cglasso
 #' @param x fitted \code{"cglasso"} model
@@ -11,7 +9,10 @@
 #' The index must be provided within the length of the sequence of lambdas.
 #' @param type Whether the plot is for real or imaginary part, or both, or in modulus (mod; absolute scale). Default is \code{mod}.
 #' @param label If \code{TRUE}, label the axes with variable names.
-#' @param \dots Other graphical parameters to plot
+#' @param \dots Other graphical parameters to plot.
+#' 
+#' @return No return value, called for side effects (produces a plot).
+#' 
 #' @author Navonil Deb, Younghoon Kim, Sumanta Basu \cr Maintainer: Younghoon Kim
 #' \email{yk748@cornell.edu}
 #' @seealso \code{cglasso}
@@ -89,6 +90,8 @@ plot.cglasso <- function(x, index, type=c("real","imaginary","mod","both"),label
     S_im <- S_im[, nrow(S_im):1]
     
     old_par <- par(mfrow = c(2, 1))
+    on.exit(par(old_par), add = TRUE)
+    
     image.plot(x = x_coords, y = y_coords,
                z = S_re,
                col = palette_re(100),

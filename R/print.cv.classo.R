@@ -12,6 +12,9 @@
 #' @param x fitted 'cv.classo' object
 #' @param digits significant digits in printout
 #' @param \dots additional print arguments
+#' 
+#' @return The matrix above is silently returned
+#' 
 #' @seealso \code{classo}, \code{predict} and \code{coef} methods.
 #' @keywords models regression
 #' @method print cv.classo

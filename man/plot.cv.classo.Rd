@@ -12,7 +12,10 @@
 \item{sign.lambda}{Either plot against \code{log(lambda)} (default) or its
 negative if \code{sign.lambda=-1}.}
 
-\item{\dots}{Other graphical parameters to plot}
+\item{\dots}{Other graphical parameters to plot.}
+}
+\value{
+No return value, called for side effects (produces a plot).
 }
 \description{
 Plots the cross-validation curve, and upper and lower standard deviation

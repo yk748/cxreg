@@ -19,6 +19,10 @@ buildPredmat(outlist, lambda, x, foldid, alignment, ...)
 
 \item{\dots}{Other arguments}
 }
+\value{
+The return value depends on the method; for the default method,
+see \code{\link{buildPredmat.default}}.
+}
 \description{
 These are not intended for use by users. Constructs a prediction matrix for cross-validation folds, using the coefficient paths in \code{outlist}.
 Inspired by internal functions in the \code{glmnet} package.

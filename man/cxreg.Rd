@@ -16,7 +16,7 @@ These datasets are artificial, and are used to test out some of the
 features of cxreg.
 }
 \examples{
-\dontrun{ 
+\donttest{ 
 data(classo_example)
 x <- classo_example$x
 y <- classo_example$y

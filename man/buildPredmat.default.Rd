@@ -19,7 +19,11 @@
 
 \item{\dots}{Other arguments}
 }
+\value{
+A numeric matrix of predicted values with dimensions
+\code{nrow(x)} by \code{length(lambda)}. Rows correspond to
+observations and columns correspond to penalty values.
+}
 \description{
-These are not intended for use by users. Constructs a prediction matrix for cross-validation folds, using the coefficient paths in \code{outlist}.
-Inspired by internal functions in the \code{glmnet} package.
+These are not intended for use by users. Constructs a prediction matrix for cross-validation folds, using the coefficient paths in \code{outlist}. Inspired by internal functions in the \pkg{glmnet} package.
 }

@@ -18,6 +18,9 @@ numbers.}
 
 \item{\dots}{Other graphical parameters to plot}
 }
+\value{
+No return value, called for side effects (produces a plot).
+}
 \description{
 Produces a coefficient profile plot of the coefficient paths for a fitted
 \code{"classo"} object.

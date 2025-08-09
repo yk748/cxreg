@@ -13,6 +13,9 @@
 #' @param label If \code{TRUE}, label the curves with variable sequence
 #' numbers.
 #' @param \dots Other graphical parameters to plot
+#' 
+#' @return No return value, called for side effects (produces a plot).
+#' 
 #' @author Navonil Deb, Younghoon Kim, Sumanta Basu \cr Maintainer: Younghoon Kim
 #' \email{yk748@cornell.edu}
 #' @seealso \code{classo}

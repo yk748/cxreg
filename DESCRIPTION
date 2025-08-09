@@ -9,7 +9,9 @@ Authors@R: c(
 Description: Implements 'glmnet'-style complex-valued lasso and
     complex-valued graphical lasso using a 'pathwise' coordinate descent
     algorithm for complex-valued parameters. The package provides
-    supporting tools for estimation, simulation, and prediction.
+    supporting tools for estimation, simulation, and prediction. The
+    algorithms are described in Deb et al. (2024)
+    <https://doi.org/10.48550/ArXiv.2401.11128>
 License: MIT + file LICENSE
 Depends: 
     R (>= 3.5.0)

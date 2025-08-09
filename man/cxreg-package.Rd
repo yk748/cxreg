@@ -25,7 +25,7 @@ parameters \code{lambda}. Similarly, accepts \code{S,n} data for penalized Gauss
 and produce the regularization paths over a grid of values for the tuning parameter \code{lambda}.
 }
 \examples{
-\dontrun{ 
+\donttest{ 
 set.seed(1234)
 x <- array(rnorm(100*20), c(100,20)) + (1+1i) * array(rnorm(100*20), c(100,20))
 for (j in 1:20) x[,j] <- x[,j] / sqrt(mean(Mod(x[,j])^2))
@@ -38,7 +38,7 @@ predict(fit, type = "coef")
 plot(fit, xvar = "lambda")
 }
 
-\dontrun{ 
+\donttest{ 
 p <- 30
 n <- 500
 C <- diag(0.7, p)

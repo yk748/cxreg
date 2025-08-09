@@ -4,47 +4,47 @@
 
 # tags:
 
-# &nbsp; - Spectral analysis,
+#   - Spectral analysis,
 
-# &nbsp; - Regularization path,
+#   - Regularization path,
 
-# &nbsp; - Coordinate descent ,
+#   - Coordinate descent ,
 
-# &nbsp; - lasso, 
+#   - lasso,
 
-# &nbsp; - Graphical model
+#   - Graphical model
 
 # authors:
 
-# &nbsp; - name: Younghoon Kim
+#   - name: Younghoon Kim
 
-# &nbsp;   orcid: 0009-0007-0117-5530
+#     orcid: 0009-0007-0117-5530
 
-# &nbsp;   equal-contrib: true
+#     equal-contrib: true
 
-# &nbsp;   affiliation: 1
+#     affiliation: 1
 
-# &nbsp; - name: Navonil Deb
+#   - name: Navonil Deb
 
-# &nbsp;   equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
+#     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
 
-# &nbsp;   affiliation: 1
+#     affiliation: 1
 
-# &nbsp; - name: Sumanta Basu
+#   - name: Sumanta Basu
 
-# &nbsp;   corresponding: true # (This is how to denote the corresponding author)
+#     corresponding: true # (This is how to denote the corresponding author)
 
-# &nbsp;   affiliation: 1
+#     affiliation: 1
 
 # affiliations:
 
-# &nbsp;- name: Department of Statistics and Data Science, Cornell University, United States
+#  - name: Department of Statistics and Data Science, Cornell University, United States
 
-# &nbsp;  index: 1
+#    index: 1
 
 # date: 19 July 2025
 
-# bibliography: cxreg-ref.bib
+# bibliography: paper.bib
 
 # ---
 
@@ -80,7 +80,7 @@
 
 # $$
 
-# \\mathcal{M}^{2 \\times 2} :=\\left\\{\\begin{pmatrix} 
+# \\mathcal{M}^{2 \\times 2} :=\\left\\{\\begin{pmatrix}
 
 # a \& - b \\\\ b \& a
 

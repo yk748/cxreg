@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Younghoon Kim" />
+<meta name="author" content="Navonil Deb" />
+<meta name="author" content="Sumanta Basu" />
+
+<meta name="date" content="2025-08-09" />
+
+<title>An Introduction to cxreg</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">An Introduction to <code>cxreg</code></h1>
+<h4 class="author">Younghoon Kim</h4>
+<h4 class="author">Navonil Deb</h4>
+<h4 class="author">Sumanta Basu</h4>
+<h4 class="date">August 09, 2025</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p> is a package that fits complex-valued penalized regressions (Lasso)
+and Gaussian likelihoods (graphical Lasso) using an exact pathwise
+coordinate descent method. Similar to the well-known package glmnet
+<span class="citation">(<a href="#ref-friedman2010regularization">2010</a>)</span> for Lasso, cxreg
+computes the regularization path for complex-valued linear regression
+with a lasso penalty, referred to as , over a grid of values for the
+regularization parameter lambda. Likewise, to fit complex-valued
+Graphical Lasso models <span class="citation">(<a href="#ref-friedman2008sparse">2008</a>)</span>, the regularization path
+is computed via . The package includes methods for prediction,
+cross-validation functions, printing and plotting utilities, as well as
+fitting for both model types.</p>
+<p>The authors of cxreg are Navonil Deb and Sumanta Basu, with
+contributions from Younghoon Kim. The R package is maintained by
+Younghoon Kim.</p>
+<p>This vignette describes basic usage of functions related to and
+models in ‘cxreg’ package in R. There is an original description of the
+algorithm that should be useful:</p>
+<ul>
+<li><a href="https://arxiv.org/abs/2401.11128">“Regularized estimation
+of sparse spectral precision matrices”</a></li>
+</ul>
+<p> solves the following problem: For <span class="math inline">\(Y\in\mathbb{C}^n\)</span> and <span class="math inline">\(X\in\mathbb{C}^{n \times p}\)</span>,</p>
+<p><span class="math display">\[
+\min_{\beta \in \mathbb{C}^p} \frac{1}{2n} \|Y - X \beta\|_2^2 +
+\lambda\|\beta\|_1,
+\]</span></p>
+<p>over a grid of values of <span class="math inline">\(\lambda\)</span>
+covering the entire range of possible solutions. Here, since the
+absolute of complex-values means a complex modulus, <span class="math inline">\(\beta\in\mathbb{C}^p\)</span> so that the <span class="math inline">\(\ell_1\)</span>-penalty can be viewed as</p>
+<p><span class="math display">\[
+\|\beta\|_1 = \sum_{j=1}^p |\beta_j| =
+\sum_{j=1}^p\|\mathrm{Re}(\beta_j) + \mathrm{Im}(\beta_j)\|_2,
+\]</span></p>
+<p>which is a group Lasso with <span class="math inline">\(p\)</span>
+groups, each of size 2.</p>
+<p>Similarly, seeks the minimizer of Whittle’s approximate likelihood
+<span class="citation">(<a href="#ref-Whittle1951">1951</a>)</span>. For
+a <span class="math inline">\(p\)</span>-dimensional Gaussian time
+series <span class="math inline">\({X_t}_{t=1}^n\)</span>, one can
+compute the <span class="math inline">\(p\)</span>-dimensional
+complex-valued discrete Fourier transforms (DFT) at the Fourier
+frequencies <span class="math inline">\(\omega_j = 2\pi j / n\)</span>,
+where <span class="math inline">\(j \in F_n := \left\{-
+\left[\frac{n-1}{2}\right], \ldots, \left[\frac{n}{2}\right]
+\right\}\)</span>:</p>
+<p><span class="math display">\[
+d_j := d(\omega_j) = \frac{1}{\sqrt{n}}\sum_{t=1}^n X_t \exp(-i t
+\omega_j).
+\]</span></p>
+<p>Note that <span class="math inline">\(d_j \sim
+\mathcal{N}_{\mathbb{C}}(0, f(\omega_j))\)</span>, where <span class="math inline">\(f(\omega_j)\)</span> is the spectral density,
+commonly estimated by averaging the periodogram <span class="math inline">\(I(\omega_j) =
+d(\omega_j)d^{\dagger}(\omega_j)\)</span> over a bandwidth of <span class="math inline">\(2m+1\)</span> frequencies:</p>
+<p><span class="math display">\[
+\hat{f}(\omega_j) = \frac{1}{2\pi(2m+1)}\sum_{|k|\leq m}I(\omega_{j+k}),
+\quad j\in F_n. \tag{1}
+\]</span></p>
+<p>The approximation to the negative log-likelihood then takes the
+form:</p>
+<p><span class="math display">\[
+\sum_{k=j-m}^{j+m} \log\det f^{-1}(\omega_j) - \sum_{k=j-m}^{j+m}
+d_{k}^{\dagger} f^{-1}(\omega_j)d_k.
+\]</span> Finally, by rearranging the components used to construct <span class="math inline">\(\hat{f}(\omega_j)\)</span> and adding an <span class="math inline">\(\ell_1\)</span>-penalty on the off-diagonal
+entries of the inverse spectral density, <span class="math inline">\(\|\Theta\|_{1,\mathrm{off}} = \sum_{k \neq \ell}
+|\Theta_{k,\ell}|=\sum_{k \neq \ell}\|\mathrm{Re}(\Theta_{k,\ell}) +
+\mathrm{Im}(\Theta_{k,\ell})\|_2\)</span>, one obtains the
+estimator:</p>
+<p><span class="math display">\[
+\hat{\Theta}_j := \hat{\Theta}(\omega_j) = \arg\min_{\Theta \in
+\mathcal{H}_{++}^p} \left\{  \mathrm{trace}(\Theta\hat{f}(\omega_j))  -
+\log\det\Theta + \lambda \|\Theta\|_{1,\textrm{off}} \right\},
+\]</span> where <span class="math inline">\(\mathcal{H}_{++}^p\)</span>
+represents the set of <span class="math inline">\(p \times p\)</span>
+symmetric positive definite matrices. Throughout the illustrative
+example in this document, we drop the subscript <span class="math inline">\(j\)</span> and focus on deriving <span class="math inline">\(\hat{\Theta}\)</span> for a given <span class="math inline">\(\hat{f}\)</span>.</p>
+<p>From a numerical standpoint, there are two formulations for
+complex-valued graphical Lasso (see Section 5 in <span class="citation">(<a href="#ref-deb2024regularized">2024</a>)</span>),
+where a similar argument can be made in standard graphical Lasso (e.g.,
+<span class="citation">(<a href="#ref-jankova2018inference">2018</a>)</span>).</p>
+<p>: The first formulation is to solve the complex-valued graphical
+Lasso with scaled spectral density matrix (called spectral coherence),
+<span class="math inline">\(\hat{R} = D^{-1}\hat{f}D^{-1}\)</span> with
+<span class="math inline">\(D^2 =
+\textrm{diag}(\hat{f}_{1,1},\ldots,\hat{f}_{p,p})\)</span>, and scale
+back once the estimates are obtained. The corresponding optimization
+problem is</p>
+<p><span class="math display">\[
+\hat{\Theta} =  D^{-1} \hat{K} D^{-1},
+\quad
+\hat{K} = \arg\min_{\Theta\in \mathcal{H}_{++}^p} \left\{
+\mathrm{trace}(\hat{R} \Theta) - \log\det \Theta  + \lambda
+\|\Theta\|_\textrm{1,off}\right\}. \tag{CGLASSO-sc1}
+\]</span></p>
+<p>This is equivalent to a equation (9) in <span class="citation">(<a href="#ref-jankova2018inference">2018</a>)</span> for the graphical
+lasso with weighted penalty. The entry-wise weights determined by <span class="math inline">\(D\)</span> as <span class="math inline">\(\lambda_{k,\ell} \propto D_{k,k}D_{\ell,\ell} =
+\sqrt{ \hat{f}_{k,k} \hat{f}_{\ell,\ell}}\)</span>.</p>
+<p>: The second formulation takes the spectral density as the original
+input. In each iteration of within Algorithm 3 in <span class="citation">(<a href="#ref-deb2024regularized">2024</a>)</span>, we
+scale the partitioned <span class="math inline">\(W\)</span>, working
+inverse spectral density, with the corresponding diagonal entries of the
+estimated spectral density. The Lasso outputs are scaled back to obtain
+rows and columns of <span class="math inline">\(W\)</span>.
+Specifically, we implement the following update for <span class="math inline">\(k\)</span>th row and column:</p>
+<p><span class="math display">\[
+\begin{aligned}
+W_{11}^{\textrm{scl}} &amp;\leftarrow D_{11}^{-1} W_{11} D_{11}^{-1},
+\quad D_{11}^2 = \textrm{diag}(W_{11}) = \textrm{diag}(P_{11}), \quad
+\mathbf{p}_{12}^{\textrm{scl}} \leftarrow D_{11}^{-1} \mathbf{p}_{12},
+\\
+\hat{\beta}^{\textrm{scl}} &amp;=
+\mathrm{CLASSO.COV}(W_{11}^{\textrm{scl}},
+\mathbf{p}_{12}^{\textrm{scl}}, \mathcal{B}^{(0)}_{\cdot, k}, \lambda),
+\\
+\mathcal{B}^{(0)}_{\cdot,k} &amp;\leftarrow \hat{\beta}^{\textrm{scl}},
+\quad
+\hat{\beta} \leftarrow D_{11}^{-1} \hat{\beta}^{\textrm{scl}}, \quad
+\mathbf{w}_{12} \leftarrow W_{11} \hat{\beta},
+\end{aligned}
+\tag{CGLASSO-sc2}
+\]</span></p>
+<p>where the scaling matrix <span class="math inline">\(D_{11}\)</span>
+is similar to <span class="math inline">\(D\)</span> is CGLASSO-sc1,
+except that the last diagonal entry <span class="math inline">\(D_{p,p}\)</span> is disregarded in every update
+due to absence of the last row and column.</p>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>Like other R packages on Github, it can be downloaded by the
+command:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(devtools)</span></code></pre></div>
+<pre><code>## Warning: package &#39;devtools&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;usethis&#39; was built under R version 4.3.3</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;yk748/cxreg&quot;</span>)</span></code></pre></div>
+</div>
+<div id="example-classo" class="section level2">
+<h2>Example: classo</h2>
+<p>The purpose of this section is to give users a general sense of the
+package regarding classo. We will briefly go over the main functions,
+basic operations and outputs. can be loaded using the
+<code>library</code> command:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(cxreg)</span></code></pre></div>
+<p>We load a set of data created beforehand for illustration:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">data</span>(classo_example)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> classo_example<span class="sc">$</span>x</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> classo_example<span class="sc">$</span>y</span></code></pre></div>
+<p>Note that ‘x’ is already standardized, which makes the columns in
+<span class="math inline">\(X\)</span> orthogonal. The provides the
+orthogonalization, and is the default. The necessity of the
+standardization is described in the original paper <span class="citation">(<a href="#ref-deb2024regularized">2024</a>)</span>.</p>
+<p>We fit the model using the most basic call to . In addition to
+standardization, the is used as a default, which means the
+complex-valued constant is not considered. This is another difference
+from the package.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">classo</span>(x,y)</span></code></pre></div>
+<p> is an object of class that contains all the relevant information of
+the fitted model for further use. Various methods are provided for the
+object such as , , and , just like package.</p>
+<p>We can visualize the coefficients by executing the ‘plot’ method:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>Unlike , the real (Re) and imaginary (Im) parts of the coefficients
+are displayed separately. It shows the path of its coefficients in the
+two parts separately against the <span class="math inline">\(\ell_1\)</span>-norm of the whole coefficient
+vector as <span class="math inline">\(\lambda\)</span> varies. Users may
+also wish to annotate the curves: this can be done by setting in the
+plot command.</p>
+<p>We can obtain the model coefficients at one or more <span class="math inline">\(\lambda\)</span>’s within the range of the
+sequence:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">coef</span>(fit, <span class="at">s=</span><span class="fl">0.1</span>)</span></code></pre></div>
+<pre><code>##                              s1
+## V1   4.009883e-01-2.971462e-01i
+## V2   9.890659e-01+1.954857e+00i
+## V3   1.034953e-01-3.122989e-02i
+## V4   0.000000e+00+0.000000e+00i
+## V5   0.000000e+00+0.000000e+00i
+## V6   2.280758e-02-6.980758e-02i
+## V7  -5.060984e-05-7.355635e-04i
+## V8  -1.128296e-01+2.628501e-02i
+## V9   0.000000e+00+0.000000e+00i
+## V10  8.409314e-02-2.585528e-04i
+## V11 -3.891646e-02+4.569846e-02i
+## V12  7.757692e-02-1.015113e-02i
+## V13 -5.601959e-02-5.477926e-03i
+## V14  0.000000e+00+0.000000e+00i
+## V15 -8.651153e-02+6.299678e-03i
+## V16  0.000000e+00+0.000000e+00i
+## V17  0.000000e+00+0.000000e+00i
+## V18 -1.724885e-05-4.515108e-04i
+## V19 -9.358841e-02-1.049761e-01i
+## V20 -3.741381e-02-5.181979e-03i</code></pre>
+<p>Users can also make predictions at specific <span class="math inline">\(\lambda\)</span>’s with new input data: Note that
+the third line in the following chunk is about standardization, whose
+purpose is mentioned above.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">29</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">5</span><span class="sc">*</span><span class="dv">20</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">20</span>)) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="dt">i</span>) <span class="sc">*</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">5</span><span class="sc">*</span><span class="dv">20</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">20</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) {</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  nx[,j] <span class="ot">&lt;-</span> nx[,j] <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">Mod</span>(nx[,j])<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>}</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">predict</span>(fit, <span class="at">newx =</span> nx, <span class="at">s =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.05</span>))</span></code></pre></div>
+<pre><code>##                       s1                  s2
+## [1,] -0.325392+3.646008i -0.396231+3.704370i
+## [2,] -0.575134+1.796989i -0.588110+2.036627i
+## [3,] -1.176727-1.152744i -1.279367-1.289659i
+## [4,]  0.324128-1.768821i  0.433992-1.844658i
+## [5,]  0.063003+2.285982i  0.049196+2.183301i</code></pre>
+<p>The function returns a sequence of models for the users to choose
+from. In many cases, users may prefer the software to select one of
+them. Cross-validation is perhaps the simplest and most widely used
+method for that task. is the main function to do cross-validation here,
+along with various supporting methods such as plotting and
+prediction.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>cvfit <span class="ot">&lt;-</span> <span class="fu">cv.classo</span>(x,y,<span class="at">trace.it =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## Training
+## Fold: 1/10
+## Fold: 2/10
+## Fold: 3/10
+## Fold: 4/10
+## Fold: 5/10
+## Fold: 6/10
+## Fold: 7/10
+## Fold: 8/10
+## Fold: 9/10
+## Fold: 10/10</code></pre>
+<p>‘cv.classo’ returns a ‘cv.classo’ object, a list with all the
+ingredients of the cross-validated fit.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">plot</span>(cvfit)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>This plots the cross-validation curve (red dotted line) along with
+upper and lower standard deviation curves along the <span class="math inline">\(\lambda\)</span> sequence (error bars). Two
+special values along the <span class="math inline">\(\lambda\)</span>
+sequence are indicated by the vertical dotted lines. ‘lambda.min’ is the
+value of <span class="math inline">\(\lambda\)</span> that gives minimum
+mean cross-validated error, while ‘lambda.lse’ is the value of <span class="math inline">\(\lambda\)</span> that gives the most regularized
+model such that the cross-validated error is within one standard error
+of the minimum.</p>
+<p>We can use the following code to get the value of ‘lambda.min’ and
+the model coefficients at that value of <span class="math inline">\(\lambda\)</span>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>cvfit<span class="sc">$</span>lambda.min</span></code></pre></div>
+<pre><code>## [1] 0.2574575</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">coef</span>(cvfit, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>)</span></code></pre></div>
+<pre><code>##                         s1
+## V1   0.30900105-0.2366801i
+## V2   0.94977208+1.8260644i
+## V3   0.00000000+0.0000000i
+## V4   0.00000000+0.0000000i
+## V5   0.00000000+0.0000000i
+## V6   0.00000000+0.0000000i
+## V7   0.00000000+0.0000000i
+## V8   0.00000000+0.0000000i
+## V9   0.00000000+0.0000000i
+## V10  0.00000000+0.0000000i
+## V11  0.00000000+0.0000000i
+## V12  0.00000000+0.0000000i
+## V13  0.00000000+0.0000000i
+## V14  0.00000000+0.0000000i
+## V15  0.00000000+0.0000000i
+## V16  0.00000000+0.0000000i
+## V17  0.00000000+0.0000000i
+## V18  0.00000000+0.0000000i
+## V19 -0.01006015-0.0100882i
+## V20  0.00000000+0.0000000i</code></pre>
+<p>To get the corresponding values at ‘lambda.1se’, simply replace with
+above, or omit the argument, since is the default.</p>
+<p>Note that unlike package, the coefficients are not represented in
+sparse matrix format, rather they are in the dense format. This is
+because of the traits of complex values in the function.</p>
+<p>Predictions can be made based on the fitted object as well. The code
+below gives predictions for the new input matrix at :</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">predict</span>(cvfit, <span class="at">newx =</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,], <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>)</span></code></pre></div>
+<pre><code>##                 lambda.min
+## [1,]  0.2465621+0.0726532i
+## [2,] -0.3463653-0.5161582i
+## [3,]  0.5169684-1.4347468i
+## [4,]  0.1364305+0.7100920i
+## [5,] -0.4222057+3.4612903i</code></pre>
+<p>This concludes the basic usage of .</p>
+</div>
+<div id="example-cglasso" class="section level2">
+<h2>Example: cglasso</h2>
+<p>In this section, we illustrate our function for the two variants
+described in Section above. Again, we load a set of data created
+beforehand for illustration:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">data</span>(cglasso_example)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>f_hat <span class="ot">&lt;-</span> cglasso_example<span class="sc">$</span>f_hat</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> cglasso_example<span class="sc">$</span>n</span></code></pre></div>
+<p>where the number of variables and sample size used in this example
+are <span class="math inline">\(p=30\)</span> and <span class="math inline">\(n=500\)</span>, respectively, and the covariance
+matrix of the white noise process <span class="math inline">\(\{X_t\}_{t=1}^n\)</span> is</p>
+<p><span class="math display">\[
+\Sigma = C^{-1}=(C_{k \ell})^{-1}, \quad C_{kk} = 0.7, \
+C_{k,k-1}=C_{k-1,k} = 0.3.
+\]</span> Then the estimated spectral density <span class="math inline">\(\hat{f}\)</span> is obtained by DFT in (1).</p>
+<p>First, consider CGLASSO-sc1.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>fit_cglasso_I <span class="ot">&lt;-</span> <span class="fu">cglasso</span>(<span class="at">S=</span>f_hat,<span class="at">type=</span><span class="st">&quot;I&quot;</span>,<span class="at">nobs=</span>n)</span></code></pre></div>
+<pre><code>## [1] &quot;The algorithm was terminated at 24 th lambda&quot;</code></pre>
+<p>Now, let’s look at the example of CGLASSO-sc2.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>fit_cglasso_II <span class="ot">&lt;-</span> <span class="fu">cglasso</span>(<span class="at">S=</span>f_hat,<span class="at">type=</span><span class="st">&quot;II&quot;</span>,<span class="at">nobs=</span>n)</span></code></pre></div>
+<pre><code>## [1] &quot;The algorithm was terminated at 28 th lambda&quot;</code></pre>
+<p>Finally, we can plot the heatmap using the list of estimated spectral
+precision matrices and specify the index to select a particular matrix
+from the list. The argument determines whether the display shows the
+real part (), imaginary part (), both (using . in parallel), or the
+modulus ().</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">plot</span>(fit_cglasso_I<span class="sc">$</span>Theta_list,<span class="at">index=</span>fit_cglasso_I<span class="sc">$</span>min_index,<span class="at">type=</span><span class="st">&quot;mod&quot;</span>,<span class="at">label=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">plot</span>(fit_cglasso_II<span class="sc">$</span>Theta_list,<span class="at">index=</span>fit_cglasso_II<span class="sc">$</span>min_index,<span class="at">type=</span><span class="st">&quot;real&quot;</span>,<span class="at">label=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>This concludes the basic usage of .</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-deb2024regularized" class="csl-entry">
+Deb, Navonil, Amy Kuceyeski, and Sumanta Basu. 2024. <span>“Regularized
+Estimation of Sparse Spectral Precision Matrices.”</span> <em>arXiv
+Preprint arXiv:2401.11128</em>.
+</div>
+<div id="ref-friedman2010regularization" class="csl-entry">
+Friedman, Jerome, Trevor Hastie, and Rob Tibshirani. 2010.
+<span>“Regularization Paths for Generalized Linear Models via Coordinate
+Descent.”</span> <em>Journal of Statistical Software</em> 33 (1): 1.
+</div>
+<div id="ref-friedman2008sparse" class="csl-entry">
+Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2008.
+<span>“Sparse Inverse Covariance Estimation with the Graphical
+Lasso.”</span> <em>Biostatistics</em> 9 (3): 432–41.
+</div>
+<div id="ref-jankova2018inference" class="csl-entry">
+Janková, Jana, and Sara van de Geer. 2018. <span>“Inference in
+High-Dimensional Graphical Models.”</span> In <em>Handbook of Graphical
+Models</em>, 325–50. CRC Press.
+</div>
+<div id="ref-Whittle1951" class="csl-entry">
+Whittle, Peter. 1951. <em>Hypothesis Testing in Time Series
+Analysis</em>. Uppsala, Sweden: Almqvist &amp; Wiksells.
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

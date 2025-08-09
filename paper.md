@@ -51,10 +51,11 @@ $$
 We show that the *φ* is a field isomorphism between ℂ and the set
 
 $$
-\mathcal{M}^{2 \times 2} :=\left\\\begin{pmatrix} 
+\mathcal{M}^{2 \times 2} := \left\{ \begin{pmatrix} 
 a & - b \\ b & a
-\end{pmatrix} : a,b\in\mathbb{R}\right\\.
+\end{pmatrix} : a,b\in\mathbb{R} \right\}.
 $$
+
 
 Under this mapping, there exists connections between algebraic
 operations in the real and complex domains. We extend these operations

@@ -52,16 +52,16 @@ Specifically, for a complex number $z\in\mathbb{C}$, we define the map:
 $$
 \varphi(z) =
 \begin{pmatrix}
-\mathbf{Re}(z) & -\mathbf{Im}(z) \\
-\mathbf{Im}(z) &  \mathbf{Re}(z)
+\mathrm{Re}(z) & -\mathrm{Im}(z) \\
+\mathrm{Im}(z) &  \mathrm{Re}(z)
 \end{pmatrix}.
 $$ We show that the $\varphi$ is a field isomorphism between
 $\mathbb{C}$ and the set
 
 $$
-\mathcal{M}^{2 \times 2} :=\biggl\{\begin{pmatrix} 
+\mathcal{M}^{2 \times 2} :=\left\{\begin{pmatrix} 
 a & - b \\ b & a
-\end{pmatrix} : a,b\in\mathbb{R}\biggr\}.
+\end{pmatrix} : a,b\in\mathbb{R}\right\}.
 $$
 
 Under this mapping, there exists connections between algebraic

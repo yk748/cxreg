@@ -63,11 +63,11 @@ sparse matrix format.}
 largest lambda reported does not quite give the zero coefficients reported
 (lambda=inf would in principle). Instead, the largest lambda for alpha=0.001
 is used, and the sequence of lambda values is derived from this.}
-\item{dev}{The fraction of (null) deviance explained. The deviance
+\item{dev.ratio}{The fraction of (null) deviance explained. The deviance
 calculations incorporate weights if present in the model. The deviance is
 defined to be 2*(loglike_sat - loglike), where loglike_sat is the log-likelihood
 for the saturated model (a model with a free parameter per observation).
-Hence dev=1-dev/nulldev.}
+Hence dev.ratio=1-dev/nulldev.}
 \item{nulldev}{Null deviance (per observation). This is defined to be
 2*(loglike_sat -loglike(Null)). The null model refers to the intercept model.}
 \item{npasses}{Total passes over the data summed over all lambda values.}

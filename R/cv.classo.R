@@ -144,5 +144,5 @@ cv.classo <- function (x, y,
   # ------------------------------------------------ #
   # Call cv.classo.raw
   cv.classo.raw(x,y,weights,lambda,type.measure,nfolds,foldid,
-                alignment,keep,parallel,trace.it,classo.call,cv.call)
+                alignment,keep,parallel,trace.it,classo.call,cv.call,...)
 }

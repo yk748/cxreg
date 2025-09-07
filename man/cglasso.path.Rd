@@ -48,7 +48,7 @@ If \code{nobs < p}, the default is \code{0.01}.}
 
 \item{W.init}{Logical flag whether the initially estimated spectral density matrix is given. Default is \code{NULL}.}
 
-\item{stopping_rule}{Logical flag if the algorithm is terminated by stopping rule. If the algorithm is early terminated ,not all estimates for initially designated lambdas are explored.}
+\item{stopping_rule}{Logical flag if the algorithm is terminated by stopping rule. If the algorithm is early terminated, not all estimates for initially designated lambdas are explored.}
 
 \item{stop_criterion}{Stopping criterion for early termination. Default is \code{EBIC} (Extended BIC). Alternatively, \code{AIC} (AIC) and \code{RMSE} (root mean squared error between two consecutive estimates) can be used.}
 

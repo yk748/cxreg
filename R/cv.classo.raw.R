@@ -1,5 +1,5 @@
 cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
-                            alignment,keep,parallel,trace.it,classo.call,cv.call) {
+                            alignment,keep,parallel,trace.it,classo.call,cv.call,...) {
 
     # ------------------------------------------------ #
     if (isTRUE(trace.it == 1)) {
@@ -12,7 +12,7 @@ cv.classo.raw <- function (x,y,weights,lambda,type.measure,nfolds,foldid,
                             standardized=TRUE,
                             intercept=FALSE,
                             maxit=100000,
-                            trace.it=0)
+                            trace.it=0,...)
     classo.object$call <- classo.call
     subclass <- class(classo.object)[[1]]
 

@@ -4,7 +4,7 @@
 \alias{plot.classo}
 \title{plot coefficients from a "classo" object}
 \usage{
-\method{plot}{classo}(x, xvar = c("norm", "lambda"), label = FALSE, ...)
+\method{plot}{classo}(x, xvar = c("norm", "lambda", "dev"), label = FALSE, ...)
 }
 \arguments{
 \item{x}{fitted \code{"classo"} model}

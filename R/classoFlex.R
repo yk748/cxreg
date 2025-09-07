@@ -34,11 +34,11 @@
 #' largest lambda reported does not quite give the zero coefficients reported
 #' (lambda=inf would in principle). Instead, the largest lambda for alpha=0.001
 #' is used, and the sequence of lambda values is derived from this.}
-#' \item{dev}{The fraction of (null) deviance explained. The deviance
+#' \item{dev.ratio}{The fraction of (null) deviance explained. The deviance
 #' calculations incorporate weights if present in the model. The deviance is
 #' defined to be 2*(loglike_sat - loglike), where loglike_sat is the log-likelihood
 #' for the saturated model (a model with a free parameter per observation).
-#' Hence dev=1-dev/nulldev.}
+#' Hence dev.ratio=1-dev/nulldev.}
 #' \item{nulldev}{Null deviance (per observation). This is defined to be
 #' 2*(loglike_sat -loglike(Null)). The null model refers to the intercept model.}
 #' \item{npasses}{Total passes over the data summed over all lambda values.}
@@ -192,7 +192,7 @@ classo.path <- function(x,y,
     a0 <- rep(NA, length = nlam)
   }
   beta <- matrix(0, nrow = nvars, ncol = nlam)
-  dev <- rep(NA, length = nlam)
+  dev.ratio <- rep(NA, length = nlam)
   fit <- NULL
   # mnl <- min(nlam, control$mnlam)
   mnl <- nlam
@@ -252,16 +252,16 @@ classo.path <- function(x,y,
       beta[,k] <- as.matrix(fit$b)
     }
     
-    dev[k] <- (1 - (dev_ratio(x,y,weights,beta[,k]) / start_val$nulldev))
+    dev.ratio[k] <- (1 - (dev_comp(x,y,weights,beta[,k]) / start_val$nulldev))
     b0 <- fit$b
     
     # early stopping if dev almost 1 or no improvement
     if (k >= mnl && user_lambda == FALSE) {
-      if (dev[k] > control$devmax) {
+      if (dev.ratio[k] > control$devmax) {
         break
       }
       else if (k > 1) {
-        if (dev[k] - dev[k-1] < control$fdev * dev[k]){
+        if (dev.ratio[k] - dev.ratio[k-1] < control$fdev * dev.ratio[k]){
           break
         }
       }
@@ -272,13 +272,13 @@ classo.path <- function(x,y,
     cat("", fill = TRUE)
   }
   
-  # truncate a0, beta, dev, lambda if necessary
+  # truncate a0, beta, dev.ratio, lambda if necessary
   if (k < nlam) {
     if (intercept){
       a0 <- a0[1:k]
     }
     beta <- beta[, 1:k, drop = FALSE]
-    dev <- dev[1:k]
+    dev.ratio <- dev.ratio[1:k]
     ulam <- ulam[1:k]
   }
     
@@ -297,7 +297,7 @@ classo.path <- function(x,y,
   out$df <- colSums(abs(beta) > 0)
   out$dim <- dim(beta)
   out$lambda <- ulam
-  out$dev <- dev
+  out$dev.ratio <- dev.ratio
   out$nulldev <- start_val$nulldev
   out$call <- this.call
   out$nobs <- nobs
@@ -305,7 +305,7 @@ classo.path <- function(x,y,
   classofit <- list(
     call = this.call,
     Df = out$df,
-    dev = out$dev,
+    dev.ratio = out$dev.ratio,
     lambda = out$lambda
   )
   class(out) <- c("classofit","classo")
@@ -315,7 +315,7 @@ classo.path <- function(x,y,
   
 
 ####################################################################
-dev_ratio <- function(x,y,weights,beta) {
+dev_comp <- function(x,y,weights,beta) {
   return(sum(c(weights,weights) %*% (c(Re(y),Im(y)) - rbind((Re(x) %*% Re(beta)),(Im(x) %*% Im(beta))))^2))
 }
   

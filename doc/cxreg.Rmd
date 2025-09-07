@@ -37,11 +37,11 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ## Introduction
 
-\texttt{cxreg} is a package that fits complex-valued penalized regressions (Lasso) and Gaussian likelihoods (graphical Lasso) using an exact pathwise coordinate descent method. Similar to the well-known package glmnet [-@friedman2010regularization] for Lasso, cxreg computes the regularization path for complex-valued linear regression with a lasso penalty, referred to as \texttt{classo}, over a grid of values for the regularization parameter lambda. Likewise, to fit complex-valued Graphical Lasso models [-@friedman2008sparse], the regularization path is computed via \texttt{cglasso}. The package includes methods for prediction, cross-validation functions, printing and plotting utilities, as well as fitting for both model types.
+\texttt{cxreg} is a package that fits complex-valued penalized regressions (Lasso) and Gaussian likelihoods (graphical Lasso) using an exact pathwise coordinate descent method. Similar to the well-known package \texttt{glmnet} [-@friedman2010regularization] for Lasso in real value settings, \texttt{cxreg} computes the regularization path for complex-valued linear regression with a lasso penalty, referred to as \texttt{classo}, over a grid of values for the regularization parameter lambda. Likewise, to fit complex-valued Graphical Lasso models [-@friedman2008sparse], the regularization path is computed via \texttt{cglasso}. The package includes methods for prediction, cross-validation functions, printing and plotting utilities, as well as fitting for both model types.
 
-The authors of cxreg are Navonil Deb and Sumanta Basu, with contributions from Younghoon Kim. The R package is maintained by Younghoon Kim.
+The authors of \texttt{cxreg} are Navonil Deb and Sumanta Basu, with contributions from Younghoon Kim. The R package is maintained by Younghoon Kim.
 
-This vignette describes basic usage of functions related to \texttt{classo} and \texttt{cglasso} models in 'cxreg' package in R. There is an original description of the algorithm that should be useful:
+This vignette describes basic usage of functions related to \texttt{classo} and \texttt{cglasso} models in \texttt{cxreg} package in R. There is an original description of the algorithm that should be useful:
 
 * ["Regularized estimation of sparse spectral precision matrices"](https://arxiv.org/abs/2401.11128)
 
@@ -122,7 +122,7 @@ where the scaling matrix $D_{11}$ is similar to $D$ is CGLASSO-sc1, except that 
 
 Like other R packages on Github, it can be downloaded by the command:
 
-```{r, message=FALSE}
+```{r, eval=FALSE, message=FALSE}
 library(devtools)
 devtools::install_github("yk748/cxreg")
 ```
@@ -144,7 +144,7 @@ x <- classo_example$x
 y <- classo_example$y
 ```
 
-Note that 'x' is already standardized, which makes the columns in $X$ orthogonal. The \texttt{classo} provides the orthogonalization, and \texttt{standardization=TRUE} is the default. The necessity of the standardization is described in the original paper [-@deb2024regularized].
+Note that "x" is already standardized, which makes the columns in $X$ orthogonal. The \texttt{classo} provides the orthogonalization, and \texttt{standardization=TRUE} is the default. The necessity of the standardization is described in the original paper [-@deb2024regularized].
 
 We fit the model using the most basic call to \texttt{classo}. In addition to standardization, the \texttt{intercept=FALSE} is used as a default, which means the complex-valued constant is not considered. This is another difference from the \texttt{glmnet} package.
 
@@ -154,21 +154,40 @@ fit <- classo(x,y)
 
 \texttt{fit} is an object of class \texttt{classo} that contains all the relevant information of the fitted model for further use. Various methods are provided for the object such as \texttt{plot}, \texttt{coef}, and \texttt{predict}, just like \texttt{glmnet} package.
 
-We can visualize the coefficients by executing the 'plot' method:
+We can visualize the coefficients by executing the 'plot' method. First, we plot \texttt{fit} against the log $\lambda$ values with labels:
 
 ```{r}
-plot(fit)
+plot(fit, xvar="lambda", label=TRUE)
 ```
 
-Unlike \texttt{glmnet}, the real (Re) and imaginary (Im) parts of the coefficients are displayed separately. It shows the path of its coefficients in the two parts separately against the $\ell_1$-norm of the whole coefficient vector as $\lambda$ varies. Users may also wish to annotate the curves: this can be done by setting \texttt{label = TRUE} in the plot command.
-
-We can obtain the model coefficients at one or more $\lambda$'s within the range of the sequence:
+There are more types of $x$-axis, similar to those in \texttt{glmnet}. If "norm" is chosen, the values of the $x$-axis become $\ell_1$ (modulus) of the coefficients:
 
 ```{r}
-coef(fit, s=0.1)
+plot(fit, xvar="norm", label=TRUE)
 ```
 
-Users can also make predictions at specific $\lambda$'s with new input data: Note that the third line in the following chunk is about standardization, whose purpose is mentioned above.
+When "dev" is chosen, the percentage deviance explained by the model is used. Similar to those in \texttt{glmnet}, we can observe the blowing up phenomenon at the end of the curves:
+
+```{r}
+plot(fit, xvar="dev", label=TRUE)
+```
+
+Unlike \texttt{glmnet}, the real (Re) and imaginary (Im) parts of the coefficients are displayed separately. It shows the path of its coefficients in the two parts separately against the $\ell_1$-norm of the whole coefficient vector as $\lambda$ varies. Users may also wish to annotate the curves: this can be done by setting "label = TRUE" in the plot command.
+
+We can obtain the model coefficients at one or more $\lambda$'s within the range of the sequence. Similar to \texttt{glmnet}, if $s$ (lambda value) is not included in the sequence, only approximate values are provided:
+
+```{r}
+any(fit$lambda == 0.1)
+coef(fit, s=0.1, exact=FALSE)
+```
+
+However, when "exact = TRUE", the data should be provided to create the original fit, as it merged to the original fit. In this case, both $x$ and $y$ need to be supplied as named arguments:
+
+```{r}
+coef(fit, s=0.1, exact=TRUE, x=x, y=y)
+```
+
+Users can also make predictions at specific $\lambda$'s with new input data: Note that the third line in the following chunk is about standardization, whose purpose is mentioned above. Here, 'response' means that predicted values of $y$.
 
 ```{r}
 set.seed(29)
@@ -176,7 +195,17 @@ nx <- array(rnorm(5*20), c(5,20)) + (1+1i) * array(rnorm(5*20), c(5,20))
 for (j in 1:20) {
   nx[,j] <- nx[,j] / sqrt(mean(Mod(nx[,j])^2))
 }
-predict(fit, newx = nx, s = c(0.1, 0.05))
+predict(fit, newx = nx, s = c(0.1, 0.05), type="response")
+```
+
+The other two output types are \texttt{coefficient} and \texttt{nonzero}, which are analogous to those in \texttt{glmnet}:
+
+```{r}
+predict(fit, newx = nx, s = c(0.1, 0.05), type="coefficient")
+```
+
+```{r}
+predict(fit, newx = nx, s = c(0.1, 0.05), type="nonzero")
 ```
 
 The function \texttt{classo} returns a sequence of models for the users to choose from. In many cases, users may prefer the software to select one of them. Cross-validation is perhaps the simplest and most widely used method for that task. \texttt{cv.classo} is the main function to do cross-validation here, along with various supporting methods such as plotting and prediction.
@@ -184,16 +213,20 @@ The function \texttt{classo} returns a sequence of models for the users to choos
 ```{r}
 cvfit <- cv.classo(x,y,trace.it = 1)
 ```
+```{r}
+print(cvfit)
+```
 
-'cv.classo' returns a 'cv.classo' object, a list with all the ingredients of the cross-validated fit.
+
+\texttt{cv.classo} returns a 'cv.classo' object, a list with all the ingredients of the cross-validated fit.
 
 ```{r}
 plot(cvfit)
 ```
 
-This plots the cross-validation curve (red dotted line) along with upper and lower standard deviation curves along the $\lambda$ sequence (error bars). Two special values along the $\lambda$ sequence are indicated by the vertical dotted lines. 'lambda.min' is the value of $\lambda$ that gives minimum mean cross-validated error, while 'lambda.lse' is the value of $\lambda$ that gives the most regularized model such that the cross-validated error is within one standard error of the minimum.
+This plots the cross-validation curve (red dotted line) along with upper and lower standard deviation curves along the $\lambda$ sequence (error bars). Two special values along the $\lambda$ sequence are indicated by the vertical dotted lines. "lambda.min" is the value of $\lambda$ that gives minimum mean cross-validated error, while "lambda.lse" is the value of $\lambda$ that gives the most regularized model such that the cross-validated error is within one standard error of the minimum.
 
-We can use the following code to get the value of 'lambda.min' and the model coefficients at that value of $\lambda$:
+We can use the following code to get the value of "lambda.min" and the model coefficients at that value of $\lambda$:
 
 ```{r}
 cvfit$lambda.min
@@ -203,13 +236,13 @@ cvfit$lambda.min
 coef(cvfit, s = "lambda.min")
 ```
 
-To get the corresponding values at 'lambda.1se', simply replace
-\texttt{lambda.min} with \texttt{lambda.1se} above, or omit the \texttt{s} argument, since
-\texttt{lambda.1se} is the default.
+To get the corresponding values at "lambda.1se", simply replace
+"lambda.min" with "lambda.1se" above, or omit the "s" argument, since
+"lambda.1se" is the default.
 
 Note that unlike \texttt{glmnet} package, the coefficients are not represented in sparse matrix format, rather they are in the dense format. This is because of the traits of complex values in the function.
 
-Predictions can be made based on the fitted \texttt{cv.glmnet} object as well. The code below gives predictions for the new input matrix \texttt{newx} at \texttt{lambda.min}:
+Predictions can be made based on the fitted \texttt{cv.glmnet} object as well. The code below gives predictions for the new input matrix "newx" at "lambda.min":
 
 ```{r}
 predict(cvfit, newx = x[1:5,], s = "lambda.min")
@@ -237,23 +270,32 @@ $$
 Then the estimated spectral density $\hat{f}$ is obtained by DFT in (1).
 
 
-First, consider CGLASSO-sc1.
+First, consider CGLASSO-sc1: It is called by using "type="I"".
 
 ```{r}
 fit_cglasso_I <- cglasso(S=f_hat,type="I",nobs=n)
 ```
 
-Now, let's look at the example of CGLASSO-sc2.
+Now, let's look at the example of CGLASSO-sc2: 
 
 ```{r}
-fit_cglasso_II <- cglasso(S=f_hat,type="II",nobs=n)
+fit_cglasso_II <- cglasso(S=f_hat,type="II",nobs=n, nlambda=30, stop_criterion = "AIC")
+```
+
+Here, we change the stopping criterion from "EBIC" to "AIC". Although the maximum number of paramters "nlambda" is set 30, due to the early termination, not all 30 lambdas created inside the function was not explored. However, if "stopping_rule=FALSE", cases of all 50 lambdas (by default) are explored:
+
+```{r}
+fit_cglasso_another <- cglasso(S=f_hat,type="II",nobs=n, stopping_rule = FALSE)
+fit_cglasso_another$lambda_grid
 ```
 
 Finally, we can plot the heatmap using the list of estimated spectral precision matrices and specify the index to select a particular matrix from the list. The argument \texttt{type} determines whether the display shows the real part (\texttt{real}), imaginary part (\texttt{imaginary}), both (using \texttt{both}. in parallel), or the modulus (\texttt{mod}).
 
 ```{r}
 plot(fit_cglasso_I$Theta_list,index=fit_cglasso_I$min_index,type="mod",label=TRUE)
+plot(fit_cglasso_I$Theta_list,index=fit_cglasso_I$min_index,type="both",label=TRUE)
 plot(fit_cglasso_II$Theta_list,index=fit_cglasso_II$min_index,type="real",label=FALSE)
+plot(fit_cglasso_II$Theta_list,index=fit_cglasso_II$min_index,type="imaginary",label=FALSE)
 ```
 
 This concludes the basic usage of \texttt{cglasso}.

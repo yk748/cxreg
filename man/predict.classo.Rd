@@ -12,9 +12,8 @@
   object,
   newx,
   s = NULL,
-  type = c("link", "response", "coefficients", "nonzero", "class"),
+  type = c("response", "coefficients", "nonzero"),
   exact = FALSE,
-  newoffset,
   ...
 )
 }
@@ -38,7 +37,8 @@ and \code{y=} as additional named arguments to \code{predict()} or
 \code{coef()}.  The workhorse \code{predict.classo()} needs to \code{update}
 the model, and so needs the data used to create it. The same is true of
 \code{weights} if these were used in the original call. Failure to do
-so will result in an error.}
+so will result in an error.
+\code{type="nonzero"})}
 
 \item{\dots}{This is the mechanism for passing arguments like \code{x=} when
 \code{exact=TRUE}; see\code{exact} argument.}
@@ -51,10 +51,6 @@ values for \code{"gaussian"}. Type \code{"response"} is equivalent to type
 \code{"link"}. Type \code{"coefficients"} computes the coefficients at the
 requested values for \code{s}. Type \code{"nonzero"} returns a list of the indices
 of the nonzero coefficients for each value of \code{s}.}
-
-\item{newoffset}{If an offset is used in the fit, then one must be supplied
-for making predictions (except for \code{type="coefficients"} or
-\code{type="nonzero"})}
 }
 \value{
 The object returned depends on type.

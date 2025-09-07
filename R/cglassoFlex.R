@@ -21,7 +21,7 @@
 #' If \code{nobs > p}, the default is \code{0.0001}, close to zero.
 #' If \code{nobs < p}, the default is \code{0.01}.
 #' @param W.init Logical flag whether the initially estimated spectral density matrix is given. Default is \code{NULL}.
-#' @param stopping_rule Logical flag if the algorithm is terminated by stopping rule. If the algorithm is early terminated ,not all estimates for initially designated lambdas are explored. 
+#' @param stopping_rule Logical flag if the algorithm is terminated by stopping rule. If the algorithm is early terminated, not all estimates for initially designated lambdas are explored. 
 #' @param stop_criterion Stopping criterion for early termination. Default is \code{EBIC} (Extended BIC). Alternatively, \code{AIC} (AIC) and \code{RMSE} (root mean squared error between two consecutive estimates) can be used.
 #' @param maxit Maximum number of iterations of both outer and inner loops. Default 500.
 #' @param thresh Convergence threshold for coordinate descent. Default is 1e-4.
@@ -275,13 +275,13 @@ cglasso.path <- function(S,
           count_ex <- count_ex + 1
         }
         
-      } else {
+      }else {
         count_na <- count_na + 1
       }
       
       if(max(count_ex, count_na) > 5){
         names(Theta_list) <- stepnames[1:i]
-        lambda_grid <- ulam[1:i]
+        ulam <- ulam[1:i]
         stop_arr <- stop_arr[1:i]
         print(paste("The algorithm was terminated at",i,"th lambda"))
         break

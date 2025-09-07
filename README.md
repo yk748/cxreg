@@ -4,11 +4,12 @@
 We provide an efficient estimation procedure for fitting a penalized
 complex-valued lasso (CLASSO) and a complex-valued graphical lasso
 (CGLASSO) problem. We implement a pathwise coordinate descent algorithm
-([2007](#ref-pathwise),[2008](#ref-glasso),[2010](#ref-glmnet)) into a
-complex analog, by introducing an isomorphism between complex numbers
-and set of $2\times 2$ orthogonal matrices. Such isomporphism enables
-leveraging the existing algorithms in into complex settings. Details can
-be found in Deb, Kuceyeski, and Basu ([2024](#ref-classo)).
+(Friedman et al. 2007; Friedman, Hastie, and Tibshirani 2008; Friedman,
+Hastie, and Tibshirani 2010) into a complex analog, by introducing an
+isomorphism between complex numbers and a set of $2\times 2$ orthogonal
+matrices. Such an isomorphism enables leveraging the existing algorithms
+in `glmnet` for complex settings. Details can be found in Deb,
+Kuceyeski, and Basu (2024).
 
 ## `cxreg` installation for macOS
 
@@ -81,33 +82,21 @@ remaining errors are our own.
 
 ## References
 
-<div id="refs-classo" class="references">
-
 Navonil Deb, Amy Kuceyeski, and Sumanta Basu. 2024. “Regularized
 Estimation of Sparse Spectral Precision Matrices.” *arXiv preprint
 arXiv:2401.11128.*. <https://arxiv.org/abs/2401.11128>.
-
-</div>
 
 Jerome Friedman, Trevor Hastie, Holger Hofling, and Robert Tibshirani.
 2007. “Pathwise Coordinate Optimization.” *The Annals of Applied
 Statistics* 1(2): 302-332.
 <https://web.archive.org/web/20170301123147id_/http://gautampendse.com/software/lasso/webpage/Friedman2007.pdf>
 
-<div id="ref-glasso" class="references">
-
 Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2008. “Sparse
 inverse covariance estimation with the graphical lasso.” *Biostatistics*
 9(3): 432-441.
 <https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2015/2008-Friedman-Hastie-Tibshirani.pdf>
 
-<div id="ref-glmnet" class="references">
-
 Jerome Friedman, Trevor Hastie, and Robert Tibshirani. 2010.
 “Regularization Paths for Generalized Linear Models via Coordinate
 Descent.” *Journal of Statistical Software, Articles* 33 (1): 1–22.
 <https://doi.org/10.18637/jss.v033.i01>.
-
-</div>
-
-</div>

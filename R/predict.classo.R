@@ -32,8 +32,6 @@
 #' the model, and so needs the data used to create it. The same is true of
 #' \code{weights} if these were used in the original call. Failure to do
 #' so will result in an error.
-#' @param newoffset If an offset is used in the fit, then one must be supplied
-#' for making predictions (except for \code{type="coefficients"} or
 #' \code{type="nonzero"})
 #' @param \dots This is the mechanism for passing arguments like \code{x=} when
 #' \code{exact=TRUE}; see\code{exact} argument.
@@ -51,8 +49,8 @@
 #' @export predict.classo
 #'
 predict.classo <- function(object,newx,s=NULL,
-                          type=c("link","response","coefficients","nonzero","class"),
-                          exact=FALSE,newoffset,...){
+                          type=c("response","coefficients","nonzero"),
+                          exact=FALSE,...){
 
   type <- match.arg(type)
 
@@ -62,8 +60,6 @@ predict.classo <- function(object,newx,s=NULL,
     }
   }
   if(exact&&(!is.null(s))){
-    # we augment the lambda sequence with the new values,
-    # if they are different,and refit the model using update
     lambda <- object$lambda
     which <- match(s,lambda,FALSE)
 
@@ -73,10 +69,8 @@ predict.classo <- function(object,newx,s=NULL,
     }
   }
 
-  # a0=t(as.matrix(object$a0))
-  # rownames(a0)="(Intercept)"
-  # nbeta=methods::rbind2(a0,object$beta)#was rbind2
   nbeta <- object$beta
+  
   if(!is.null(s)){
     vnames <- dimnames(nbeta)[[1]]
     dimnames(nbeta) <- list(NULL,NULL)
@@ -90,6 +84,8 @@ predict.classo <- function(object,newx,s=NULL,
     }
     dimnames(nbeta) <- list(vnames,namess)
   }
+  
+  
   if(type=="coefficients"){
     return(nbeta)
   }
@@ -97,7 +93,7 @@ predict.classo <- function(object,newx,s=NULL,
     return(nonzeroCoef(nbeta[-1,,drop=FALSE],bystep=TRUE))
   }
 
-  ###Check on newx
+
   if(inherits(newx, "sparseMatrix")){
     newx <- as(newx,"dMatrix")
   }
@@ -109,19 +105,7 @@ predict.classo <- function(object,newx,s=NULL,
   if(ncol(newx) != p){
     stop(paste0("The number of variables in newx must be ",p))
   }
+  
   nfit <- as.matrix(cbind2(newx)%*%nbeta)
-  object$offset <- FALSE
-  if(object$offset){
-    if(missing(newoffset)){
-      stop("No newoffset provided for prediction,
-           yet offset used in fit of classo",call.=FALSE)
-    }
-    if(is.matrix(newoffset)&&inherits(object,"lognet")&&dim(newoffset)[[2]]==2){
-      newoffset <- newoffset[,2]
-    }
-    nfit <- nfit + array(newoffset,dim=dim(nfit))
-  }
-
   nfit
-
 }

@@ -46,17 +46,13 @@ $$
 $$ 
 
 We show that the $\varphi$ is a field isomorphism between
-$\mathbb{C}$ and the set
+$\mathbb{C}$ and the set $mathcal{M}^{2 \times 2}$ whose entries consists of $a,b \in \mathbb{R}$ to form 2 by 2 matrices,
 
 $$
-\mathcal{M}^{2 \times 2} := 
-\{\,
 \begin{pmatrix}
 a & -b \\ 
 b & a
 \end{pmatrix}
-: a,b \in \mathbb{R}\,
-\}
 $$
 
 Under this mapping, algebraic operations in the complex domain correspond directly to those in the real domain. We extend these operations to the $p$-dimensional case $(p>1)$; see Section 3.1 of Deb, Kuceyeski, and Basu (2024) for details.

@@ -99,7 +99,7 @@ are selected at random. Users can reduce this randomness by running
 \code{cv.classo} many times, and averaging the error curves.
 }
 \examples{
-\dontrun{
+\donttest{
 set.seed(1010)
 n = 1000
 p = 200

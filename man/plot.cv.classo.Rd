@@ -25,7 +25,7 @@ curves, as a function of the \code{lambda} values used.
 A plot is produced, and nothing is returned.
 }
 \examples{
-\dontrun{ 
+\donttest{ 
 set.seed(1010)
 n = 1000
 p = 200

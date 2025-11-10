@@ -157,11 +157,11 @@ cglasso.path <- function(S,
                         theta = array(as.complex(0), c(p,p)),
                         w = array(as.complex(0), c(p,p)),
                         w0 = as.complex(S_sc),
-                        w_init = as.logical(FALSE),
+                        w_init = as.logical(0),
                         maxiter = as.integer(maxit),
                         tol = as.double(thresh),
                         h = as.integer(0),
-                        final_cycle = as.logical(FALSE)
+                        final_cycle = as.logical(0)
         )
         Theta_hat <- D %*% out$theta %*% D
         
@@ -174,11 +174,11 @@ cglasso.path <- function(S,
                         theta = array(as.complex(0), c(p,p)),
                         w = array(as.complex(0), c(p,p)),
                         w0 = as.complex(S),
-                        w_init = as.logical(FALSE),
+                        w_init = as.logical(0),
                         maxiter = as.integer(maxit),
                         tol = as.double(thresh),
                         h = as.integer(0),
-                        final_cycle = as.logical(FALSE)
+                        final_cycle = as.logical(0)
         )
         Theta_hat <- out$theta
         

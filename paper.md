@@ -33,112 +33,50 @@ bibliography: paper.bib
 
 # Summary
 
-*Pathwise coordinate descent* (Friedman et al. 2007) is a popular
-iterative optimization method for solving penalized linear regression
-\[*lasso*; Tibshirani (1996)\] and penalized Gaussian log-likelihood
-\[*graphical lasso*; e.g., Banerjee, El Ghaoui, and d’Aspremont (2008)\]
-problems. Given a specified or derived sequence of tuning parameters
-$\lambda$ in the penalty term, the algorithm updates one coordinate at a
-time by isolating the target variable using partial residuals.
+*Pathwise coordinate descent* (Friedman et al. 2007) is a widely used iterative optimization method for solving penalized linear regression \[*lasso*; Tibshirani (1996)\] and penalized Gaussian log-likelihood \[*graphical lasso*; e.g., Banerjee, El Ghaoui, and d’Aspremont (2008)\] problems. For a given sequence of tuning parameters $\lambda$ in the penalty term, the algorithm updates one coefficient at a time by computing partial residuals.
 
-The coordinate descent algorithm for complex-valued lasso and Gaussian
-graphical lasso, along with the corresponding \`cxreg’ R package,
-leverages the standard pathwise coordinate descent method by
-demonstrating its applicability to complex-valued settings (Deb,
-Kuceyeski, and Basu 2024). Our algorithm is defined on the realifying
-complex numbers via a ring isomorphism (e.g., Herstein 1991).
-Specifically, for a complex number $z\in\mathbb{C}$, we define the map:
+The coordinate descent algorithm for complex-valued lasso and Gaussian graphical lasso, implemented in the cxreg R package, extends the standard pathwise coordinate descent method to complex-valued data (Deb, Kuceyeski, and Basu 2024). The algorithm operates by *realifying* complex numbers through a ring isomorphism (Herstein 1991). Specifically, for a complex number $z \in \mathbb{C}$, we define the map:
 
 $$
-\varphi(z) =
-\begin{pmatrix}
-\mathrm{Re}(z) & -\mathrm{Im}(z) \\
-\mathrm{Im}(z) &  \mathrm{Re}(z)
+\varphi(z) = 
+\begin{pmatrix} 
+\mathrm{Re}(z) & -\mathrm{Im}(z) \\ 
+\mathrm{Im}(z) & \mathrm{Re}(z) 
 \end{pmatrix}.
-$$ We show that the $\varphi$ is a field isomorphism between
+$$ 
+
+We show that the $\varphi$ is a field isomorphism between
 $\mathbb{C}$ and the set
 
 $$
-\mathcal{M}^{2 \times 2} :=\left\{\begin{pmatrix} 
-a & - b \\ b & a
-\end{pmatrix} : a,b\in\mathbb{R}\right\}.
+\mathcal{M}^{2 \times 2} := \left\{ 
+\begin{pmatrix}
+a & -b \\ 
+b & a
+\end{pmatrix} 
+: a,b \in \mathbb{R} 
+\right\}.
 $$
 
-Under this mapping, there exists connections between algebraic
-operations in the real and complex domains. We extend these operations
-to the $p$-dimensional case for $p>1$. Further details are provided in
-Section 3.1 of Deb, Kuceyeski, and Basu (2024).
+Under this mapping, algebraic operations in the complex domain correspond directly to those in the real domain. We extend these operations to the $p$-dimensional case $(p>1)$; see Section 3.1 of Deb, Kuceyeski, and Basu (2024) for details.
 
-We use this mapping to transform linear regression problems in the
-complex-valued setting into equivalent problems in the real-valued
-setting. The same mapping can then be applied to the Gaussian
-log-likelihood for complex-valued variables. For the $\ell_{1}$ penalty
-term used in lasso and graphical lasso, we exploit the fact that the
-modulus of each complex-valued coordinate is equivalent to the entrywise
-$\ell_{2}$ norm of its real and imaginary parts. This implies that the
-lasso formulation for $p$-dimensional complex-valued variables is
-equivalent to a $2p$-dimensional group lasso (Yuan and Lin 2006), where
-each group consists of the real and imaginary components of a single
-complex variable ($p$ groups in total).
+Using this correspondence, we transform complex-valued linear regression problems into equivalent real-valued formulations. The same idea applies to the Gaussian log-likelihood for complex-valued variables. For the $\ell_{1}$ penalty used in lasso and graphical lasso, we note that the modulus of a complex coefficient equals the entrywise $\ell_{2}$ norm of its real and imaginary parts. Consequently, the lasso for $p$-dimensional complex variables is equivalent to a $2p$-dimensional group lasso (Yuan and Lin, 2006), where each group contains the real and imaginary components of one complex variable.
 
-Finally, we implement the computational shortcuts, including *warm
-start* with the solutions for the sequence of the tuning parameter
-$\lambda$ in lasso and graphical lasso, and *active set selection* to
-reduce the number of predictors that need to be updated at each
-$\lambda$ (e.g., Chapter 5.4 in Hastie, Tibshirani, and Wainwright
-2015). In the R package, the user interface, such as the names of inputs
-for functions, is borrowed from the well-known pathwise coordinate
-descent R package \`glmnet’ (Friedman, Hastie, and Tibshirani 2010). A
-detailed vignette is available
-[Here](https://github.com/yk748/cxreg/blob/main/doc/cxreg.pdf).
+We also incorporate standard computational enhancements, including warm starts, using solutions from previous $\lambda$ values, and active set selection to limit updates to relevant predictors (see Hastie, Tibshirani, and Wainwright, 2015, Chapter 5.4). The R package \`glmnet’ adopts a familiar interface similar to glmnet (Friedman, Hastie, and Tibshirani, 2010), and a detailed vignette is available [Here](https://github.com/yk748/cxreg/blob/main/doc/cxreg.pdf).
+
 
 # Statement of need
 
-Solving complex-valued penalized Gaussian likelihood (as well as
-penalized linear regression as a part of the problem) is critical in
-high-dimensional time series analysis, as examining partial spectral
-coherence in the frequency domain is analogous to examining partial
-correlations in Gaussian graphical models (e.g., Priestley 1988). With
-the development of the local Whittle likelihood approximation (Whittle
-1951), the computation of the inverse spectral density matrix, called
-the *spectral precision matrix*, enables the investigation of
-associations among variables in high-dimensional time series data.
+Solving complex-valued penalized Gaussian likelihood problems (and, as a component, penalized linear regression) is central to high-dimensional time series analysis. In the frequency domain, examining partial spectral coherence is analogous to studying partial correlations in Gaussian graphical models (e.g., Priestley, 1988). With the development of the local Whittle likelihood approximation (Whittle, 1951), the inverse spectral density matrix, known as the spectral precision matrix, provides a way to characterize associations among variables in high-dimensional time series data.
 
-These associations, captured by the spectral precision matrix, are
-evaluated at fixed frequencies. However, due to the inconsistency of the
-spectral density matrix estimator at a single frequency (e.g., Chapter
-10 in Brockwell and Davis 1991), it is necessary to compute an averaged
-smoothed periodogram, obtained by aggregating periodogram matrices
-across neighboring frequencies, as the sample analog of the spectral
-density matrix. As a consequence, spectral precision matrices must be
-computed at multiple neighboring frequencies around each fixed frequency
-of interest. This is important in statistical inference of
-high-dimensional spectral precision matrix (Krampe and Paparoditis
-2025), requiring repetitive computations over high-dimensional objects.
-In this context, the development of efficient optimization algorithms
-for solving complex-valued penalized Gaussian likelihood is essential.
+These associations, represented by the spectral precision matrix, are evaluated at fixed frequencies. However, because the spectral density matrix estimator is inconsistent at a single frequency (see Brockwell and Davis, 1991, Chapter 10), it is common to use an averaged, smoothed periodogram, obtained by aggregating periodogram matrices across neighboring frequencies, as a consistent sample analog. Consequently, spectral precision matrices must be computed across multiple neighboring frequencies around each frequency of interest. Such analyses involve repeated high-dimensional optimization, as required for statistical inference on spectral precision matrices (Krampe and Paparoditis, 2025). Therefore, developing efficient algorithms for complex-valued penalized Gaussian likelihood estimation is crucial for scalable and accurate frequency-domain analysis.
+
 
 # State of the field
 
-Although coordinate descent is known to be computationally efficient and
-has been widely used to solve the lasso (Friedman et al. 2007) and
-graphical Lasso (Friedman, Hastie, and Tibshirani 2008), particularly
-under sparsity assumptions, it has not been extended to complex-valued
-settings. This limitation arises primarily because updating
-complex-valued partial residuals within the coordinate descent framework
-had not been explored.
+Although coordinate descent is computationally efficient and widely used to solve the lasso (Friedman et al., 2007) and graphical lasso (Friedman, Hastie, and Tibshirani, 2008), particularly under sparsity assumptions, it has not been extended to complex-valued settings. This gap stems mainly from the lack of methods for updating complex-valued partial residuals within the coordinate descent framework.
 
-The most well-known approach to this problem is based on the algorithm
-proposed in Fiecas et al. (2019), which leverages *clime* (Cai, Liu, and
-Luo 2011), formulated via linear programming. An alternative is the use
-of the alternating direction method of multipliers (*ADMM*), as
-described in Baek, Düker, and Pipiras (2023). However, neither of these
-methods explicitly exploits the sparsity nature of the model, even
-though the problem is defined in high-dimensional regimes. Our proposed
-algorithm is designed to be highly efficient in sparse settings, which
-has been compared to the benchmarks in terms of both estimation accuracy
-and computational efficiency. The details can be found in Deb,
-Kuceyeski, and Basu (2024).
+The most notable approach to complex-valued graphical modeling is that of Fiecas et al. (2019), which employs the CLIME algorithm (Cai, Liu, and Luo, 2011) based on linear programming. Another alternative is the alternating direction method of multipliers (ADMM), as described by Baek, Düker, and Pipiras (2023). However, neither method explicitly leverages sparsity, despite being applied in high-dimensional settings. Our proposed algorithm, in contrast, is specifically designed to exploit sparsity, achieving substantial gains in both estimation accuracy and computational efficiency. Detailed comparisons with benchmark methods are provided in Deb, Kuceyeski, and Basu (2024).
 
 # Acknowledgements
 

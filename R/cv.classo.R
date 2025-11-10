@@ -69,7 +69,7 @@
 #' \email{yk748@cornell.edu}
 #' @seealso \code{classo} and \code{plot} and \code{coef} methods for \code{"cv.classo"}.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' set.seed(1010)
 #' n = 1000
 #' p = 200

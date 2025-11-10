@@ -46,7 +46,7 @@ $$
 $$ 
 
 We show that the $\varphi$ is a field isomorphism between
-$\mathbb{C}$ and the set $mathcal{M}^{2 \times 2}$ whose entries consists of $a,b \in \mathbb{R}$ to form 2 by 2 matrices,
+$\mathbb{C}$ and the set $\mathcal{M}^{2 \times 2}$ whose entries consists of $a,b \in \mathbb{R}$ to form 2 by 2 matrices,
 
 $$
 \begin{pmatrix}

@@ -52,7 +52,7 @@ $$
 \begin{pmatrix}
 a & -b \\ 
 b & a
-\end{pmatrix}
+\end{pmatrix}.
 $$
 
 Under this mapping, algebraic operations in the complex domain correspond directly to those in the real domain. We extend these operations to the $p$-dimensional case $(p>1)$; see Section 3.1 of Deb, Kuceyeski, and Basu (2024) for details.

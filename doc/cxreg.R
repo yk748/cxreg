@@ -1,22 +1,9 @@
-## ----include=FALSE------------------------------------------------------------
-# the code in this chunk enables us to truncate the print output for each
-# chunk using the `out.lines` option
-# save the built-in output hook
-hook_output <- knitr::knit_hooks$get("output")
-
-# set a new output hook to truncate text output
-knitr::knit_hooks$set(output = function(x, options) {
-  if (!is.null(n <- options$out.lines)) {
-    x <- xfun::split_lines(x)
-    if (length(x) > n) {
-        
-      # truncate the output
-      x <- c(head(x, n), "....\n")
-    }
-    x <- paste(x, collapse = "\n")
-  }
-  hook_output(x, options)
-})
+## ----setup-pdf, include=FALSE-------------------------------------------------
+knitr::opts_chunk$set(
+  fig.width  = 5,
+  fig.height = 4,
+  dpi        = 96      
+)
 
 ## ----eval=FALSE, message=FALSE------------------------------------------------
 # library(devtools)
@@ -101,4 +88,13 @@ plot(fit_cglasso_I$Theta_list,index=fit_cglasso_I$min_index,type="mod",label=TRU
 plot(fit_cglasso_I$Theta_list,index=fit_cglasso_I$min_index,type="both",label=TRUE)
 plot(fit_cglasso_II$Theta_list,index=fit_cglasso_II$min_index,type="real",label=FALSE)
 plot(fit_cglasso_II$Theta_list,index=fit_cglasso_II$min_index,type="imaginary",label=FALSE)
+
+## ----compact-pdf, include=FALSE, eval=TRUE------------------------------------
+tryCatch({
+  Sys.setenv(R_GSCMD = "C:/Program Files/gs/gs9.56.1/bin/gswin64c.exe")
+  f <- tools::file_path_as_absolute("cxreg.pdf")
+  if (file.exists(f)) {
+    tools::compactPDF(paths = f, gs_quality = "ebook")
+  }
+}, error = function(e) invisible(NULL))
 

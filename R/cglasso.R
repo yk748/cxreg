@@ -5,11 +5,11 @@
 #' The sequence of models implied by \code{lambda} is fit by coordinate descent.
 #'
 #' @param S p x p-dimensional symmetric spectral density (or spectral coherence) matrix. S is considered as being computed by average smoothed periodogram (the bandwidth is computed by using the given nobs).
-#' @param D The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. If D is not provided, diagonals of S are chosen.
+#' @param D The p x p-dimensional diagonal matrix to produce the partial spectral coherence matrix from S. Default is \code{NULL}. If D is not specified, the function automatically takes the inverse square root of the diagonals of S.
 #' @param type A logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference, 
 #' \deqn{ D^{-1/2} \left( \arg\min_{\Theta} \operatorname{Tr} \left[ \hat{R} \hat{\Theta} \right] - \log \det \Theta + \sum_{i \ne j} \left| \Theta_{ij} \right| \right) D^{-1/2} } 
-#' for the given D. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the squared-root of scale matrix \eqn{ D^{-1/2}} is multiplied. Please refer to the equation (5.2) in the reference for the details.
-#' @param nobs Number of observations used in computation of the spectral density matrix S. This quantity is need to compute the Fourier frequency, extended BIC, and bandwidth for the average smoothed periodogram. 
+#' for the given D. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the squared-root of scale matrix \eqn{ D^{-1/2}} is multiplied. Please refer to Algorithm 2 in the reference for the details.
+#' @param nobs Number of observations used in computation of the spectral density matrix S. This quantity is need to compute the Fourier frequency, extended BIC, and bandwidth for the average smoothed periodogram.
 #' @param lambda A user supplied \code{lambda} sequence.
 #' Typical usage is to have the program compute its own \code{lambda} sequence based on
 #' \code{nlambda} and \code{lambda.min.ratio}.
@@ -79,44 +79,63 @@ cglasso <- function(S,
   this.call <- match.call()
   type <- match.arg(type, choices = c("I","II"))
   stop_criterion <- match.arg(stop_criterion, choices = c("EBIC", "AIC", "RMSE"))
+  
   ####################################################################
-  # check for NAs in x
-  if(any(is.na(S))){
+  # check for NAs in S
+  if (any(is.na(S))) {
     stop("S has missing values; S needs to be complete")
-  }else{
+  } else {
     p1 <- dim(S)[1]; p2 <- dim(S)[2]
-    if (p1 != p2){
+    if (p1 != p2) {
       stop("S must be square")
-    }else{
-      if (!isSymmetric(S)){
+    } else {
+      if (!isSymmetric(S)) {
         stop("S must be symmetric")
-      }else{
-        p <- p1 
+      } else {
+        p <- p1
       }
     }
   }
+  
+  # check that S is complex-valued
+  if (!is.complex(S)) {
+    stop("S must be a complex-valued matrix; real-valued inputs are not supported")
+  }
+  
   # check for NAs in nobs
-  if(is.null(nobs)){
+  if (is.null(nobs)) {
     stop("nobs is missing; the number of observations needs to be provided")
   }
-  # check if D is properly given under the different settings.
-  if (!is.null(D)){
-    if (is.vector(D)){
-      if (length(D)!=p){
-        stop ("D must have the same dimension as S")
-      }else{
-        D <- diag(D,p)
+  
+  # check that nobs is a positive integer
+  if (!is.numeric(nobs) || length(nobs) != 1 || nobs <= 0 || nobs != round(nobs)) {
+    stop("nobs must be a positive integer")
+  }
+  
+  # check that D is complex-valued if provided
+  if (!is.null(D) && !is.complex(D)) {
+    stop("D must be a complex-valued matrix; real-valued inputs are not supported")
+  }
+  
+  # check if D is properly given under the different settings
+  if (!is.null(D)) {
+    if (is.vector(D)) {
+      if (length(D) != p) {
+        stop("D must have the same dimension as S")
+      } else {
+        D <- diag(D, p)
       }
-    }else if (is.matrix(D)){
-      if ( (dim(D)[1] != p) | (dim(D)[2] != p) ){
+    } else if (is.matrix(D)) {
+      if ((dim(D)[1] != p) | (dim(D)[2] != p)) {
         stop("D must be p by p matrix")
-      }else if (!all(D[!diag(nrow(p))] == 0)){
+      } else if (!all(D[!diag(nrow(p))] == 0)) {
         stop("D must be diagonal")
       }
-    }else{
-      stop ("D must be either p length of vector or p by p diagonal matrix")
+    } else {
+      stop("D must be either p length of vector or p by p diagonal matrix")
     }
   }
+  
   # Check stopping rule & stopping criterion
   if (is.null(stop_criterion)){
     stop_criterion <- "EBIC"
@@ -138,7 +157,6 @@ cglasso <- function(S,
                              trace.it = trace.it)
   
   fit_cglasso$call <- this.call
-  # class(fit_cglasso) <- "cglasso"
   class(fit_cglasso$Theta_list) <- "cglasso"
   fit_cglasso
 }

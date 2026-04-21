@@ -12,4 +12,8 @@
 
 # cxreg 1.0.0 
 
-*The first stable version is released
+*The first stable version is released.
+
+# cxreg 1.0.5 
+
+*A minor fix was made during the revision for the Journal of Open Statistical Software.

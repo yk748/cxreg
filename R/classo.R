@@ -105,17 +105,43 @@ classo <- function(x,y,
   nobs <- np[1]
   nvars <- np[2]
 
+  # check that x is complex-valued
+  if (!is.complex(x)) {
+    stop("x must be a complex-valued matrix; real-valued inputs are not supported")
+  }
+  
   # check for NAs in x
-  if(any(is.na(x))){
+  if (any(is.na(x))) {
     stop("x has missing values; consider using makeX() to impute them")
   }
-
+  
+  # check that y is complex-valued
+  if (!is.complex(y)) {
+    stop("y must be a complex-valued vector; real-valued inputs are not supported")
+  }
+  
+  # coerce y to a vector if it is a single-column matrix
+  if (is.matrix(y) && ncol(y) == 1) {
+    y <- drop(y)
+  }
+  
+  # check that y is a one-dimensional vector
+  if (!is.vector(y) || !is.null(dim(y))) {
+    stop("y must be a one-dimensional vector")
+  }
+  
+  # check that length of y matches number of rows of x
+  if (length(y) != nobs) {
+    stop(paste("number of elements in y (", length(y), ") ",
+               "not equal to the number of rows of x (", nobs, ")", sep = ""))
+  }
+  
   # check for NAs in weights
-  if(is.null(weights)){
-    weights <- rep(1,nobs)
-  }else if(length(weights)!=nobs){
-    stop(paste("number of elements in weights (",length(weights),")
-               not equal to the number of rows of x (",nobs,")",sep=""))
+  if (is.null(weights)) {
+    weights <- rep(1, nobs)
+  } else if (length(weights) != nobs) {
+    stop(paste("number of elements in weights (", length(weights), ")
+               not equal to the number of rows of x (", nobs, ")", sep = ""))
   }
 
   # ------------------------------------------------ #

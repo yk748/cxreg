@@ -11,12 +11,23 @@ matrices. Such an isomorphism enables leveraging the existing algorithms
 in `glmnet` for complex settings. Details can be found in Deb,
 Kuceyeski, and Basu (2024).
 
+## `cxreg` installation for Windows
+
+Before installing via `devtools`, please ensure you have the correct version 
+of **Rtools** installed. Rtools is required to compile C/C++/Fortran code in R 
+packages on Windows.
+
+- Download Rtools from: https://cran.r-project.org/bin/windows/Rtools/
+- Make sure the Rtools version matches your R version 
+  (e.g., Rtools44 for R 4.4.x)
+
+
 ## `cxreg` installation for macOS
 
 Following are the instructions to install the GCC compiler that includes
 `gfortran` for using in `R`.
 
-### GCC and `gfortran` installation steps for `R`
+## GCC and `gfortran` installation steps for `R`
 
 Open terminal and run:
 
@@ -49,7 +60,7 @@ FLIBS = -L/opt/homebrew/Cellar/gcc/15.0.1/lib/gcc/15
 One needs to change the GCC version `15.0.1` to the according version
 obtained by `gfortran --version`.
 
-### Package installation steps
+## Package installation steps
 
 Install the package from GitHub using `devtools` as follows:
 
@@ -76,9 +87,21 @@ functions of CLASSO and CGLASSO along with their auxiliary functions
 such as printing paths of coefficients, cross-validation, and generating
 plots (regularization paths and heatmap). We will keep updating and
 maintaining the package to eventually incorporate a systematic error
-control for users’ convenience accordingly. Please email Younghoon Kim
-<yk748@cornell.edu> if any bugs/errors have been discovered. All
-remaining errors are our own.
+control for users’ convenience accordingly. 
+
+
+## Reporting Issues
+If you encounter a bug or have a feature request, please open an issue:
+https://github.com/yk748/cxreg/issues or email Younghoon Kim
+<yk748@cornell.edu>
+
+Please include:
+- A reproducible example
+- Session info (R version, OS)
+- Description of the issue
+
+All remaining errors are our own.
+
 
 ## References
 

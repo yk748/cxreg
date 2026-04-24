@@ -24,7 +24,7 @@ cglasso.path(
 \arguments{
 \item{S}{p x p-dimensional symmetric spectral density (or spectral coherence) matrix. S is considered as being computed by average smoothed periodogram (the bandwidth is computed by using the given nobs).}
 
-\item{D}{The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. If D is not provided, diagonals of S are chosen.}
+\item{D}{The p x p-dimensional diagonal matrix to produce the partial spectral coherence matrix from S. Default is \code{NULL}. If D is not specified, the function automatically takes the inverse square root of the diagonals of S.}
 
 \item{type}{Logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference,
 \deqn{D^{-1/2}(\arg\min_{\Theta}Tr[\hat{R}\hat{\Theta}]-\log\det\Theta + \sum_{i\neq j}|\Theta_{ij}|)D^{-1/2}} for the given $D$. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the scale matrix D is multiplied. Please see the reference for the details of the iterative updates.}

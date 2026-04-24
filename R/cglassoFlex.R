@@ -4,7 +4,7 @@
 #' \code{cglasso.path} solves the penalized Gaussian maximum likelihood problem for a path of lambda values.
 #'
 #' @param S p x p-dimensional symmetric spectral density (or spectral coherence) matrix. S is considered as being computed by average smoothed periodogram (the bandwidth is computed by using the given nobs).
-#' @param D The p x p-dimensional diagonal matrix with spectral densities as the diagonal entries. Default is \code{NULL}. If D is not provided, diagonals of S are chosen.
+#' @param D The p x p-dimensional diagonal matrix to produce the partial spectral coherence matrix from S. Default is \code{NULL}. If D is not specified, the function automatically takes the inverse square root of the diagonals of S.
 #' @param type Logical flag to choose the formulation to solve. Default is \code{I}. If type is \code{I}, the algorithm solves CGLASSO-I in the reference, 
 #' \deqn{D^{-1/2}(\arg\min_{\Theta}Tr[\hat{R}\hat{\Theta}]-\log\det\Theta + \sum_{i\neq j}|\Theta_{ij}|)D^{-1/2}} for the given $D$. If type is \code{II}, the algorithm solves CGLASSO-II in the reference. It is for each iterative classo with covariate update, the scale matrix D is multiplied. Please see the reference for the details of the iterative updates.
 #' @param nobs Number of observations used in computation of the spectral density matrix S. This quantity is need to compute the Fourier frequency, extended BIC, and bandwidth for the average smoothed periodogram. 
@@ -85,11 +85,11 @@ cglasso.path <- function(S,
   
   ####################################################################
   p <- dim(S)[1]
-  m <- floor(nobs)
+  m <- floor(sqrt(nobs))
   bandwidth <- 2*m+1
   
   if (is.null(D)){
-    D <- diag(diag(S),p)
+    D <- diag(sqrt(1/diag(S)))
   }
 
   ####################################################################

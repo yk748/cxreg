@@ -62,7 +62,7 @@ FLIBS = -L/opt/homebrew/Cellar/gcc/15.0.1/lib/gcc/15
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ykim124/cxreg")
+devtools::install_github("yk748/cxreg")
 ```
 
 ---

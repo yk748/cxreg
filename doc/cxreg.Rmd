@@ -74,7 +74,7 @@ $$
 Finally, by rearranging the components used to construct $\hat{f}(\omega_j)$ and adding an $\ell_1$-penalty on the off-diagonal entries of the inverse spectral density, $\|\Theta\|_{1,\mathrm{off}} = \sum_{k \neq \ell} |\Theta_{k,\ell}|=\sum_{k \neq \ell}\|\mathrm{Re}(\Theta_{k,\ell}) + \mathrm{Im}(\Theta_{k,\ell})\|_2$, one obtains the estimator:
 
 $$
-\hat{\Theta}_j := \hat{\Theta}(\omega_j) = \arg\min_{\Theta \in \mathcal{H}_{++}^p} \left\{  \mathrm{trace}(\Theta\hat{f}(\omega_j))  - \log\det\Theta + \lambda \|\Theta\|_{1,\textrm{off}} \right\},
+\hat{\Theta}_j := \hat{\Theta}(\omega_j) = \arg\min_{\Theta \in \mathcal{H}_{++}^p} \left\{  \mathrm{trace}(\Theta\hat{f}(\omega_j))  - \log\det\Theta + \lambda \|\Theta\|_{1,\mathrm{off}} \right\},
 $$
 where $\mathcal{H}_{++}^p$ represents the set of $p \times p$ symmetric positive definite matrices. Throughout the illustrative example in this document, we drop the subscript $j$ and focus on deriving $\hat{\Theta}$ for a given $\hat{f}$.
 
@@ -82,13 +82,13 @@ where $\mathcal{H}_{++}^p$ represents the set of $p \times p$ symmetric positive
 From a numerical standpoint, there are two formulations for complex-valued graphical Lasso (see Section 5 in [-@deb2024regularized]), where a similar argument can be made in standard graphical Lasso (e.g., [-@jankova2018inference]).
 
 
-\textbf{CGLASSO-sc1}: The first formulation is to solve the complex-valued graphical Lasso with scaled spectral density matrix (called spectral coherence), $\hat{R} = D^{-1}\hat{f}D^{-1}$ with $D^2 = \textrm{diag}(\hat{f}_{1,1},\ldots,\hat{f}_{p,p})$, and scale back once the estimates are obtained. The corresponding optimization problem is
+\textbf{CGLASSO-sc1}: The first formulation is to solve the complex-valued graphical Lasso with scaled spectral density matrix (called spectral coherence), $\hat{R} = D^{-1}\hat{f}D^{-1}$ with $D^2 = \mathrm{diag}(\hat{f}_{1,1},\ldots,\hat{f}_{p,p})$, and scale back once the estimates are obtained. The corresponding optimization problem is
 
 
 $$
 \hat{\Theta} =  D^{-1} \hat{K} D^{-1}, 
 \quad 
-\hat{K} = \arg\min_{\Theta\in \mathcal{H}_{++}^p} \left\{ \mathrm{trace}(\hat{R} \Theta) - \log\det \Theta  + \lambda \|\Theta\|_\textrm{1,off}\right\}. \tag{CGLASSO-sc1}
+\hat{K} = \arg\min_{\Theta\in \mathcal{H}_{++}^p} \left\{ \mathrm{trace}(\hat{R} \Theta) - \log\det \Theta  + \lambda \|\Theta\|_{\mathrm{1,off}}\right\}. \tag{CGLASSO-sc1}
 $$
 
 This is equivalent to a equation (9) in [-@jankova2018inference] for the graphical lasso with weighted penalty. The entry-wise weights determined by $D$ as $\lambda_{k,\ell} \propto D_{k,k}D_{\ell,\ell} = \sqrt{ \hat{f}_{k,k} \hat{f}_{\ell,\ell}}$.
@@ -99,10 +99,10 @@ This is equivalent to a equation (9) in [-@jankova2018inference] for the graphic
 
 $$
 \begin{aligned}
-W_{11}^{\textrm{scl}} &\leftarrow D_{11}^{-1} W_{11} D_{11}^{-1}, \quad D_{11}^2 = \textrm{diag}(W_{11}) = \textrm{diag}(P_{11}), \quad \mathbf{p}_{12}^{\textrm{scl}} \leftarrow D_{11}^{-1} \mathbf{p}_{12}, \\
-\hat{\beta}^{\textrm{scl}} &= \mathrm{CLASSO.COV}(W_{11}^{\textrm{scl}}, \mathbf{p}_{12}^{\textrm{scl}}, \mathcal{B}^{(0)}_{\cdot, k}, \lambda), \\
-\mathcal{B}^{(0)}_{\cdot,k} &\leftarrow \hat{\beta}^{\textrm{scl}}, \quad
-\hat{\beta} \leftarrow D_{11}^{-1} \hat{\beta}^{\textrm{scl}}, \quad
+W_{11}^{\mathrm{scl}} &\leftarrow D_{11}^{-1} W_{11} D_{11}^{-1}, \quad D_{11}^2 = \mathrm{diag}(W_{11}) = \mathrm{diag}(P_{11}), \quad \mathbf{p}_{12}^{\mathrm{scl}} \leftarrow D_{11}^{-1} \mathbf{p}_{12}, \\
+\hat{\beta}^{\mathrm{scl}} &= \mathrm{CLASSO.COV}(W_{11}^{\mathrm{scl}}, \mathbf{p}_{12}^{\mathrm{scl}}, \mathcal{B}^{(0)}_{\cdot, k}, \lambda), \\
+\mathcal{B}^{(0)}_{\cdot,k} &\leftarrow \hat{\beta}^{\mathrm{scl}}, \quad
+\hat{\beta} \leftarrow D_{11}^{-1} \hat{\beta}^{\mathrm{scl}}, \quad
 \mathbf{w}_{12} \leftarrow W_{11} \hat{\beta},
 \end{aligned}
 \tag{CGLASSO-sc2}
@@ -191,10 +191,10 @@ for (j in 1:20) {
 predict(fit, newx = nx, s = c(0.1, 0.05), type="response")
 ```
 
-The other two output types are \texttt{coefficient} and \texttt{nonzero}, which are analogous to those in \texttt{glmnet}:
+The other two output types are \texttt{coefficients} and \texttt{nonzero}, which are analogous to those in \texttt{glmnet}:
 
 ```{r}
-predict(fit, newx = nx, s = c(0.1, 0.05), type="coefficient")
+predict(fit, newx = nx, s = c(0.1, 0.05), type="coefficients")
 ```
 
 ```{r}
@@ -252,7 +252,8 @@ In this section, we illustrate our function \texttt{cglasso} for the two variant
 ```{r}
 data(cglasso_example)
 f_hat <- cglasso_example$f_hat
-n <- cglasso_example$n
+n     <- cglasso_example$n
+m     <- floor(sqrt(n))   # half-bandwidth used to compute f_hat
 ```
 
 where the number of variables and sample size used in this example are $p=30$ and $n=500$, respectively, and the covariance matrix of the white noise process $\{X_t\}_{t=1}^n$ is
@@ -266,29 +267,29 @@ Then the estimated spectral density $\hat{f}$ is obtained by DFT in (1).
 First, consider CGLASSO-sc1: It is called by using "type="I"".
 
 ```{r}
-fit_cglasso_I <- cglasso(S=f_hat,type="I",nobs=n)
+fit_cglasso_I <- cglasso(S=f_hat, m=m, type="I")
 ```
 
 Now, let's look at the example of CGLASSO-sc2: 
 
 ```{r}
-fit_cglasso_II <- cglasso(S=f_hat,type="II",nobs=n, nlambda=30, stop_criterion = "AIC")
+fit_cglasso_II <- cglasso(S=f_hat, m=m, type="II", nlambda=30, stop_criterion = "AIC")
 ```
 
 Here, we change the stopping criterion from "EBIC" to "AIC". Although the maximum number of paramters "nlambda" is set 30, due to the early termination, not all 30 lambdas created inside the function was not explored. However, if "stopping_rule=FALSE", cases of all 50 lambdas (by default) are explored:
 
 ```{r}
-fit_cglasso_another <- cglasso(S=f_hat,type="II",nobs=n, stopping_rule = FALSE)
+fit_cglasso_another <- cglasso(S=f_hat, m=m, type="II", stopping_rule = FALSE)
 fit_cglasso_another$lambda_grid
 ```
 
 Finally, we can plot the heatmap using the list of estimated spectral precision matrices and specify the index to select a particular matrix from the list. The argument \texttt{type} determines whether the display shows the real part (\texttt{real}), imaginary part (\texttt{imaginary}), both (using \texttt{both}. in parallel), or the modulus (\texttt{mod}).
 
 ```{r}
-plot(fit_cglasso_I$Theta_list,index=fit_cglasso_I$min_index,type="mod",label=TRUE)
-plot(fit_cglasso_I$Theta_list,index=fit_cglasso_I$min_index,type="both",label=TRUE)
-plot(fit_cglasso_II$Theta_list,index=fit_cglasso_II$min_index,type="real",label=FALSE)
-plot(fit_cglasso_II$Theta_list,index=fit_cglasso_II$min_index,type="imaginary",label=FALSE)
+plot(fit_cglasso_I, index=fit_cglasso_I$min_index, type="mod",       label=TRUE)
+plot(fit_cglasso_I, index=fit_cglasso_I$min_index, type="both",      label=TRUE)
+plot(fit_cglasso_II, index=fit_cglasso_II$min_index, type="real",    label=FALSE)
+plot(fit_cglasso_II, index=fit_cglasso_II$min_index, type="imaginary", label=FALSE)
 ```
 
 This concludes the basic usage of \texttt{cglasso}.
@@ -322,7 +323,7 @@ X_t <- rmvnorm(n = n, mean = rep(0, p), sigma = Sigma)
 # compute DFT at a specific Fourier frequency j
 m <- floor(sqrt(n))   # bandwidth
 j <- 1                # frequency index
-d_j <- dft.X(X_t, j, m)
+d_j <- dft.j(X_t, j, m)
 
 # estimate spectral density via smoothed periodogram
 f_j_hat <- t(d_j) %*% Conj(d_j) / (2*m + 1)
@@ -331,15 +332,15 @@ f_j_hat <- t(d_j) %*% Conj(d_j) / (2*m + 1)
 ### Step 3 — Estimate sparse spectral precision matrix via \texttt{cglasso}:
 
 ```{r}
-fit_sim <- cglasso(S = f_j_hat, type = "I", nobs = n)
+fit_sim <- cglasso(S = f_j_hat, m = m, type = "I")
 ```
 
 ### Step 4 — Visualize the estimated spectral precision matrix:
 
 ```{r}
-plot(fit_sim$Theta_list, 
-     index = fit_sim$min_index, 
-     type = "mod", 
+plot(fit_sim,
+     index = fit_sim$min_index,
+     type  = "mod",
      label = TRUE)
 ```
 

@@ -1,24 +1,8 @@
 test_that("cglasso works", {
-  # skip('Not today')
   
-  rmvnorm_manual <- function(n,p, Sigma){
+  rmvnorm_manual <- function(n, p, Sigma) {
     D <- chol(Sigma)
-    return(matrix(rnorm(n*p), ncol=p) %*% D)
-  }
-  
-  fixm <- function(v, n){
-    v[v<1] = v[v<1]+n
-    v[v>n] = v[v>n]-n
-    return(v)
-  }
-  
-  dft.X <- function(X, j, m){
-    n = nrow(X); p = ncol(X)
-    dft <- mvfft(X)/sqrt(2*pi*n)
-    vj <- j + c(-m:m)
-    ind <- fixm(vj, n)
-    Z <- dft[ind, ]
-    return(Z)
+    return(matrix(rnorm(n * p), ncol = p) %*% D)
   }
   
   p <- 40
@@ -27,19 +11,22 @@ test_that("cglasso works", {
   C[row(C) == col(C) + 1] <- -0.2
   C[row(C) == col(C) - 1] <- -0.2
   Sigma <- solve(C)
-
-  set.seed(1234)
-  X_t <- rmvnorm_manual(n,p,Sigma)
-  m <- floor(sqrt(n)); j <- 1
-  d_j <- dft.X(X_t,j,m)
-  f_j_hat <- t(d_j) %*% Conj(d_j) / (2*m+1)
   
-  fit <- cglasso(S=f_j_hat, nobs=n, nlambda = 20, stop_criterion ="AIC")
+  set.seed(1234)
+  X_t <- rmvnorm_manual(n, p, Sigma)
+  m <- floor(sqrt(n))
+  j <- 1
+  d_j <- dft.j(X_t, j, m)
+  f_j_hat <- t(d_j) %*% Conj(d_j) / (2 * m + 1)
+  
+  fit <- cglasso(S = f_j_hat, m = m, nlambda = 20, stop_criterion = "AIC",
+                 stopping_rule = FALSE)
+  
   expect_length(fit$stop_arr, 20)
-  expect_equal(fit$stop_criterion,"AIC")
+  expect_equal(fit$stop_criterion, "AIC")
   expect_true(is.numeric(fit$min_index))
-  expect_length(fit$lambda_grid,20)
+  expect_length(fit$lambda_grid, 20)
   expect_true(is.list(fit$Theta_list))
-  expect_equal(fit$type,"I")
+  expect_equal(fit$type, "I")
   expect_true(is.matrix(fit$D))
 })
